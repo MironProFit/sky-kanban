@@ -57,7 +57,8 @@ export default function PopBrowse() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="calendar__content">
+                                    <Calendar />
+                                    {/* <div className="calendar__content">
                                         <div className="calendar__days-names">
                                             <div className="calendar__day-name">пн</div>
                                             <div className="calendar__day-name">вт</div>
@@ -104,7 +105,7 @@ export default function PopBrowse() {
                                             <div className="calendar__cell _cell-day _weekend">30</div>
                                             <div className="calendar__cell _other-month _weekend">1</div>
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     <input type="hidden" id="datepick_value" value="08.09.2023"></input>
                                     <div className="calendar__period">

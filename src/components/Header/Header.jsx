@@ -6,7 +6,7 @@ export default function Header() {
                     <div className="header__logo _show _light">
                         <a href="" target="_self">
                             <img src="/logo.png" alt="logo"></img>
-                        </a>/pub
+                        </a>
                     </div>
                     <div className="header__logo _dark">
                         <a href="" target="_self">
