@@ -35,6 +35,8 @@ ul li {
         opacity: 1;
     }
 }
+
+
 html,
 body {
     width: 100%;
@@ -52,6 +54,7 @@ body {
 }
 
 .container {
+    background: black;
     max-width: 1260px;
     width: 100%;
     margin: 0 auto;
@@ -727,6 +730,7 @@ body {
     background-color: #ffffff;
 }
 .header__block {
+    background: black;
     height: 70px;
     display: flex;
     flex-wrap: nowrap;
@@ -785,7 +789,7 @@ body {
     padding: 0;
 }
 .header__pop-user-set {
-    display: none;
+    display: block;
     position: absolute;
     top: 61px;
     right: 0;
