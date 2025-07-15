@@ -1,6 +1,18 @@
+import { useState, useEffect } from 'react'
 import Card from '../Card/Card'
 
-export default function Column({title}) {
+export default function Column({ title }) {
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(true)
+        }, 2000)
+        setLoading(false)
+        return () =>  clearTimeout={timer}
+
+    }, [])
+
     return (
         <div className="main__column">
             <div className="column__title">
