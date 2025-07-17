@@ -36,7 +36,6 @@ ul li {
     }
 }
 
-
 html,
 body {
     width: 100%;
@@ -54,7 +53,7 @@ body {
 }
 
 .container {
-    background: black;
+    background: grey;
     max-width: 1260px;
     width: 100%;
     margin: 0 auto;
@@ -280,7 +279,11 @@ body {
 .pop-user-set button a {
     color: #565eef;
 }
-
+.pop-user-set__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
 .pop-new-card {
     display: none;
     width: 100%;
@@ -730,7 +733,7 @@ body {
     background-color: #ffffff;
 }
 .header__block {
-    background: black;
+    background: grey;
     height: 70px;
     display: flex;
     flex-wrap: nowrap;
@@ -807,6 +810,10 @@ body {
 .main {
     width: 100%;
     background-color: #eaeef6;
+}
+.main__loading {
+    display: flex;
+    justify-content: center;
 }
 .main__block {
     width: 100%;
@@ -1104,3 +1111,4 @@ body {
         display: block;
     }
 }
+

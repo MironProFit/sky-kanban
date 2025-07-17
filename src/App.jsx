@@ -13,7 +13,8 @@ function App() {
     return (
         <div className="wrapper">
             <Header />
-            <Main />
+            <Main/>
+
         </div>
     )
 }

@@ -32,7 +32,7 @@ export default function Header() {
                         </a>
                         {modalOpen && (
                     <div className="header__pop-user-set pop-user-set" id="user-set-target">
-                        <a href="#" onClick={toggleModal}>
+                        <a className='pop-user-set__close' href="#" onClick={toggleModal}>
                             x
                         </a>
                         <p className="pop-user-set__name">Ivan Ivanov</p>
