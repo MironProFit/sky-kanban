@@ -15,7 +15,7 @@ export default function Column({ title }) {
     return (
         <div className="main__column">
             {loading ? (
-                <p>'Загрузка данных...'</p>
+                <p>Загрузка данных...</p>
             ) : (
                 <>
                     <div className="column__title">
