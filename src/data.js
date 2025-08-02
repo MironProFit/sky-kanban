@@ -111,6 +111,6 @@ const cards = [
         date: '2023-11-28',
         status: 'Без статуса',
     },
-];
+]
 
 export default cards

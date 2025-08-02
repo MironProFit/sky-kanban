@@ -927,6 +927,15 @@ body {
     color: #94a6be;
     letter-spacing: 0.2px;
 }
+.card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 @media screen and (max-width: 1200px) {
     .main__block {
