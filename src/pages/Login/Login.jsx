@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './Login.css'
 
-function SignIn({ isAuth, setIsAuth }) {
-    function toggleAuth(event) {
-        // event.preventDefault()
-        setIsAuth((prev) => !prev)
+function Login({ isAuth, setIsAuth }) {
+    const navigate = useNavigate()
+
+    function toggleAuth() {
+        setIsAuth(true)
+        navigate('/')
     }
     return (
         <div className="wrapper">
@@ -15,7 +17,7 @@ function SignIn({ isAuth, setIsAuth }) {
                             <h2>Вход</h2>
                         </div>
                         <form className="modal__form-login" id="formLogIn" action="#">
-                            <input className="modal__input" type="email" name="login" id="formlogin" placeholder="Эл. почта"  />
+                            <input className="modal__input" type="email" name="login" id="formlogin" placeholder="Эл. почта" />
                             <input className="modal__input" type="password" name="password" id="formpassword" placeholder="Пароль" />
                             <Link to="/" type="submit" className="modal__btn-enter _hover01" id="btnEnter" onClick={toggleAuth}>
                                 Войти
@@ -32,4 +34,4 @@ function SignIn({ isAuth, setIsAuth }) {
     )
 }
 
-export default SignIn
+export default Login

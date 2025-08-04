@@ -15,8 +15,8 @@ import '../../src/App.css'
 
 function AppRoutes() {
     const location = useLocation()
-    const [isAuth, setIsAuth] = useState(false)
-    const isAuthPage = location.pathname === '/signin' || location.pathname === '/signup'
+    const [isAuth, setIsAuth] = useState(true)
+    const isAuthPage = location.pathname === '/login' || location.pathname === '/register'
 
     return (
         <div className="wrapper">
@@ -25,6 +25,7 @@ function AppRoutes() {
             <Routes>
                 <Route path="exit/login" element={<Navigate to="/login" replace />} />
                 <Route path="login/register" element={<Navigate to="/register" replace />} />
+                <Route path="register/login" element={<Navigate to="/login" replace />} />
                 <Route path="login" element={<Login isAuth={isAuth} setIsAuth={setIsAuth} />} />
                 <Route path="register" element={<Register isAuth={isAuth} setIsAuth={setIsAuth} />} />
                 {/* <Route element={<Header isAuth={isAuth } setIsAuth={setIsAuth} />} /> */}

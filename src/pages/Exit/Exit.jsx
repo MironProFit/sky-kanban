@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 
-export default function PopExit() {
+export default function Exit() {
     const location = useLocation()
     const { modalWindow } = location.state || {}
 

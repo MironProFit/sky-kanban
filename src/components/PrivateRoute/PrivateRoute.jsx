@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom'
-import SignIn from '../../pages/Login/Login'
+import Login from '../../pages/Login/Login'
 
 function PrivateRoute({ isAuth }) {
-    return <>{isAuth ? <Outlet /> : <SignIn />}</>
+    return <>{isAuth ? <Outlet /> : <Login />}</>
 }
 
 export default PrivateRoute
