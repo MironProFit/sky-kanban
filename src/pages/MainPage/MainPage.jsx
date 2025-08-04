@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import Column from '../Column/Column'
-import cards from '../../data'
+import Column from '../../components/Column/Column'
+import cards from '../../data/data'
 
-export default function Main() {
+export default function MainPage() {
     const [cardsData] = useState(cards)
-  
+
     const columns = {
         'Без статуса': cardsData.filter((card) => card.status === 'Без статуса'),
         'Нужно сделать': cardsData.filter((card) => card.status === 'Нужно сделать'),
@@ -12,7 +12,7 @@ export default function Main() {
         Тестирование: cardsData.filter((card) => card.status === 'Тестирование'),
         Готово: cardsData.filter((card) => card.status === 'Готово'),
     }
-   
+
     return (
         <main className="main">
             <div className="container">

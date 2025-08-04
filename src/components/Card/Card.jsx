@@ -1,5 +1,6 @@
-import cards from '../../data'
 import { useEffect, useState } from 'react'
+import cards from '../../data/data'
+import { Link } from 'react-router-dom'
 
 export default function Card({ id, topic, title, date }) {
     return (
@@ -20,9 +21,13 @@ export default function Card({ id, topic, title, date }) {
                             </a>
                         </div>
                         <div className="card__content">
-                            <a href="" target="_blank">
+                            <Link
+                                to={`cardview/:${id}`}
+                                state={{ modalWindow: true }}
+                                // target="_blank"
+                            >
                                 <h3 className="card__title">{title}</h3>
-                            </a>
+                            </Link>
                             <div className="card__date">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
                                     <g clipPath="url(#clip0_1_415)">

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import Card from '../Card/Card'
-import cards from '../../data'
 
 export default function Column({ title, cardsData }) {
     const [loading, setLoading] = useState(true)
@@ -8,34 +7,31 @@ export default function Column({ title, cardsData }) {
     const [isVisible, setIsVisible] = useState(false)
 
     useEffect(() => {
-        console.log(visibleCards)
-        console.log(cardsData)
-
         if (cardsData.length > 0) {
+            const uniqueCards = Array.from(new Map(cardsData.map((card) => [card.id, card])).values())
             setLoading(true)
             let index = 0
             const interval = setInterval(() => {
-                // setInterval(() => {
-                if (index < cardsData.length) {
+                if (index < uniqueCards.length) {
                     setLoading(false)
 
-                    setVisibleCards((prevCards) => [...prevCards, ...cardsData.slice(index, index + 1)])
-                    setIsVisible(false) // скрываем до обновления
-                    setTimeout(() => setIsVisible(true), 50) // добавляем небольшую задержку для начала анимации
-                    setIsVisible(true)
+                    setVisibleCards((prevCards) => {
+                        return [...prevCards, uniqueCards[index]]
+                    })
+
                     index++
+                    setIsVisible(false)
+                    setTimeout(() => setIsVisible(true), 50)
+                    setIsVisible(true)
                 } else {
                     clearInterval(interval)
                 }
             }, 500)
-            // }, 1000)
-            // Возвращаем функцию очистки интервала
             return () => clearInterval(interval)
         } else {
             setLoading(false)
         }
     }, [cardsData])
-    console.log(visibleCards)
 
     return (
         <div className="main__column">
@@ -48,7 +44,7 @@ export default function Column({ title, cardsData }) {
                 ) : (
                     visibleCards.map((card) => (
                         <div className={`card ${isVisible ? 'visible' : ''}`}>
-                            <Card {...card} key={`${card.id}`} />
+                            <Card {...card} />
                         </div>
                     ))
                 )}
