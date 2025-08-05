@@ -1,13 +1,17 @@
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+
 export default function PopNewCard() {
+    const navigate = useNavigate()
+    const location = useLocation()
+    const { modalWindow } = location.state || {}
+    const toggleClose = () => navigate(-1)
     return (
-        <div className="pop-new-card" id="popNewCard">
+        <div className="pop-new-card" style={{ display: modalWindow ? 'block' : '' }} id="popNewCard">
             <div className="pop-new-card__container">
                 <div className="pop-new-card__block">
                     <div className="pop-new-card__content">
                         <h3 className="pop-new-card__ttl">Создание задачи</h3>
-                        <a href="#" className="pop-new-card__close">
-                            &#10006;
-                        </a>
+                        <button onClick={toggleClose} className="pop-new-card__close">&#10006;</button>
                         <div className="pop-new-card__wrap">
                             <form className="pop-new-card__form form-new" id="formNewCard" action="#">
                                 <div className="form-new__block">
@@ -113,9 +117,9 @@ export default function PopNewCard() {
                                 </div>
                             </div>
                         </div>
-                        <button className="form-new__create _hover01" id="btnCreate">
+                        <Link to='/' className="form-new__create _hover01" id="btnCreate">
                             Создать задачу
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>
