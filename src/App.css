@@ -53,7 +53,7 @@ body {
 }
 
 .container {
-    background: grey;
+    background: #f1f1f1;
     max-width: 1260px;
     width: 100%;
     margin: 0 auto;
@@ -733,7 +733,7 @@ body {
     background-color: #ffffff;
 }
 .header__block {
-    background: grey;
+    background: #f1f1f1;
     height: 70px;
     display: flex;
     flex-wrap: nowrap;

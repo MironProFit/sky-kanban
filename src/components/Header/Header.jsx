@@ -38,12 +38,17 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
                                 </Link>
                             </div>
                             <nav className="header__nav">
-                                <Link to="newcard" className="header__btn-main-new _hover01" id="btnMainNew" type="button" state={{ modalWindow: true }}>
-                                    Создать новую задачу
+                                <Link to="newcard" state={{ modalWindow: true }}>
+                                    <button className="header__btn-main-new _hover01" id="btnMainNew" type="button">
+                                        Создать новую задачу
+                                    </button>
                                 </Link>
-                                <button className="header__user _hover02" onClick={toggleModal}>
-                                    {isAuth ? 'Ivan Kupala' : <Link to="login">Авторизоваться</Link>}
-                                </button>
+
+                                <Link to="login">
+                                    <button className="header__user _hover02" onClick={toggleModal}>
+                                        Ваше имя
+                                    </button>
+                                </Link>
                                 {modalOpen && (
                                     <div className="header__pop-user-set pop-user-set" id="user-set-target">
                                         <Link className="pop-user-set__close" to="#" onClick={toggleModal}>

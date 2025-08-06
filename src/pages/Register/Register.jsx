@@ -18,9 +18,11 @@ function Register({ isAuth, setIsAuth }) {
                             <input className="modal__input first-name" type="text" name="first-name" id="first-name" placeholder="Имя" required />
                             <input className="modal__input login" type="email" name="login" id="loginReg" placeholder="Эл. почта" required />
                             <input className="modal__input password-first" type="password" name="password" id="passwordFirst" placeholder="Пароль" required />
-                            <button onClick={toggleAuth} type="submit" className="modal__btn-signup-ent _hover01" id="SignUpEnter">
-                                Зарегистрироваться
-                            </button>
+                            <Link to={'/'}>
+                                <button onClick={toggleAuth} type="submit" className="modal__btn-signup-ent _hover01" id="SignUpEnter">
+                                    Зарегистрироваться
+                                </button>
+                            </Link>
                             <div className="modal__form-group">
                                 <p>
                                     Уже есть аккаунт? <Link to="login">Войдите здесь</Link>
