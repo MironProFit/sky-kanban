@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Column from '../../components/Column/Column'
 import cards from '../../data/data'
+import { Outlet } from 'react-router-dom'
 
 export default function MainPage() {
     const [cardsData] = useState(cards)
@@ -21,6 +22,7 @@ export default function MainPage() {
                         {Object.keys(columns).map((status) => (
                             <Column key={status} title={status} cardsData={columns[status]} />
                         ))}
+                        <Outlet />
                     </div>
                 </div>
             </div>

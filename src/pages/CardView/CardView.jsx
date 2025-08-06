@@ -6,7 +6,7 @@ export default function CardView() {
     const location = useLocation()
     const { modalWindow } = location.state || {}
 
-    function handleClose(){
+    function handleClose() {
         navigate(-1)
     }
     return (
@@ -68,7 +68,6 @@ export default function CardView() {
                                         </div>
                                     </div>
                                     <Calendar />
-                                   
 
                                     <input type="hidden" id="datepick_value" value="08.09.2023"></input>
                                     <div className="calendar__period">
@@ -110,7 +109,7 @@ export default function CardView() {
                                     <a href="#">Удалить задачу</a>
                                 </button>
                             </div>
-                            <button onClick={handleClose} Link className="btn-edit__close _btn-bg _hover01">
+                            <button onClick={handleClose} className="btn-edit__close _btn-bg _hover01">
                                 Закрыть
                             </button>
                         </div>

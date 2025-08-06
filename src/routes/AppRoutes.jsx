@@ -17,7 +17,6 @@ function AppRoutes() {
     const location = useLocation()
     const [isAuth, setIsAuth] = useState(true)
     const isAuthPage = location.pathname === '/login' || location.pathname === '/register'
-
     return (
         <div className="wrapper">
             {/* {!isAuthPage && <Header isAuth={isAuth} setIsAuth={setIsAuth} />} */}
@@ -30,10 +29,11 @@ function AppRoutes() {
                 <Route path="register" element={<Register isAuth={isAuth} setIsAuth={setIsAuth} />} />
                 {/* <Route element={<Header isAuth={isAuth } setIsAuth={setIsAuth} />} /> */}
                 <Route element={<PrivateRoute isAuth={isAuth} />}>
-                    <Route path="/" element={<MainPage />} />
-                    <Route path="exit" element={<Exit />} />
-                    <Route path="newcard" element={<CreateCard />} />
-                    <Route path="cardview/:id" element={<CardView />} />
+                    <Route path="/" element={<MainPage />}>
+                        <Route path="exit" element={<Exit />} />
+                        <Route path="newcard" element={<CreateCard />} />
+                        <Route path="cardview/:id" element={<CardView />} />
+                    </Route>
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

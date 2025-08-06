@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom'
 export default function Header({ isAuthPage, isAuth, setIsAuth }) {
     const [modalOpen, setModalOpen] = useState(false)
     const location = useLocation()
-    console.log('isAuthPage', isAuthPage)
 
     function toggleModal(event) {
         event.preventDefault()
@@ -18,7 +17,6 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
         // event.preventDefault()
         setIsAuth((prev) => !prev)
     }
-    console.log('isAuth', isAuth)
 
     return (
         <header className="header">
