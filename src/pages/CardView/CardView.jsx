@@ -93,8 +93,8 @@ export default function CardView() {
                                     <a href="#">Удалить задачу</a>
                                 </button>
                             </div>
-                            <Link to="/" className="btn-browse__close _btn-bg _hover01">
-                                Закрыть
+                            <Link to="/">
+                                <button className="btn-browse__close _btn-bg _hover01">Закрыть</button>
                             </Link>
                         </div>
                         <div className="pop-browse__btn-edit _hide">

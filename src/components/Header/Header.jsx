@@ -43,12 +43,9 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
                                         Создать новую задачу
                                     </button>
                                 </Link>
-
-                                <Link to="login">
-                                    <button className="header__user _hover02" onClick={toggleModal}>
-                                        Ваше имя
-                                    </button>
-                                </Link>
+                                <button className="header__user _hover02" onClick={toggleModal}>
+                                    Ваше имя
+                                </button>
                                 {modalOpen && (
                                     <div className="header__pop-user-set pop-user-set" id="user-set-target">
                                         <Link className="pop-user-set__close" to="#" onClick={toggleModal}>

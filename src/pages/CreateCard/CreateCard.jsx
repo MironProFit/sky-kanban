@@ -11,9 +11,11 @@ export default function PopNewCard() {
                 <div className="pop-new-card__block">
                     <div className="pop-new-card__content">
                         <h3 className="pop-new-card__ttl">Создание задачи</h3>
+
                         <button onClick={toggleClose} className="pop-new-card__close">
                             &#10006;
                         </button>
+
                         <div className="pop-new-card__wrap">
                             <form className="pop-new-card__form form-new" id="formNewCard" action="#">
                                 <div className="form-new__block">
@@ -130,7 +132,6 @@ export default function PopNewCard() {
         </div>
     )
 }
-
 
 // import { Link, useLocation, useNavigate } from 'react-router-dom'
 
@@ -264,4 +265,3 @@ export default function PopNewCard() {
 //         </div>
 //     )
 // }
-
