@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import cards from '../../data/data'
 import { Link } from 'react-router-dom'
+import formattedDate from '../../utils/dateFormat'
 
-export default function Card({ id, topic, title, date }) {
+export default function Card({ id, topic, title, date, status }) {
     const colorTopics = [
         {
             topic: 'Web Design',
@@ -40,7 +41,7 @@ export default function Card({ id, topic, title, date }) {
                             <div className="card__theme 56">
                                 <p className={colorTopic}>{topic}</p>
                             </div>
-                            <Link to={`cardview/${id}`} state={{ modalWindow: true }}>
+                            <Link to={`cardview/${id}`} state={{ modalWindow: true, topic, title, date, status, colorTopic }}>
                                 <div style={{ display: 'flex' }}>
                                     {' '}
                                     <div>.</div>
@@ -74,7 +75,7 @@ export default function Card({ id, topic, title, date }) {
                                         </clipPath>
                                     </defs>
                                 </svg>
-                                <p>{date}</p>
+                                <p>{formattedDate(date)}</p>
                             </div>
                         </div>
                     </div>

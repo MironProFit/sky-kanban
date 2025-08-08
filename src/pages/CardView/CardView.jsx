@@ -1,44 +1,36 @@
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import Calendar from '../../components/Calendar/Calendar'
+import cards from '../../data/data'
+import formattedDate from '../../utils/dateFormat'
 
 export default function CardView() {
     const navigate = useNavigate()
     const location = useLocation()
-    const { id } = useParams()
-    const { modalWindow } = location.state || {}
-    console.log(id)
+    const { modalWindow, topic, title, date, status, colorTopic } = location.state || {}
+
+    console.log(topic, title, date, colorTopic, status)
 
     function handleClose() {
         navigate(-1)
     }
+    console.log(formattedDate(date))
+
     return (
         <div className="pop-browse" style={{ display: modalWindow ? 'block' : '' }} id="popBrowse">
             <div className="pop-browse__container">
                 <div className="pop-browse__block">
                     <div className="pop-browse__content">
                         <div className="pop-browse__top-block">
-                            <h3 className="pop-browse__ttl">Название задачи</h3>
-                            <div className="categories__theme theme-top _orange _active-category">
-                                <p className="_orange">Web Design</p>
+                            <h3 className="pop-browse__ttl">{title}</h3>
+                            <div className={`categories__theme theme-top ${colorTopic} _active-category`}>
+                                <p className={colorTopic}>{topic}</p>
                             </div>
                         </div>
                         <div className="pop-browse__status status">
                             <p className="status__p subttl">Статус</p>
                             <div className="status__themes">
-                                <div className="status__theme _hide">
-                                    <p>Без статуса</p>
-                                </div>
                                 <div className="status__theme _gray">
-                                    <p className="_gray">Нужно сделать</p>
-                                </div>
-                                <div className="status__theme _hide">
-                                    <p>В работе</p>
-                                </div>
-                                <div className="status__theme _hide">
-                                    <p>Тестирование</p>
-                                </div>
-                                <div className="status__theme _hide">
-                                    <p>Готово</p>
+                                    <p className="_gray">{status}</p>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +66,7 @@ export default function CardView() {
                                     <input type="hidden" id="datepick_value" value="08.09.2023"></input>
                                     <div className="calendar__period">
                                         <p className="calendar__p date-end">
-                                            Срок исполнения: <span className="date-control">09.09.23</span>
+                                            Срок исполнения: <span className="date-control">{formattedDate(date)}</span>
                                         </p>
                                     </div>
                                 </div>

@@ -24,7 +24,7 @@ export default function Column({ title, cardsData }) {
                 ) : (
                     visibleCards.map((card) => (
                         <div key={card.id} className={`card ${isVisible ? 'visible' : ''}`}>
-                            <Card {...card} />
+                            <Card cardsData={cardsData} {...card} />
                         </div>
                     ))
                 )}
