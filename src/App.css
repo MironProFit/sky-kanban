@@ -49,11 +49,10 @@ body {
     width: 100vw;
     min-height: 100vh;
     overflow: hidden;
-    background-color: #f1f1f1;
+    /* background-color: #f1f1f1; */
 }
 
 .container {
-    background: #f1f1f1;
     max-width: 1260px;
     width: 100%;
     margin: 0 auto;
@@ -771,6 +770,7 @@ body {
     color: #ffffff;
 }
 .header__user {
+    background: inherit;
     height: 20px;
     display: flex;
     flex-wrap: nowrap;
