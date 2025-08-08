@@ -329,6 +329,8 @@ body {
     margin-bottom: 20px;
 }
 .pop-new-card__close {
+    background: inherit;
+    border: none;
     position: absolute;
     top: 20px;
     right: 30px;
@@ -733,7 +735,6 @@ body {
     background-color: #ffffff;
 }
 .header__block {
-    background: #f1f1f1;
     height: 70px;
     display: flex;
     flex-wrap: nowrap;
@@ -777,6 +778,7 @@ body {
     justify-content: center;
     font-size: 14px;
     line-height: 20px;
+    border: none;
     color: #565eef;
 }
 .header__user::after {
@@ -880,7 +882,10 @@ body {
     border-radius: 18px;
 }
 .card__theme p {
+    padding: 5px;
+    border-radius: 18px;
     font-size: 10px;
+
     font-weight: 600;
     line-height: 10px;
 }

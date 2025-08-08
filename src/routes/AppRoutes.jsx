@@ -15,11 +15,10 @@ import '../../src/App.css'
 
 function AppRoutes() {
     const location = useLocation()
-    const [isAuth, setIsAuth] = useState(true)
+    const [isAuth, setIsAuth] = useState(false)
     const isAuthPage = location.pathname === '/login' || location.pathname === '/register'
     return (
         <div className="wrapper">
-            {/* {!isAuthPage && <Header isAuth={isAuth} setIsAuth={setIsAuth} />} */}
             <Header isAuthPage={isAuthPage} isAuth={isAuth} setIsAuth={setIsAuth} />
             <Routes>
                 <Route path="exit/login" element={<Navigate to="/login" replace />} />
@@ -27,12 +26,11 @@ function AppRoutes() {
                 <Route path="register/login" element={<Navigate to="/login" replace />} />
                 <Route path="login" element={<Login isAuth={isAuth} setIsAuth={setIsAuth} />} />
                 <Route path="register" element={<Register isAuth={isAuth} setIsAuth={setIsAuth} />} />
-                {/* <Route element={<Header isAuth={isAuth } setIsAuth={setIsAuth} />} /> */}
-                <Route element={<PrivateRoute isAuth={isAuth} />}>
+                <Route element={<PrivateRoute isAuth={isAuth} setIsAuth={setIsAuth} />}>
                     <Route path="/" element={<MainPage />}>
                         <Route path="exit" element={<Exit />} />
                         <Route path="newcard" element={<CreateCard />} />
-                        <Route path="cardview/:id" element={<CardView />} />
+                        <Route path="cardview/id" element={<CardView />} />
                     </Route>
                 </Route>
 

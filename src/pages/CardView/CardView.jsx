@@ -5,6 +5,7 @@ export default function CardView() {
     const navigate = useNavigate()
     const location = useLocation()
     const { modalWindow } = location.state || {}
+    console.log(location.state)
 
     function handleClose() {
         navigate(-1)

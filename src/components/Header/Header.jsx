@@ -14,7 +14,6 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
         setModalOpen(false)
     }, [location])
     function toggleAuth(event) {
-        // event.preventDefault()
         setIsAuth((prev) => !prev)
     }
 
@@ -49,7 +48,7 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
                                 {modalOpen && (
                                     <div className="header__pop-user-set pop-user-set" id="user-set-target">
                                         <Link className="pop-user-set__close" to="#" onClick={toggleModal}>
-                                            x
+                                           &#10006;
                                         </Link>
                                         <p className="pop-user-set__name">Ivan Ivanov</p>
                                         <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
@@ -57,8 +56,10 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
                                             <p>Темная тема</p>
                                             <input type="checkbox" className="checkbox" name="checkbox"></input>
                                         </div>
-                                        <Link to="/exit" state={{ modalWindow: true }} type="button" className="_hover03">
-                                            Выйти
+                                        <Link to="/exit" state={{ modalWindow: true }}>
+                                            <button type="button" className="_hover03">
+                                                Выйти
+                                            </button>
                                         </Link>
                                     </div>
                                 )}

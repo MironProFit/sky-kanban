@@ -3,6 +3,32 @@ import cards from '../../data/data'
 import { Link } from 'react-router-dom'
 
 export default function Card({ id, topic, title, date }) {
+    const colorTopics = [
+        {
+            topic: 'Web Design',
+            color: '_orange',
+        },
+        {
+            topic: 'UI/UX',
+            color: '_green',
+        },
+        {
+            topic: 'Проблемы и ошибки',
+            color: '_purple',
+        },
+        {
+            topic: 'Web Development',
+            color: '_gray',
+        },
+    ]
+
+    // Функция получения цвета по теме
+    const getColorTopic = (topic) => {
+        const foundColor = colorTopics.find((item) => item.topic === topic)
+        return foundColor ? foundColor.color : ''
+    }
+    const colorTopic = getColorTopic(topic)
+
     return (
         <>
             <div key={id} className="cards__item">
@@ -12,22 +38,19 @@ export default function Card({ id, topic, title, date }) {
 
                         <div className="card__group">
                             <div className="card__theme 56">
-                                <p className="_orange">{topic}</p>
+                                <p className={colorTopic}>{topic}</p>
                             </div>
-                            <a href="#popBrowse" target="_self">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </a>
+                            <Link to={`cardview/:${id}`} state={{ modalWindow: true }}>
+                                <div style={{ display: 'flex' }}>
+                                    {' '}
+                                    <div>.</div>
+                                    <div>.</div>
+                                    <div>.</div>
+                                </div>
+                            </Link>
                         </div>
                         <div className="card__content">
-                            <Link
-                                to={`cardview/:${id}`}
-                                state={{ modalWindow: true }}
-                                // target="_blank"
-                            >
-                                <h3 className="card__title">{title}</h3>
-                            </Link>
+                            <h3 className="card__title">{title}</h3>
                             <div className="card__date">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
                                     <g clipPath="url(#clip0_1_415)">
