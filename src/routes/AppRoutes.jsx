@@ -30,7 +30,7 @@ function AppRoutes() {
                     <Route path="/" element={<MainPage />}>
                         <Route path="exit" element={<Exit />} />
                         <Route path="newcard" element={<CreateCard />} />
-                        <Route path="cardview/id" element={<CardView />} />
+                        <Route path="cardview/:id" element={<CardView />} />
                     </Route>
                 </Route>
 

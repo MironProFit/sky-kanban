@@ -40,7 +40,7 @@ export default function Card({ id, topic, title, date }) {
                             <div className="card__theme 56">
                                 <p className={colorTopic}>{topic}</p>
                             </div>
-                            <Link to={`cardview/:${id}`} state={{ modalWindow: true }}>
+                            <Link to={`cardview/${id}`} state={{ modalWindow: true }}>
                                 <div style={{ display: 'flex' }}>
                                     {' '}
                                     <div>.</div>

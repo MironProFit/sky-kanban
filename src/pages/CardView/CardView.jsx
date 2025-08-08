@@ -1,11 +1,12 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import Calendar from '../../components/Calendar/Calendar'
 
 export default function CardView() {
     const navigate = useNavigate()
     const location = useLocation()
+    const { id } = useParams()
     const { modalWindow } = location.state || {}
-    console.log(location.state)
+    console.log(id)
 
     function handleClose() {
         navigate(-1)
