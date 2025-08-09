@@ -1,12 +1,12 @@
 import { Link, replace, useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
 import Calendar from '../../components/Calendar/Calendar'
 import cards from '../../data/data'
+import { statusList } from '../../data/data'
 import formattedDate from '../../utils/dateFormat'
-import { useState } from 'react'
-import { af } from 'date-fns/locale'
+import { useEffect, useState } from 'react'
 
 export default function CardView() {
-    const [currentStatus, setCurrentStatus] = useState()
+    const [currentStatus, setCurrentStatus] = useState(null)
     const navigate = useNavigate()
     const location = useLocation()
     const { id } = useParams()
@@ -26,12 +26,11 @@ export default function CardView() {
             navigate(basePath, { replace: true })
         }
     }
-    // const allStatus =  cards.reduce((acc, card) => {
-    //         acc[card.status] = true
-    //         return acc
-    //     }, {})
-    // }
-    // allStatus()
+
+    useEffect(() => {
+        const found = statusList.find((item) => item.name === status)
+        setCurrentStatus(found)
+    }, [status])
 
     const handleStatus = (id) => {
         setCurrentStatus(id)
@@ -57,7 +56,12 @@ export default function CardView() {
                                     </div>
                                 ) : (
                                     <div className="status__themes">
-                                        <button onClick={() => handleStatus(0)} className={`status__theme ${currentStatus === 0 ? '_gray' : ''}`}>
+                                        {statusList.map((status) => (
+                                            <button key={status.id} onClick={() => handleStatus(status.id)} className={`status__theme ${status.id === currentStatus ? '_gray' : ''}`}>
+                                                <p className={status.id === currentStatus ? '_gray' : ''}>{status.name}</p>
+                                            </button>
+                                        ))}
+                                        {/* <button onClick={() => handleStatus(0)} className={`status__theme ${currentStatus === 0 ? '_gray' : ''}`}>
                                             <p className={currentStatus === 0 ? '_gray' : ''}>Без статуса</p>
                                         </button>
                                         <button onClick={() => handleStatus(1)} className={`status__theme ${currentStatus === 1 ? '_gray' : ''}`}>
@@ -71,7 +75,7 @@ export default function CardView() {
                                         </button>
                                         <button onClick={() => handleStatus(4)} className={`status__theme ${currentStatus === 4 ? '_gray' : ''}`}>
                                             <p className={currentStatus === 4 ? '_gray' : ''}>Готово</p>
-                                        </button>
+                                        </button> */}
                                     </div>
                                 )}
                             </div>
