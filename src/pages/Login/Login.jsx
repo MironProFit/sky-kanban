@@ -25,7 +25,7 @@ function Login({ isAuth, setIsAuth }) {
                             </button>
                             <div className="modal__form-group">
                                 <p>Нужно зарегистрироваться?</p>
-                                <Link to="register">Регистрируйтесь здесь</Link>
+                                <Link to="/register">Регистрируйтесь здесь</Link>
                             </div>
                         </form>
                     </div>

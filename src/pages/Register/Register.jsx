@@ -25,7 +25,7 @@ function Register({ isAuth, setIsAuth }) {
                             </button>
                             <div className="modal__form-group">
                                 <p>
-                                    Уже есть аккаунт? <Link to="login">Войдите здесь</Link>
+                                    Уже есть аккаунт? <Link to="/login">Войдите здесь</Link>
                                 </p>
                             </div>
                         </form>

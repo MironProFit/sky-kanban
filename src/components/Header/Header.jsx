@@ -13,8 +13,9 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
     useEffect(() => {
         setModalOpen(false)
     }, [location])
-    function toggleAuth(event) {
-        setIsAuth((prev) => !prev)
+
+    const handleAuth = () => {
+        setIsAuth(false)
     }
 
     return (
@@ -26,9 +27,7 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
                             <img src="/logo.png" alt="logo"></img>
                         </Link>
                     </div>
-                    {/* <div>
-                        <button onClick={toggleAuth}>Активация авторизации</button>
-                    </div> */}
+
                     {!isAuthPage && isAuth && (
                         <>
                             <div className="header__logo _dark">
@@ -48,7 +47,7 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
                                 {modalOpen && (
                                     <div className="header__pop-user-set pop-user-set" id="user-set-target">
                                         <Link className="pop-user-set__close" to="#" onClick={toggleModal}>
-                                           &#10006;
+                                            &#10006;
                                         </Link>
                                         <p className="pop-user-set__name">Ivan Ivanov</p>
                                         <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
@@ -56,7 +55,7 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
                                             <p>Темная тема</p>
                                             <input type="checkbox" className="checkbox" name="checkbox"></input>
                                         </div>
-                                        <Link to="/exit" state={{ modalWindow: true }}>
+                                        <Link onClick={handleAuth} to="/exit" state={{ modalWindow: true }}>
                                             <button type="button" className="_hover03">
                                                 Выйти
                                             </button>

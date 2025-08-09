@@ -1,19 +1,41 @@
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, replace, useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
 import Calendar from '../../components/Calendar/Calendar'
 import cards from '../../data/data'
 import formattedDate from '../../utils/dateFormat'
+import { useState } from 'react'
+import { af } from 'date-fns/locale'
 
 export default function CardView() {
+    const [currentStatus, setCurrentStatus] = useState()
     const navigate = useNavigate()
     const location = useLocation()
-    const { modalWindow, topic, title, date, status, colorTopic } = location.state || {}
-
-    console.log(topic, title, date, colorTopic, status)
+    const { id } = useParams()
+    const editMath = useMatch('/cardview/:id/edit')
+    const isEditMode = Boolean(editMath)
+    const card = cards.find((c) => String(c.id) === String(id))
+    const { modalWindow, topic, title, date, status, colorTopic } = card || {}
 
     function handleClose() {
         navigate(-1)
     }
-    console.log(formattedDate(date))
+    const handleEditToggle = () => {
+        if (!isEditMode) {
+            navigate(`${location.pathname}/edit`, { replace: true })
+        } else {
+            const basePath = location.pathname.replace(/\/edit$/, '')
+            navigate(basePath, { replace: true })
+        }
+    }
+    // const allStatus =  cards.reduce((acc, card) => {
+    //         acc[card.status] = true
+    //         return acc
+    //     }, {})
+    // }
+    // allStatus()
+
+    const handleStatus = (id) => {
+        setCurrentStatus(id)
+    }
 
     return (
         <div className="pop-browse" style={{ display: modalWindow ? 'block' : '' }} id="popBrowse">
@@ -29,11 +51,32 @@ export default function CardView() {
                         <div className="pop-browse__status status">
                             <p className="status__p subttl">Статус</p>
                             <div className="status__themes">
-                                <div className="status__theme _gray">
-                                    <p className="_gray">{status}</p>
-                                </div>
+                                {!isEditMode ? (
+                                    <div className="status__theme _gray">
+                                        <p className="_gray">{status}</p>
+                                    </div>
+                                ) : (
+                                    <div className="status__themes">
+                                        <button onClick={() => handleStatus(0)} className={`status__theme ${currentStatus === 0 ? '_gray' : ''}`}>
+                                            <p className={currentStatus === 0 ? '_gray' : ''}>Без статуса</p>
+                                        </button>
+                                        <button onClick={() => handleStatus(1)} className={`status__theme ${currentStatus === 1 ? '_gray' : ''}`}>
+                                            <p className={currentStatus === 1 ? '_gray' : ''}>Нужно сделать</p>
+                                        </button>
+                                        <button onClick={() => handleStatus(2)} className={`status__theme ${currentStatus === 2 ? '_gray' : ''}`}>
+                                            <p className={currentStatus === 2 ? '_gray' : ''}>В работе</p>
+                                        </button>
+                                        <button onClick={() => handleStatus(3)} className={`status__theme ${currentStatus === 3 ? '_gray' : ''}`}>
+                                            <p className={currentStatus === 3 ? '_gray' : ''}>Тестирование</p>
+                                        </button>
+                                        <button onClick={() => handleStatus(4)} className={`status__theme ${currentStatus === 4 ? '_gray' : ''}`}>
+                                            <p className={currentStatus === 4 ? '_gray' : ''}>Готово</p>
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
+
                         <div className="pop-browse__wrap">
                             <form className="pop-browse__form form-browse" id="formBrowseCard" action="#">
                                 <div className="form-browse__block">
@@ -79,31 +122,31 @@ export default function CardView() {
                             </div>
                         </div>
                         <div className="pop-browse__btn-browse ">
-                            <div className="btn-group">
-                                <button className="btn-browse__edit _btn-bor _hover03">
-                                    <a href="#">Редактировать задачу</a>
-                                </button>
-                                <button className="btn-browse__delete _btn-bor _hover03">
-                                    <a href="#">Удалить задачу</a>
-                                </button>
-                            </div>
-                            <Link to="/">
-                                <button className="btn-browse__close _btn-bg _hover01">Закрыть</button>
-                            </Link>
-                        </div>
-                        <div className="pop-browse__btn-edit _hide">
-                            <div className="btn-group">
-                                <button className="btn-edit__edit _btn-bg _hover01">
-                                    <a href="#">Сохранить</a>
-                                </button>
-                                <button className="btn-edit__edit _btn-bor _hover03">
-                                    <a href="#">Отменить</a>
-                                </button>
-                                <button className="btn-edit__delete _btn-bor _hover03" id="btnDelete">
-                                    <a href="#">Удалить задачу</a>
-                                </button>
-                            </div>
-                            <button onClick={handleClose} className="btn-edit__close _btn-bg _hover01">
+                            {!isEditMode ? (
+                                <div className="btn-group">
+                                    <button onClick={handleEditToggle} className="btn-browse__edit _btn-bor _hover03">
+                                        Редактировать задачу
+                                    </button>
+
+                                    <button className="btn-browse__delete _btn-bor _hover03">
+                                        <a href="#">Удалить задачу</a>
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="btn-group">
+                                    <button className="btn-edit__edit _btn-bg _hover01">
+                                        <a href="#">Сохранить</a>
+                                    </button>
+                                    <button onClick={handleEditToggle} className="btn-edit__edit _btn-bor _hover03">
+                                        Отменить
+                                    </button>
+                                    <button className="btn-edit__delete _btn-bor _hover03" id="btnDelete">
+                                        <a href="#">Удалить задачу</a>
+                                    </button>
+                                </div>
+                            )}
+
+                            <button onClick={handleClose} className="btn-browse__close _btn-bg _hover01">
                                 Закрыть
                             </button>
                         </div>
