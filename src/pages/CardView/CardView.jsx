@@ -29,7 +29,7 @@ export default function CardView() {
 
     useEffect(() => {
         const found = statusList.find((item) => item.name === status)
-        setCurrentStatus(found)
+        setCurrentStatus(found.id)
     }, [status])
 
     const handleStatus = (id) => {
