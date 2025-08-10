@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, replace, useLocation, useNavigate } from 'react-router-dom'
 
 export default function Header({ isAuthPage, isAuth, setIsAuth }) {
     const [modalOpen, setModalOpen] = useState(false)
     const location = useLocation()
+    const navigate = useNavigate()
 
     function toggleModal(event) {
         event.preventDefault()
@@ -15,7 +16,8 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
     }, [location])
 
     const handleAuth = () => {
-        setIsAuth(false)
+        setIsAuth(true)
+        navigate('/exit', { state: { modalWindow: true } })
     }
 
     return (
@@ -55,11 +57,10 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
                                             <p>Темная тема</p>
                                             <input type="checkbox" className="checkbox" name="checkbox"></input>
                                         </div>
-                                        <Link onClick={handleAuth} to="/exit" state={{ modalWindow: true }}>
-                                            <button type="button" className="_hover03">
-                                                Выйти
-                                            </button>
-                                        </Link>
+
+                                        <button onClick={handleAuth} type="button" className="_hover03">
+                                            Выйти
+                                        </button>
                                     </div>
                                 )}
                             </nav>

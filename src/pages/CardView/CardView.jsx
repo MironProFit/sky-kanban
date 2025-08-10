@@ -61,21 +61,6 @@ export default function CardView() {
                                                 <p className={status.id === currentStatus ? '_gray' : ''}>{status.name}</p>
                                             </button>
                                         ))}
-                                        {/* <button onClick={() => handleStatus(0)} className={`status__theme ${currentStatus === 0 ? '_gray' : ''}`}>
-                                            <p className={currentStatus === 0 ? '_gray' : ''}>Без статуса</p>
-                                        </button>
-                                        <button onClick={() => handleStatus(1)} className={`status__theme ${currentStatus === 1 ? '_gray' : ''}`}>
-                                            <p className={currentStatus === 1 ? '_gray' : ''}>Нужно сделать</p>
-                                        </button>
-                                        <button onClick={() => handleStatus(2)} className={`status__theme ${currentStatus === 2 ? '_gray' : ''}`}>
-                                            <p className={currentStatus === 2 ? '_gray' : ''}>В работе</p>
-                                        </button>
-                                        <button onClick={() => handleStatus(3)} className={`status__theme ${currentStatus === 3 ? '_gray' : ''}`}>
-                                            <p className={currentStatus === 3 ? '_gray' : ''}>Тестирование</p>
-                                        </button>
-                                        <button onClick={() => handleStatus(4)} className={`status__theme ${currentStatus === 4 ? '_gray' : ''}`}>
-                                            <p className={currentStatus === 4 ? '_gray' : ''}>Готово</p>
-                                        </button> */}
                                     </div>
                                 )}
                             </div>

@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, replace, Route, Routes, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 
 import Header from '../components/Header/Header'
@@ -12,7 +12,6 @@ import CardView from '../pages/CardView/CardView'
 import PrivateRoute from '../components/PrivateRoute/PrivateRoute'
 
 import '../../src/App.css'
-// import EditCard from '../pages/EditCard/EditCard'
 
 function AppRoutes() {
     const location = useLocation()
@@ -22,9 +21,6 @@ function AppRoutes() {
         <div className="wrapper">
             <Header isAuthPage={isAuthPage} isAuth={isAuth} setIsAuth={setIsAuth} />
             <Routes>
-                <Route path="exit/login" element={<Navigate to="/login" replace />} />
-                {/* <Route path="login/register" element={<Navigate to="/register" replace />} />
-                <Route path="register/login" element={<Navigate to="/login" replace />} /> */}
                 <Route path="login" element={<Login isAuth={isAuth} setIsAuth={setIsAuth} />} />
                 <Route path="register" element={<Register isAuth={isAuth} setIsAuth={setIsAuth} />} />
                 <Route element={<PrivateRoute isAuth={isAuth} setIsAuth={setIsAuth} />}>

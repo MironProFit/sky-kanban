@@ -16,7 +16,7 @@ export default function Exit() {
                         <form className="pop-exit__form" id="formExit" action="#">
                             <div className="pop-exit__form-group">
                                 <div className="pop-exit__exit-yes _hover01" id="exitYes">
-                                    <Link to="login">Да, выйти</Link>
+                                    <Link to="/login">Да, выйти</Link>
                                 </div>
                                 <div className="pop-exit__exit-no _hover03" id="exitNo">
                                     <Link to="/">Нет, остаться</Link>

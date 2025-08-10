@@ -3,6 +3,7 @@ import './Login.css'
 
 function Login({ isAuth, setIsAuth }) {
     const navigate = useNavigate()
+    console.log(navigate)
 
     function toggleAuth(e) {
         e.preventDefault()
