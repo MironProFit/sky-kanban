@@ -1,31 +1,34 @@
 import { useState, useEffect } from 'react'
 import Card from '../Card/Card'
 
-export default function Column({ title }) {
-    const [loading, setLoading] = useState(true)
+export default function Column({ title, cardsData }) {
+    const [visibleCards, setVisibleCards] = useState([])
+    const [isVisible, setIsVisible] = useState(false)
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(false)
-        }, 2000)
-
-        return () => clearTimeout(timer)
-    }, [])
+        if (cardsData.length > 0) {
+            const uniqueCards = Array.from(new Map(cardsData.map((card) => [card.id, card])).values())
+            setVisibleCards(uniqueCards)
+            setIsVisible(true)
+        }
+    }, [cardsData])
 
     return (
         <div className="main__column">
-            {loading ? (
-                <p>Загрузка данных...</p>
-            ) : (
-                <>
-                    <div className="column__title">
-                        <p>{title}</p>
-                    </div>
-                    <div className="cards">
-                        <Card />
-                    </div>
-                </>
-            )}
+            <div className="column__title">
+                <p>{title}</p>
+            </div>
+            <div className="cards">
+                {visibleCards.length === 0 ? (
+                    <p>Загрузка данных...</p>
+                ) : (
+                    visibleCards.map((card) => (
+                        <div key={card.id} className={`card ${isVisible ? 'visible' : ''}`}>
+                            <Card cardsData={cardsData} {...card} />
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
     )
 }
