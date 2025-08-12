@@ -1,9 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
 import './Login.css'
 
-function Login({ isAuth, setIsAuth }) {
+function Login({ setIsAuth }) {
     const navigate = useNavigate()
-    console.log(navigate)
 
     function toggleAuth(e) {
         e.preventDefault()

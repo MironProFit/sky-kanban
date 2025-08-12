@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Link, replace, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
 
 export default function Header({ isAuthPage, isAuth, setIsAuth }) {
     const [modalOpen, setModalOpen] = useState(false)
@@ -19,6 +20,8 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
         setIsAuth(true)
         navigate('/exit', { state: { modalWindow: true } })
     }
+
+    const logo = styled.div``
 
     return (
         <header className="header">

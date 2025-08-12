@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Column from '../../components/Column/Column'
+import Column from '../../components/Layout/Column'
 import cards from '../../data/data'
 import { Outlet } from 'react-router-dom'
 

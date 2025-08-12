@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-import cards from '../../data/data'
 import { Link } from 'react-router-dom'
 import formattedDate from '../../utils/dateFormat'
 
@@ -23,7 +21,6 @@ export default function Card({ id, topic, title, date, status }) {
         },
     ]
 
-    // Функция получения цвета по теме
     const getColorTopic = (topic) => {
         const foundColor = colorTopics.find((item) => item.topic === topic)
         return foundColor ? foundColor.color : ''
@@ -35,8 +32,6 @@ export default function Card({ id, topic, title, date, status }) {
             <div key={id} className="cards__item">
                 <div>
                     <div className="cards__card ">
-                        {/* //тут был card */}
-
                         <div className="card__group">
                             <div className="card__theme 56">
                                 <p className={colorTopic}>{topic}</p>
