@@ -45,12 +45,12 @@ a {
   background-color: #EAEEF6;
 }
 
-.container-signin {
+/* .container-signin {
   display: block;
   width: 100vw;
   min-height: 100vh;
   margin: 0 auto;
-}
+} */
 
 ._hover01:hover {
   background-color: #33399b;

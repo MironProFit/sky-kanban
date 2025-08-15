@@ -13,15 +13,16 @@ import PrivateRoute from './PrivateRoute'
 import '../../src/App.css'
 import Layout from '../components/Layout/Layout'
 
-function AppRoutes() {
+function AppRoutes({ isTheme, setIsTheme }) {
     const [isAuth, setIsAuth] = useState(false)
+
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <Layout isAuth={isAuth} setIsAuth={setIsAuth} />,
+            element: <Layout isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} setIsTheme={setIsTheme} />,
             children: [
-                { path: 'login', element: <Login isAuth={isAuth} setIsAuth={setIsAuth} /> },
-                { path: 'register', element: <Register isAuth={isAuth} setIsAuth={setIsAuth} /> },
+                { path: 'login', element: <Login isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} /> },
+                { path: 'register', element: <Register isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} /> },
                 {
                     element: <PrivateRoute isAuth={isAuth} setIsAuth={setIsAuth} />,
                     children: [

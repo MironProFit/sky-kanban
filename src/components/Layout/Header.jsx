@@ -1,15 +1,31 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
+import { Container, PrimaryButton } from '../Styles/GlobalStyles'
+import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav, HeaderModalBtn } from './Header.styles'
 
-export default function Header({ isAuthPage, isAuth, setIsAuth }) {
+export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme }) {
     const [modalOpen, setModalOpen] = useState(false)
+    const [isAuthPage, setIsAuthPage] = useState(false)
     const location = useLocation()
     const navigate = useNavigate()
 
+    useEffect(() => {
+        if (location.pathname === '/login' || location.pathname === '/register') {
+            setIsAuthPage(true)
+        } else {
+            setIsAuthPage(false)
+        }
+    }, [location.pathname])
+    console.log(isAuthPage)
+
     function toggleModal(event) {
         event.preventDefault()
+
         setModalOpen((prev) => !prev)
+    }
+
+    const handleTheme = () => {
+        setIsTheme((prev) => !prev)
     }
 
     useEffect(() => {
@@ -21,56 +37,55 @@ export default function Header({ isAuthPage, isAuth, setIsAuth }) {
         navigate('/exit', { state: { modalWindow: true } })
     }
 
-    const logo = styled.div``
-
     return (
-        <header className="header">
-            <div className="container">
-                <div className="header__block">
-                    <div className="header__logo _show _light">
-                        <Link to="/" target="_self">
-                            <img src="/logo.png" alt="logo"></img>
-                        </Link>
-                    </div>
+        <HeaderStyled isTheme={isTheme}>
+            <Container>
+                {!isAuthPage && (
+                    <HeaderBlock>
+                        <HeaderLogo>
+                            <Link to="/" target="_self">
+                                <img src={`../../../public/${isTheme ? 'logo_dark.png' : 'logo.png'}`} alt="logo"></img>
+                            </Link>
+                        </HeaderLogo>
 
-                    {!isAuthPage && isAuth && (
-                        <>
-                            <div className="header__logo _dark">
-                                <Link to="/" target="_self">
-                                    <img src="/logo_dark.png" alt="logo"></img>
-                                </Link>
-                            </div>
-                            <nav className="header__nav">
-                                <Link to="newcard" state={{ modalWindow: true }}>
-                                    <button className="header__btn-main-new _hover01" id="btnMainNew" type="button">
+                        {!isAuthPage && isAuth && (
+                            <>
+                                <HeaderNav>
+                                    <Link to="createcard" state={{ modalWindow: true }}>
+                                        <PrimaryButton isTheme={isTheme} id="btnMainNew" type="button">
+                                            Создать новую задачу
+                                        </PrimaryButton>
+                                        {/* <button className="header__btn-main-new _hover01" id="btnMainNew" type="button">
                                         Создать новую задачу
-                                    </button>
-                                </Link>
-                                <button className="header__user _hover02" onClick={toggleModal}>
-                                    Ваше имя
-                                </button>
-                                {modalOpen && (
-                                    <div className="header__pop-user-set pop-user-set" id="user-set-target">
-                                        <Link className="pop-user-set__close" to="#" onClick={toggleModal}>
-                                            &#10006;
-                                        </Link>
-                                        <p className="pop-user-set__name">Ivan Ivanov</p>
-                                        <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
-                                        <div className="pop-user-set__theme">
-                                            <p>Темная тема</p>
-                                            <input type="checkbox" className="checkbox" name="checkbox"></input>
-                                        </div>
+                                    </button> */}
+                                    </Link>
+                                    <HeaderModalBtn isTheme={isTheme} modalOpen={modalOpen} onClick={toggleModal}>
+                                        Ваше имя
+                                    </HeaderModalBtn>
 
-                                        <button onClick={handleAuth} type="button" className="_hover03">
-                                            Выйти
-                                        </button>
-                                    </div>
-                                )}
-                            </nav>
-                        </>
-                    )}
-                </div>
-            </div>
-        </header>
+                                    {modalOpen && (
+                                        <div className="header__pop-user-set pop-user-set" id="user-set-target">
+                                            <Link className="pop-user-set__close" onClick={toggleModal}>
+                                                &#10006;
+                                            </Link>
+                                            <p className="pop-user-set__name">Ivan Ivanov</p>
+                                            <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
+                                            <div className="pop-user-set__theme">
+                                                <p>{isTheme ? 'Темная тема' : 'Светлая тема '}</p>
+                                                <input checked={isTheme} onChange={handleTheme} type="checkbox" className="checkbox" name="checkbox"></input>
+                                            </div>
+
+                                            <button onClick={handleAuth} type="button" className="_hover03">
+                                                Выйти
+                                            </button>
+                                        </div>
+                                    )}
+                                </HeaderNav>
+                            </>
+                        )}
+                    </HeaderBlock>
+                )}
+            </Container>
+        </HeaderStyled>
     )
 }

@@ -1,12 +1,12 @@
 import { Outlet } from 'react-router-dom'
 import Header from '../Layout/Header'
 
-function Layout({ isAuth, setIsAuth }) {
+function Layout({ isAuth, setIsAuth, isTheme, setIsTheme }) {
     return (
-        <div className="wrapper">
-            <Header isAuth={isAuth} setIsAuth={setIsAuth} className="wrapper" />
+        <>
+            <Header isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} setIsTheme={setIsTheme} />
             <Outlet />
-        </div>
+        </>
     )
 }
 

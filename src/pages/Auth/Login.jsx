@@ -1,7 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
 import './Login.css'
+import { Wrapper } from '../../components/Styles/GlobalStyles'
+import { ContainerSignin, ModalBlock, ModalSignin } from './Auth.styled'
 
-function Login({ setIsAuth }) {
+function Login({ setIsAuth, isTheme }) {
     const navigate = useNavigate()
 
     function toggleAuth(e) {
@@ -10,10 +12,10 @@ function Login({ setIsAuth }) {
         navigate('/')
     }
     return (
-        <div className="wrapper">
-            <div className="container-signin">
-                <div className="modal">
-                    <div className="modal__block">
+        <Wrapper $color="#151419">
+            <ContainerSignin>
+                <ModalSignin>
+                    <ModalBlock isTheme={isTheme}>
                         <div className="modal__ttl">
                             <h2>Вход</h2>
                         </div>
@@ -28,10 +30,10 @@ function Login({ setIsAuth }) {
                                 <Link to="/register">Регистрируйтесь здесь</Link>
                             </div>
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </ModalBlock>
+                </ModalSignin>
+            </ContainerSignin>
+        </Wrapper>
     )
 }
 

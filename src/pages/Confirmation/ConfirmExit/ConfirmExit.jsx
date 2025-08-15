@@ -6,7 +6,10 @@ export default function ConfirmExit() {
 
     return (
         <>
-            <div>Видимость </div>
+            
+            
+            
+            
             <div className="pop-exit" style={{ display: modalWindow ? 'block' : '' }} id="popExit">
                 <div className="pop-exit__container">
                     <div className="pop-exit__block">
