@@ -4,7 +4,7 @@ import Header from '../Layout/Header'
 function Layout({ isAuth, setIsAuth, isTheme, setIsTheme }) {
     return (
         <>
-            <Header isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} setIsTheme={setIsTheme} />
+            <Header isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} setIsTheme={setIsTheme} $isDark={isTheme} />
             <Outlet />
         </>
     )

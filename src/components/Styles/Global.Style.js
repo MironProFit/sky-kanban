@@ -1,4 +1,5 @@
-import { createGlobalStyle } from 'styled-components'
+import { Link as RouterLink } from 'react-router-dom'
+import styled, { createGlobalStyle, css } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
 
@@ -21,4 +22,11 @@ a,
     text-decoration: none;
     cursor: pointer;
 }
+`
+export const StyledLink = styled(RouterLink)`
+    &:visited {
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer;
+    }
 `

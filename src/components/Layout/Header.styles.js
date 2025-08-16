@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-
+import { PrimaryButton } from '../Styles/GlobalStyles'
+import { borderColor, hoverBorder, hoverColor, primaryBacground, secondaryColor, textColor } from '../Styles/Mexins.style'
+primaryBacground
 export const HeaderStyled = styled.header`
+    ${primaryBacground}
     width: 100%;
     margin: 0 auto;
-    background-color: ${({ isTheme }) => (isTheme ? '#20202C' : '#ffff')};
 `
 export const HeaderLogo = styled.div`
     width: 85px;
@@ -28,6 +30,12 @@ export const HeaderNav = styled.nav`
     justify-content: center;
 `
 
+export const HeaderNavBtn = styled(PrimaryButton)`
+    width: 178px;
+    height: 30px;
+    margin-right: 20px;
+`
+
 export const HeaderModalBtn = styled.button`
     background: inherit;
     height: 20px;
@@ -38,12 +46,10 @@ export const HeaderModalBtn = styled.button`
     font-size: 14px;
     line-height: 20px;
     border: none;
-    color: ${({ isTheme }) => (isTheme ? '#ffff' : '#565eef')};
+    ${textColor}
     transition: color 0.3s ease;
 
-    &:hover {
-        color: #33399b;
-    }
+    ${hoverColor}
 
     &::after {
         content: '';
@@ -51,17 +57,14 @@ export const HeaderModalBtn = styled.button`
         width: 6px;
         height: 6px;
         border-radius: 1px;
-        border-left: 1.9px solid ${({ isTheme }) => (isTheme ? '#ffff' : '#565eef')};
-        border-bottom: 1.9px solid ${({ isTheme }) => (isTheme ? '#ffff' : '#565eef')};
-        transform: ${({ modalOpen }) => (modalOpen ? 'rotate(135deg)' : 'rotate(-45deg)')};
-        margin: ${({ modalOpen }) => (modalOpen ? '3' : '-3')}px 0 0 5px;
+        border-left: 1.9px solid ${borderColor};
+        border-bottom: 1.9px solid ${borderColor};
+        transform: ${({ $isOpen }) => ($isOpen ? 'rotate(135deg)' : 'rotate(-45deg)')};
+        margin: ${({ $isOpen }) => ($isOpen ? '3' : '-3')}px 0 0 5px;
         padding: 0;
-        transition: transform 0.3s ease, margin 0.3s ease;
+        transition: color 0.3s ease, transform 0.3s ease, margin 0.3s ease;
     }
-    &:hover::after {
-        border-left-color: #33399b;
-        border-bottom-color: #33399b;
-    }
-`
 
+    ${hoverBorder}
+`
 //Modal

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Container, PrimaryButton } from '../Styles/GlobalStyles'
-import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav, HeaderModalBtn } from './Header.styles'
+import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav, HeaderModalBtn, HeaderNavBtn } from './Header.styles'
 
-export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme }) {
+export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark }) {
     const [modalOpen, setModalOpen] = useState(false)
     const [isAuthPage, setIsAuthPage] = useState(false)
     const location = useLocation()
@@ -16,7 +16,6 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme }) {
             setIsAuthPage(false)
         }
     }, [location.pathname])
-    console.log(isAuthPage)
 
     function toggleModal(event) {
         event.preventDefault()
@@ -36,9 +35,8 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme }) {
         setIsAuth(true)
         navigate('/exit', { state: { modalWindow: true } })
     }
-
     return (
-        <HeaderStyled isTheme={isTheme}>
+        <HeaderStyled $isDark={$isDark}>
             <Container>
                 {!isAuthPage && (
                     <HeaderBlock>
@@ -52,14 +50,11 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme }) {
                             <>
                                 <HeaderNav>
                                     <Link to="createcard" state={{ modalWindow: true }}>
-                                        <PrimaryButton isTheme={isTheme} id="btnMainNew" type="button">
+                                        <HeaderNavBtn $isDark={$isDark} id="btnMainNew" type="button">
                                             Создать новую задачу
-                                        </PrimaryButton>
-                                        {/* <button className="header__btn-main-new _hover01" id="btnMainNew" type="button">
-                                        Создать новую задачу
-                                    </button> */}
+                                        </HeaderNavBtn>
                                     </Link>
-                                    <HeaderModalBtn isTheme={isTheme} modalOpen={modalOpen} onClick={toggleModal}>
+                                    <HeaderModalBtn $isDark={$isDark} $isOpen={modalOpen} onClick={toggleModal}>
                                         Ваше имя
                                     </HeaderModalBtn>
 

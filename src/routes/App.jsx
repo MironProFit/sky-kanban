@@ -10,8 +10,8 @@ function App() {
     }, [isTheme])
     return (
         <>
-            <GlobalStyle isTheme={isTheme} />
-            <Wrapper $darkcolor="#151419" $lightcolor="#EAEEF6" isTheme={isTheme}>
+            <GlobalStyle $isDark={isTheme} />
+            <Wrapper>
                 <AppRoutes isTheme={isTheme} setIsTheme={setIsTheme} />
             </Wrapper>
         </>

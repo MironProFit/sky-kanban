@@ -4,11 +4,10 @@ import { useState } from 'react'
 import MainPage from '../pages/Main/MainPage'
 import ConfirmExit from '../pages/Confirmation/ConfirmExit/ConfirmExit'
 import NotFound from '../pages/Main/NotFound'
-import Login from '../pages/Auth/Login'
-import Register from '../pages/Auth/Register'
 import CreateCard from '../pages/Cards/CreateCard'
 import CardView from '../pages/Cards/CardView'
 import PrivateRoute from './PrivateRoute'
+import AuthModal from '../pages/Auth/AuthModal'
 
 import '../../src/App.css'
 import Layout from '../components/Layout/Layout'
@@ -19,10 +18,11 @@ function AppRoutes({ isTheme, setIsTheme }) {
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <Layout isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} setIsTheme={setIsTheme} />,
+            element: <Layout isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} $isDark={isTheme} setIsTheme={setIsTheme} />,
             children: [
-                { path: 'login', element: <Login isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} /> },
-                { path: 'register', element: <Register isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} /> },
+                { path: 'login', element: <AuthModal isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} /> },
+                { path: 'register', element: <AuthModal isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} /> },
+
                 {
                     element: <PrivateRoute isAuth={isAuth} setIsAuth={setIsAuth} />,
                     children: [

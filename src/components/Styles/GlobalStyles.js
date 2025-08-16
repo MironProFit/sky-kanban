@@ -1,11 +1,12 @@
 import styled from 'styled-components'
+import { wrapperColor } from './Mexins.style'
 
 export const Wrapper = styled.div`
+    ${wrapperColor()}
     max-width: 100%;
     width: 100vw;
     min-height: 100vh;
     overflow: hidden;
-    background-color: ${({ $darkcolor, $lightcolor, isTheme }) => (isTheme ? $darkcolor : $lightcolor)};
     position: relative;
     top: 0;
     left: 0;
@@ -23,41 +24,31 @@ export const Container = styled.div`
 `
 // Button
 export const PrimaryButton = styled.button`
-    width: 178px;
-    height: 30px;
+    width: 100%; // Переносим это сюда, так как все кнопки должны быть 100% ширины
+    height: 40px; // Делаем высоту стандартной
     border-radius: 4px;
     background-color: #565eef;
     color: #ffffff;
     border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 14px;
-    line-height: 1;
+    line-height: 21px;
     font-weight: 500;
-    margin-right: 20px;
+    letter-spacing: -0.14px;
+
     &:hover {
         background-color: #33399b;
     }
+
     a {
         color: #ffffff;
+        text-decoration: none;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 `
-//Button hover
-
-// ._hover01:hover {
-//   background-color: #33399b;
-// }
-
-// ._hover02:hover, .header__user:hover {
-//   color: #33399b;
-// }
-// ._hover02:hover::after, .header__user:hover::after {
-//   border-left-color: #33399b;
-//   border-bottom-color: #33399b;
-// }
-
-// ._hover03:hover {
-//   background-color: #33399b;
-//   color: #FFFFFF;
-// }
-// ._hover03:hover a {
-//   color: #FFFFFF;
-// }
