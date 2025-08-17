@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { wrapperColor } from './Mexins.style'
+import { hoverColor, wrapperColor } from './Mexins.style'
 
 export const Wrapper = styled.div`
     ${wrapperColor()}
@@ -24,8 +24,8 @@ export const Container = styled.div`
 `
 // Button
 export const PrimaryButton = styled.button`
-    width: 100%; // Переносим это сюда, так как все кнопки должны быть 100% ширины
-    height: 40px; // Делаем высоту стандартной
+    width: ${({ $width }) => $width || '100%'};
+    height: 40px;
     border-radius: 4px;
     background-color: #565eef;
     color: #ffffff;
@@ -38,9 +38,7 @@ export const PrimaryButton = styled.button`
     font-weight: 500;
     letter-spacing: -0.14px;
 
-    &:hover {
-        background-color: #33399b;
-    }
+    ${hoverColor}
 
     a {
         color: #ffffff;

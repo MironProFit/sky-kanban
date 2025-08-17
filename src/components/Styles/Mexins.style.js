@@ -9,8 +9,14 @@ export const wrapperColor = (darkColor = '#151419', lightColor = '#ffff') => css
 `
 
 export const secondaryColor = css`
-    color: ${({ $isDark }) => ($isDark ? '#0000' : '#FFFFFF')};
+    color: ${({ $isDark }) => ($isDark ? 'black' : '#FFFFFF')};
 `
+export const reverseSecondaryColor = css`
+    color: ${({ $isDark }) => (!$isDark ? 'black' : '#FFFFFF')};
+`
+// export const primaryTextColor = css`
+//     color: ${({ $isDark }) => ($isDark ? '#20202C' : '#FFFFFF')};
+// `
 
 export const primaryBacground = css`
     background-color: ${({ $isDark }) => ($isDark ? '#20202C' : '#FFFFFF')};
@@ -21,7 +27,7 @@ export const inputColor = css`
 `
 
 export const primaryColor = css`
-    color: ${({ $isDark }) => ($isDark ? '#000' : '#ffff')};
+    color: ${({ $isDark }) => ($isDark ? 'black' : '#ffff')};
 `
 
 //Colors
@@ -38,6 +44,8 @@ export const linkColor = '#94A6BE66'
 //Hovers
 
 export const hoverColor = css`
+    transition: color 0.3s;
+
     &:hover {
         color: ${primaryHoverColor};
     }
@@ -63,23 +71,3 @@ export const hoverCombination = css`
         color: ${white};
     }
 `
-
-// ._hover01:hover {
-//   background-color: ${primaryHoverColor};
-// }
-
-// ._hover02:hover, .header__user:hover {
-//   color: #33399b;
-// }
-// ._hover02:hover::after, .header__user:hover::after {
-//   border-left-color: #33399b;
-//   border-bottom-color: #33399b;
-// }
-
-// ._hover03:hover {
-//   background-color: #33399b;
-//   color: #FFFFFF;
-// }
-// ._hover03:hover a {
-//   color: #FFFFFF;
-// }
