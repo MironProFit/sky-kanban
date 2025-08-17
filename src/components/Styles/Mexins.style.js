@@ -33,6 +33,7 @@ export const borderColor = ({ $isDark }) => ($isDark ? '#FFFFFF' : '#606060')
 export const primaryHoverColor = '#33399b'
 
 export const white = '#ffff'
+export const linkColor = '#94A6BE66'
 
 //Hovers
 

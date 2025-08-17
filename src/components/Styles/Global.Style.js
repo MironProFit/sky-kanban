@@ -1,5 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom'
 import styled, { createGlobalStyle, css } from 'styled-components'
+import { linkColor } from './Mexins.style'
 
 export const GlobalStyle = createGlobalStyle`
 
@@ -23,9 +24,10 @@ a,
     cursor: pointer;
 }
 `
-export const StyledLink = styled(RouterLink)`
+export const StyledLink = styled(RouterLink)`    color: ${linkColor};
+
     &:visited {
-        color: inherit;
+        color: ${linkColor};
         text-decoration: none;
         cursor: pointer;
     }
