@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { PrimaryButton } from '../../components/Styles/GlobalStyles'
-import { inputColor, primaryBacground, primaryColor, secondaryColor } from '../../components/Styles/Mexins.style'
+import { inputColor, primaryBacground, primaryColor, reversePrimaryColor, secondaryColor } from '../../components/Styles/Mexins.style'
 import { StyledLink } from '../../components/Styles/Global.Style'
 
 export const ContainerSignin = styled.div`
@@ -48,7 +48,7 @@ export const ModalTitle = styled.div`
     text-align: center;
 `
 export const Title = styled.h2`
-    ${primaryColor}
+    ${reversePrimaryColor}
     font-size: 20px;
     font-weight: 700;
     line-height: 30px;
@@ -74,7 +74,7 @@ export const TextInput = styled.input`
     border: 0.7px solid rgba(148, 166, 190, 0.4);
     outline: none;
     padding: 10px 8px;
-    ${inputColor}
+    background-color: inherit;
 
     &::-moz-placeholder {
         font-family: 'Roboto', sans-serif;

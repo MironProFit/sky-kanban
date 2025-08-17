@@ -7,6 +7,12 @@ export const textColor = css`
 export const wrapperColor = (darkColor = '#151419', lightColor = '#ffff') => css`
     background-color: ${({ $isDark, $darkColor = darkColor, $lightColor = lightColor }) => ($isDark ? $darkColor : $lightColor)};
 `
+export const primaryColor = css`
+    color: ${({ $isDark }) => ($isDark ? 'black' : '#ffff')};
+`
+export const reversePrimaryColor = css`
+    color: ${({ $isDark }) => (!$isDark ? 'black' : '#ffff')};
+`
 
 export const secondaryColor = css`
     color: ${({ $isDark }) => ($isDark ? 'black' : '#FFFFFF')};
@@ -14,9 +20,6 @@ export const secondaryColor = css`
 export const reverseSecondaryColor = css`
     color: ${({ $isDark }) => (!$isDark ? 'black' : '#FFFFFF')};
 `
-// export const primaryTextColor = css`
-//     color: ${({ $isDark }) => ($isDark ? '#20202C' : '#FFFFFF')};
-// `
 
 export const primaryBacground = css`
     background-color: ${({ $isDark }) => ($isDark ? '#20202C' : '#FFFFFF')};
@@ -24,10 +27,6 @@ export const primaryBacground = css`
 
 export const inputColor = css`
     background-color: ${({ $isDark }) => ($isDark ? '#20202C' : '#94a6be')};
-`
-
-export const primaryColor = css`
-    color: ${({ $isDark }) => ($isDark ? 'black' : '#ffff')};
 `
 
 //Colors

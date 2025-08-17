@@ -21,22 +21,22 @@ function AuthModal({ setIsAuth, isTheme, $isDark }) {
     const togglePage = () => {
         if (isPage === 'login') {
             setIsPage('register')
-            navigate('/register') 
+            navigate('/register')
         } else {
             setIsPage('login')
-            navigate('/login') 
+            navigate('/login')
         }
     }
 
     function toggleAuth(e) {
         e.preventDefault()
         setIsAuth(true)
-        navigate('/') 
+        navigate('/')
     }
     function toggleAuth(e) {
         e.preventDefault()
         setIsAuth(true)
-        navigate('/') 
+        navigate('/')
     }
 
     return (
@@ -45,7 +45,7 @@ function AuthModal({ setIsAuth, isTheme, $isDark }) {
                 <ModalSignin>
                     <ModalBlock $isDark={$isDark}>
                         <ModalTitle>
-                            <Title>{isPage === 'login' ? 'Вход' : 'Регистрация'}</Title>
+                            <Title $isDark={$isDark}>{isPage === 'login' ? 'Вход' : 'Регистрация'}</Title>
                         </ModalTitle>
 
                         {isPage === 'login' && (
