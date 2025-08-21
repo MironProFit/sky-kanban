@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { hoverBackground, inputColor, mainBacground, primaryBacground, primaryColor } from '../Styles/Mexins.style'
+import { hoverBackground, inputColor, mainBacground, primaryBacground, primaryColor, reversePrimaryColor } from '../Styles/Mexins.style'
 import { Link } from 'react-router-dom'
 
 export const CardsContainer = styled.div`
@@ -73,7 +73,7 @@ export const CardTitle = styled.h3`
     font-size: 14px;
     font-weight: 500;
     line-height: 18px;
-    ${primaryColor}
+    ${reversePrimaryColor}
     margin-bottom: 10px;
 `
 
