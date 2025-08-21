@@ -83,7 +83,7 @@ export const Theme = styled.div`
 `
 
 export const ThemeText = styled.p`
-    padding:  5px 10px 5px 10px ;
+    padding: 5px 10px 5px 10px;
 
     border-radius: 18px;
     font-size: 10px;
@@ -137,10 +137,11 @@ export const Dot = styled.div`
     height: 4px;
     border-radius: 50%;
     background-color: ${linkColor};
-    opacity: 0.5; // Начальная прозрачность
+    opacity: 0.5;
     transition: opacity 0.3s;
+    margin-left: 2px;
 
     ${CardLink}:hover & {
-        opacity: 1; // Проявляем точки при наведении
+        opacity: 1;
     }
 `
