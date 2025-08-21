@@ -79,10 +79,10 @@ export default function Card({ id, topic, title, date, status, $isDark }) {
             <CardItem key={id}>
                 <CardWrapper $isDark={$isDark}>
                     <CardGroup>
-                        <Theme className={colorTopicClass}>
-                            <ThemeText>{topic}</ThemeText>
+                        <Theme className={$isDark ? 'dark' : 'light'}>
+                            <ThemeText className={colorTopicClass}>{topic}</ThemeText>
                         </Theme>
-                        <CardLink to={`cardview/${id}`} state={{ modalWindow: true, topic, title, date, status, colorTopicClass }}>
+                        <CardLink to={`cardview/${id}`} state={{ modalWindow: true, topic, title, date, status }}>
                             <DotContainer>
                                 <Dot />
                                 <Dot />

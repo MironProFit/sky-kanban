@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { hoverBackground, inputColor, mainBacground, primaryBacground, primaryColor, reversePrimaryColor } from '../Styles/Mexins.style'
+import { hoverBackground, inputColor, linkColor, mainBacground, primaryBacground, primaryColor, primaryHoverColor, reversePrimaryColor } from '../Styles/Mexins.style'
 import { Link } from 'react-router-dom'
 
 export const CardsContainer = styled.div`
@@ -43,26 +43,48 @@ export const Theme = styled.div`
     height: 20px;
     padding: 5px 14px;
     border-radius: 18px;
-    &._orange {
-        background-color: #ffe4c2;
-        color: #ff6d00;
+    &.dark {
+        &._orange {
+            background-color: #ff6d00;
+            color: #ffe4c2;
+        }
+        &._green {
+            background-color: #06b16e;
+            color: #b4fdd1;
+        }
+        &._purple {
+            background-color: #9a48f1;
+            color: #e9d4ff;
+        }
+        &._gray {
+            background: #94a6be;
+            color: #ffffff;
+        }
     }
-    &._green {
-        background-color: #b4fdd1;
-        color: #06b16e;
-    }
-    &._purple {
-        background-color: #e9d4ff;
-        color: #9a48f1;
-    }
-    &._gray {
-        background-color: #94a6be;
-        color: #ffffff;
+
+    &.light {
+        &._orange {
+            background-color: #ffe4c2;
+            color: #ff6d00;
+        }
+        &._green {
+            background-color: #b4fdd1;
+            color: #06b16e;
+        }
+        &._purple {
+            background-color: #e9d4ff;
+            color: #9a48f1;
+        }
+        &._gray {
+            background: #94a6be;
+            color: #ffffff;
+        }
     }
 `
 
 export const ThemeText = styled.p`
-    padding: 5px;
+    padding:  5px 10px 5px 10px ;
+
     border-radius: 18px;
     font-size: 10px;
     font-weight: 600;
@@ -110,12 +132,11 @@ export const CardLink = styled(Link)`
 export const DotContainer = styled.div`
     display: flex;
 `
-
 export const Dot = styled.div`
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background-color: #94a6be;
+    background-color: ${linkColor};
     opacity: 0.5; // Начальная прозрачность
     transition: opacity 0.3s;
 
