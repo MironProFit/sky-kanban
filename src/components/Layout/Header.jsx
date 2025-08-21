@@ -20,10 +20,9 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
 
     function toggleModal(event) {
         event.preventDefault()
-
         setModalOpen((prev) => !prev)
     }
-
+   
     const handleTheme = () => {
         setIsTheme((prev) => !prev)
     }
@@ -75,7 +74,7 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
                                         //         Выйти
                                         //     </button>
                                         // </div>
-                                        <UserMenuModal toggleModal={toggleModal} handleTheme={handleTheme} handleAuth={handleAuth} isTheme={isTheme} $isDark={$isDark} />
+                                        <UserMenuModal isAuth={isAuth} toggleModal={toggleModal} handleTheme={handleTheme} handleAuth={handleAuth} isTheme={isTheme} $isDark={$isDark} />
                                     )}
                                 </HeaderNav>
                             </>

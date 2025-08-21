@@ -4,7 +4,10 @@ import { css } from 'styled-components'
 export const textColor = css`
     color: ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#606060')};
 `
-export const wrapperColor = (darkColor = '#151419', lightColor = '#ffff') => css`
+export const reverseTextColor = css`
+    color: ${({ $isDark }) => (!$isDark ? '#FFFFFF' : '#606060')};
+`
+export const wrapperColor = (darkColor = '#151419', lightColor = '#EAEEF6') => css`
     background-color: ${({ $isDark, $darkColor = darkColor, $lightColor = lightColor }) => ($isDark ? $darkColor : $lightColor)};
 `
 export const primaryColor = css`
@@ -24,16 +27,27 @@ export const reverseSecondaryColor = css`
 export const primaryBacground = css`
     background-color: ${({ $isDark }) => ($isDark ? '#20202C' : '#FFFFFF')};
 `
+export const mainBacground = css`
+    background-color: ${({ $isDark }) => ($isDark ? '#151419' : '#EAEEF6')};
+`
 
 export const inputColor = css`
     background-color: ${({ $isDark }) => ($isDark ? '#20202C' : '#94a6be')};
 `
 
+export const setButtonsColor = css`
+    color: ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#565eef')};
+`
+export const setHoverButtonsColor = css`
+    color: ${({ $isDark }) => (!$isDark ? '#FFFFFF' : '#565eef')};
+`
+
 //Colors
 export const accentColor = '#94A6BE'
+export const accentButtonColor = '#565eef'
 export const accentPrimaryColor = '#151419'
 
-export const borderColor = ({ $isDark }) => ($isDark ? '#FFFFFF' : '#606060')
+export const borderColor = ({ $isDark }) => ($isDark ? '#4e5566' : '#D4DBE5')
 
 export const primaryHoverColor = '#33399b'
 
@@ -42,6 +56,14 @@ export const linkColor = '#94A6BE66'
 
 //Hovers
 
+// hover01
+export const hoverBackground = css`
+    &:hover {
+        background-color: ${primaryHoverColor};
+    }
+`
+
+// hover02
 export const hoverColor = css`
     transition: color 0.3s;
 
@@ -49,18 +71,14 @@ export const hoverColor = css`
         color: ${primaryHoverColor};
     }
 `
-export const hoverBackground = css`
-    &:hover {
-        background-color: ${primaryHoverColor};
-    }
-`
+// hover02::after
 export const hoverBorder = css`
     &:hover::after {
         border-left-color: ${primaryHoverColor};
         border-bottom-color: ${primaryHoverColor};
     }
 `
-
+// hover03
 export const hoverCombination = css`
     &:hover {
         background-color: ${primaryHoverColor};

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { hoverColor, wrapperColor } from './Mexins.style'
+import { accentButtonColor, hoverColor, setButtonsColor, white, wrapperColor } from './Mexins.style'
 
 export const Wrapper = styled.div`
     ${wrapperColor()}
@@ -49,4 +49,22 @@ export const PrimaryButton = styled.button`
         align-items: center;
         justify-content: center;
     }
+`
+export const SecondaryButton = styled.button`
+    width: 72px;
+    height: 30px;
+    background: transparent;
+    ${setButtonsColor};
+    border-radius: 4px;
+    border: 1px solid ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#565eef')};
+    transition: 0.3s;
+
+    &:hover {
+        background: ${accentButtonColor};
+        border: 1px solid ${({ $isDark }) => (!$isDark ? '#FFFFFF' : '#565eef')};
+        color: ${white};
+    }
+    /* a {
+        ${setButtonsColor};
+    } */
 `

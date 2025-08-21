@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { borderColor, linkColor, primaryBacground, reverseSecondaryColor, secondaryColor, textColor, white } from '../Styles/Mexins.style'
+import { linkColor, primaryBacground, reverseSecondaryColor } from '../Styles/Mexins.style'
 
-// USM  User Settings Modal
-export const ContainerUSM = styled.div`
+//   User Settings Modal
+export const Container = styled.div`
     ${primaryBacground}
     display: block;
     position: absolute;
@@ -17,7 +17,7 @@ export const ContainerUSM = styled.div`
     text-align: center;
     z-index: 2;
 `
-export const TilteNameUSM = styled.p`
+export const TilteName = styled.p`
     ${reverseSecondaryColor}
     font-size: 14px;
     font-weight: 500;
@@ -25,26 +25,26 @@ export const TilteNameUSM = styled.p`
     letter-spacing: -0.14px;
     margin-bottom: 4px;
 `
-export const TilteMailUSM = styled.p`
+export const TilteMail = styled.p`
     color: ${linkColor};
     font-size: 14px;
     line-height: 21px;
     letter-spacing: -0.14px;
     margin-bottom: 10px;
 `
-export const ThemeContainerUSM = styled.div`
+export const ThemeContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 30px;
 `
-export const ThemeTitleUSM = styled.p`
+export const ThemeTitle = styled.p`
     ${reverseSecondaryColor}
     font-size: 14px;
     line-height: 21px;
     letter-spacing: -0.14px;
 `
-export const CheckBoxThemeUSM = styled.input`
+export const CheckBoxTheme = styled.input`
     position: relative;
     width: 24px;
     height: 13px;
@@ -69,4 +69,9 @@ export const CheckBoxThemeUSM = styled.input`
     &:checked::before {
         left: 12px;
     }
+`
+
+export const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
 `

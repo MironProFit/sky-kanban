@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { PrimaryButton } from '../../components/Styles/GlobalStyles'
-import { inputColor, primaryBacground, primaryColor, reversePrimaryColor, secondaryColor } from '../../components/Styles/Mexins.style'
+import { borderColor, primaryBacground, reversePrimaryColor } from '../../components/Styles/Mexins.style'
 import { StyledLink } from '../../components/Styles/Global.Style'
 
 export const ContainerSignin = styled.div`
@@ -20,7 +20,7 @@ export const ModalSignin = styled.div`
     justify-content: center;
 
     @media screen and (max-width: 375px) {
-        background-color: #ffffff;
+        /* background-color: #ffffff; */
     }
 `
 export const ModalBlock = styled.div`
@@ -31,7 +31,8 @@ export const ModalBlock = styled.div`
     width: 100%;
     padding: 50px 60px;
     border-radius: 10px;
-    border: 0.7px solid #d4dbe5;
+    border: 0.7px solid ${borderColor};
+    /* #4e5566; #D4DBE5  */
     box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
 
     @media screen and (max-width: 375px) {
@@ -109,9 +110,7 @@ export const FGTitle = styled(ModalFormGroup)`
     line-height: 150%;
     letter-spacing: -0.14px;
 `
-// export const FGLink = styled(FGTitleLink)`
-//     text-decoration: underline;
-// `
+
 export const FGLink = styled(StyledLink)`
     text-decoration: underline;
 `

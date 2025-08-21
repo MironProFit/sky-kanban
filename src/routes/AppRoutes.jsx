@@ -20,14 +20,10 @@ function AppRoutes({ isTheme, setIsTheme }) {
             path: '/',
             element: <Layout isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} $isDark={isTheme} setIsTheme={setIsTheme} />,
             children: [
-                { path: 'login', element: <AuthModal isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} /> },
-                { path: 'register', element: <AuthModal isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} /> },
-
                 {
                     element: <PrivateRoute isAuth={isAuth} setIsAuth={setIsAuth} />,
                     children: [
-                        { index: true, element: <MainPage /> },
-                        { path: 'exit', element: <ConfirmExit isAuth={isAuth} setIsAuth={setIsAuth} /> },
+                        { path: 'exit', element: <ConfirmExit isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} /> },
                         { path: 'createcard', element: <CreateCard /> },
                         { path: 'cardview/:id', element: <CardView /> },
                         { path: 'cardview/:id/edit', element: <CardView /> },

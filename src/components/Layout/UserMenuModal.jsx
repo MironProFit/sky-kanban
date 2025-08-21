@@ -1,27 +1,26 @@
 import { Link } from 'react-router-dom'
-import { CheckBoxThemeUSM, ContainerUSM, ThemeContainerUSM, ThemeTitleUSM, TilteMailUSM, TilteNameUSM } from './UserMenuModal.styles'
-import { PrimaryButton } from '../Styles/GlobalStyles'
-
-// USM  User Settings Modal
+import { ButtonContainer, CheckBoxTheme, Container, ThemeContainer, ThemeTitle, TilteMail, TilteName } from './UserMenuModal.styles'
+import { SecondaryButton } from '../Styles/GlobalStyles'
 
 function UserMenuModal({ toggleModal, isTheme, handleTheme, handleAuth, $isDark }) {
     return (
-        <ContainerUSM $isDark={$isDark} id="user-set-target">
+        <Container $isDark={$isDark} id="user-set-target">
             <Link className="pop-user-set__close" onClick={toggleModal}>
                 &#10006;
             </Link>
-            <TilteNameUSM $isDark={$isDark}>Ivan Ivanov</TilteNameUSM>
-            <TilteMailUSM>ivan.ivanov@gmail.com</TilteMailUSM>
-            <ThemeContainerUSM>
-                <ThemeTitleUSM $isDark={$isDark}>{isTheme ? 'Темная тема' : 'Светлая тема '}</ThemeTitleUSM>
-                <CheckBoxThemeUSM checked={isTheme} onChange={handleTheme} type="checkbox" className="checkbox" name="checkbox"></CheckBoxThemeUSM>
-            </ThemeContainerUSM>
+            <TilteName $isDark={$isDark}>Ivan Ivanov</TilteName>
+            <TilteMail>ivan.ivanov@gmail.com</TilteMail>
+            <ThemeContainer>
+                <ThemeTitle $isDark={$isDark}>{isTheme ? 'Темная тема' : 'Светлая тема '}</ThemeTitle>
+                <CheckBoxTheme checked={isTheme} onChange={handleTheme} type="checkbox" className="checkbox" name="checkbox"></CheckBoxTheme>
+            </ThemeContainer>
 
-            <PrimaryButton $width="" onClick={handleAuth} type="button">
-                Выйти
-            </PrimaryButton>
-        </ContainerUSM>
+            <ButtonContainer>
+                <SecondaryButton $isDark={$isDark} $width="72px" onClick={handleAuth} type="button">
+                    Выйти
+                </SecondaryButton>
+            </ButtonContainer>
+        </Container>
     )
 }
-
 export default UserMenuModal

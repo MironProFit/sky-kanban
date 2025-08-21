@@ -1,15 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import './Login.css'
 import { Wrapper } from '../../components/Styles/GlobalStyles'
-import { ContainerSignin, FGLink, FGTitle, ModalBlock, ModalBtnEnter, ModalForm, ModalFormGroup, ModalSignin, ModalTitle, TextInput, Title } from './Auth.styled'
+import { ContainerSignin, FGLink, FGTitle, ModalBlock, ModalBtnEnter, ModalForm, ModalFormGroup, ModalSignin, ModalTitle, TextInput, Title } from './AuthModal.styled'
 import { useEffect, useState } from 'react'
 
-function AuthModal({ setIsAuth, isTheme, $isDark }) {
+function AuthModal({ setIsAuth, isTheme, $isDark, toggleAuth }) {
     const [isPage, setIsPage] = useState('login')
     const navigate = useNavigate()
     const location = useLocation()
 
-    // Устанавливаем isPage в зависимости от URL при первом рендере
     useEffect(() => {
         if (location.pathname === '/register') {
             setIsPage('register')
@@ -26,12 +24,6 @@ function AuthModal({ setIsAuth, isTheme, $isDark }) {
             setIsPage('login')
             navigate('/login')
         }
-    }
-
-    function toggleAuth(e) {
-        e.preventDefault()
-        setIsAuth(true)
-        navigate('/')
     }
     function toggleAuth(e) {
         e.preventDefault()

@@ -24,7 +24,8 @@ a,
     cursor: pointer;
 }
 `
-export const StyledLink = styled(RouterLink)`    color: ${linkColor};
+export const StyledLink = styled(RouterLink)`
+    color: ${linkColor};
 
     &:visited {
         color: ${linkColor};

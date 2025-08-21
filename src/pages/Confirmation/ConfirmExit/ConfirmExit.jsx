@@ -1,34 +1,34 @@
-import { Link, useLocation } from 'react-router-dom'
-
-export default function ConfirmExit() {
+import { useLocation, useNavigate } from 'react-router-dom'
+import { PopExit, PopExitContainer, PopExitBlock, PopExitTitle, PopExitButtonYes, PopExitButtonNo, PopExitFormGroup } from '../ConfirmExit/ConfirmExit.styles'
+export default function ConfirmExit({ $isDark, setIsAuth, toggleAuth, isAuth }) {
     const location = useLocation()
+    const navigate = useNavigate()
     const { modalWindow } = location.state || {}
+    console.log(isAuth)
+
+    function toggleAuth(e) {
+        e.preventDefault()
+        setIsAuth(true)
+        navigate('/')
+    }
 
     return (
-        <>
-            
-            
-            
-            
-            <div className="pop-exit" style={{ display: modalWindow ? 'block' : '' }} id="popExit">
-                <div className="pop-exit__container">
-                    <div className="pop-exit__block">
-                        <div className="pop-exit__ttl">
-                            <h2>Выйти из аккаунта?</h2>
-                        </div>
-                        <form className="pop-exit__form" id="formExit" action="#">
-                            <div className="pop-exit__form-group">
-                                <div className="pop-exit__exit-yes _hover01" id="exitYes">
-                                    <Link to="/login">Да, выйти</Link>
-                                </div>
-                                <div className="pop-exit__exit-no _hover03" id="exitNo">
-                                    <Link to="/">Нет, остаться</Link>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </>
+        <PopExit style={{ display: modalWindow ? 'block' : 'none' }} id="popExit" $isDark={$isDark}>
+            <PopExitContainer>
+                <PopExitBlock $isDark={$isDark}>
+                    <PopExitTitle $isDark={$isDark}>Выйти из аккаунта?</PopExitTitle>
+                    <form className="pop-exit__form" id="formExit" action="#">
+                        <PopExitFormGroup>
+                            <PopExitButtonYes id="exitYes" to="/login" $isDark={$isDark}>
+                                Да, выйти
+                            </PopExitButtonYes>
+                            <PopExitButtonNo onClick={toggleAuth} id="exitNo" $isDark={$isDark}>
+                                Нет, остаться
+                            </PopExitButtonNo>
+                        </PopExitFormGroup>
+                    </form>
+                </PopExitBlock>
+            </PopExitContainer>
+        </PopExit>
     )
 }
