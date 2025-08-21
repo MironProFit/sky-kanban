@@ -123,9 +123,9 @@ export const CardDateText = styled.p`
 
 export const CardLink = styled(Link)`
     display: flex;
-    position: relative; // добавим абсолютное позиционирование для точек
+    position: relative; 
     &:hover > div {
-        opacity: 1; // подсвечиваем только точки
+        opacity: 1;
     }
 `
 
