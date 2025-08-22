@@ -3,7 +3,6 @@ import { useMemo, useState } from 'react'
 import cards from '../../data/data'
 import { MainContainer, MainBlock, MainContent } from './MainPage.styles'
 import Column from '../../components/Layout/Column'
-import { Outlet } from 'react-router-dom'
 import { Container } from '../../components/Styles/GlobalStyles'
 
 export default function MainPage({ $isDark }) {
@@ -18,7 +17,7 @@ export default function MainPage({ $isDark }) {
         }),
         [cardsData]
     )
-    Container
+
     return (
         <MainContainer $isDark={$isDark}>
             <Container>
@@ -33,17 +32,3 @@ export default function MainPage({ $isDark }) {
         </MainContainer>
     )
 }
-
-//  return (
-//         <main className="main">
-//             <div className="container">
-//                 <div className="main__block">
-//                     <div className="main__content">
-//                         {Object.keys(columns).map((status) => (
-//                             <Column key={status} title={status} cardsData={columns[status]} />
-//                         ))}
-//                     </div>
-//                 </div>
-//             </div>
-//         </main>
-//     )

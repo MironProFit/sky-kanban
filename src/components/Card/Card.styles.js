@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { hoverBackground, inputColor, linkColor, mainBacground, primaryBacground, primaryColor, primaryHoverColor, reversePrimaryColor } from '../Styles/Mexins.style'
+import { linkColor, primaryBacground, reversePrimaryColor } from '../Styles/Mexins.style'
 import { Link } from 'react-router-dom'
 
 export const CardsContainer = styled.div`
@@ -123,7 +123,7 @@ export const CardDateText = styled.p`
 
 export const CardLink = styled(Link)`
     display: flex;
-    position: relative; 
+    position: relative;
     &:hover > div {
         opacity: 1;
     }

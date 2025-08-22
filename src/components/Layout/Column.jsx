@@ -14,31 +14,18 @@ export default function Column({ title, cardsData, $isDark }) {
         }
     }, [cardsData])
 
-    // return (
-    //     <div className="main__column">
-    //         <div className="column__title">
-    //             <p>{title}</p>
-    //         </div>
-    //         <div className="cards">
-    //             {visibleCards.length === 0 ? (
-    //                 <p>Загрузка данных...</p>
-    //             ) : (
-    //                 visibleCards.map((card) => (
-    //                     <div key={card.id} className={`card ${isVisible ? 'visible' : ''}`}>
-    //                         <Card cardsData={cardsData} {...card} />
-    //                     </div>
-    //                 ))
-    //             )}
-    //         </div>
-    //     </div>
-    // )
-    CardsContainer
+    // const ScrollableCards = () => {
+    const handleWheel = (e) => {
+        e.preventDefault()
+        e.currentTarget.scrollLeft += e.deltaY
+    }
+
     return (
         <MainColumn>
             <ColumnTitle>
                 <TitleText>{title}</TitleText>
             </ColumnTitle>
-            <CardsContainer>
+            <CardsContainer onWheel={handleWheel}>
                 {visibleCards.length === 0 ? (
                     <p>Загрузка данных...</p>
                 ) : (

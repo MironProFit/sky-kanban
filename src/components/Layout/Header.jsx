@@ -22,7 +22,7 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
         event.preventDefault()
         setModalOpen((prev) => !prev)
     }
-   
+
     const handleTheme = () => {
         setIsTheme((prev) => !prev)
     }
@@ -58,24 +58,7 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
                                         Ваше имя
                                     </HeaderModalBtn>
 
-                                    {modalOpen && (
-                                        // <div className="header__pop-user-set pop-user-set" id="user-set-target">
-                                        //     <Link className="pop-user-set__close" onClick={toggleModal}>
-                                        //         &#10006;
-                                        //     </Link>
-                                        //     <p className="pop-user-set__name">Ivan Ivanov</p>
-                                        //     <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
-                                        //     <div className="pop-user-set__theme">
-                                        //         <p>{isTheme ? 'Темная тема' : 'Светлая тема '}</p>
-                                        //         <input checked={isTheme} onChange={handleTheme} type="checkbox" className="checkbox" name="checkbox"></input>
-                                        //     </div>
-
-                                        //     <button onClick={handleAuth} type="button" className="_hover03">
-                                        //         Выйти
-                                        //     </button>
-                                        // </div>
-                                        <UserMenuModal isAuth={isAuth} toggleModal={toggleModal} handleTheme={handleTheme} handleAuth={handleAuth} isTheme={isTheme} $isDark={$isDark} />
-                                    )}
+                                    {modalOpen && <UserMenuModal isAuth={isAuth} toggleModal={toggleModal} handleTheme={handleTheme} handleAuth={handleAuth} isTheme={isTheme} $isDark={$isDark} />}
                                 </HeaderNav>
                             </>
                         )}

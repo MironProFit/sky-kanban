@@ -25,14 +25,13 @@ import styled from 'styled-components'
 // }
 
 export const MainColumn = styled.div`
-    width: 20%;
+    /* width: 20%; */
     margin: 0 auto;
     display: block;
 `
 export const MainLoading = styled.div`
     display: flex;
     justify-content: center;
-
 `
 
 export const ColumnTitle = styled.div`
@@ -49,9 +48,12 @@ export const TitleText = styled.p`
 `
 
 export const CardsContainer = styled.div`
-    width: 100%;
-    display: block;
-    position: relative;
+
+    width: 100%; 
+    display: flex; 
+    position: relative; 
+    overflow-x: auto; 
+    white-space: nowrap; 
 `
 
 export const CardWrapper = styled.div`
