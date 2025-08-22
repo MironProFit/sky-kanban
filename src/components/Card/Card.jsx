@@ -14,11 +14,12 @@ export default function Card({ id, topic, title, date, status, $isDark }) {
             case 'Web Development':
                 return '_gray'
             default:
-                return '' // На случай, если тема не совпадает
+                return ''
         }
     }
 
     const colorTopicClass = getColorClass(topic)
+    console.log(`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`)
 
     // return (
     //     <>
@@ -79,8 +80,8 @@ export default function Card({ id, topic, title, date, status, $isDark }) {
             <CardItem key={id}>
                 <CardWrapper $isDark={$isDark}>
                     <CardGroup>
-                        <Theme className={$isDark ? 'dark' : 'light'}>
-                            <ThemeText className={colorTopicClass}>{topic}</ThemeText>
+                        <Theme className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}>
+                            <ThemeText>{topic}</ThemeText>
                         </Theme>
                         <CardLink to={`cardview/${id}`} state={{ modalWindow: true, topic, title, date, status }}>
                             <DotContainer>
