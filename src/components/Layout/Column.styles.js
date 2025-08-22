@@ -52,7 +52,7 @@ export const CardsContainer = styled.div`
     width: 100%; 
     display: flex; 
     position: relative; 
-    overflow-x: auto; 
+    overflow-x: hidden; 
     white-space: nowrap; 
 `
 

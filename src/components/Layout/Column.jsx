@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Card from '../Card/Card'
 import { CardsContainer, CardWrapper, ColumnTitle, MainColumn, TitleText } from './Column.styles'
 
 export default function Column({ title, cardsData, $isDark }) {
     const [visibleCards, setVisibleCards] = useState([])
     const [isVisible, setIsVisible] = useState(false)
+    const containerRef = useRef(null)
 
     useEffect(() => {
         if (cardsData.length > 0) {
@@ -13,8 +14,14 @@ export default function Column({ title, cardsData, $isDark }) {
             setIsVisible(true)
         }
     }, [cardsData])
+    useEffect(() => {
+        const container = containerRef.current
+        container.addEventListener('wheel', handleWheel, { passive: false })
+        return () => {
+            container.removeEventListener('wheel', handleWheel)
+        }
+    }, [])
 
-    // const ScrollableCards = () => {
     const handleWheel = (e) => {
         e.preventDefault()
         e.currentTarget.scrollLeft += e.deltaY
@@ -25,7 +32,7 @@ export default function Column({ title, cardsData, $isDark }) {
             <ColumnTitle>
                 <TitleText>{title}</TitleText>
             </ColumnTitle>
-            <CardsContainer onWheel={handleWheel}>
+            <CardsContainer ref={containerRef}>
                 {visibleCards.length === 0 ? (
                     <p>Загрузка данных...</p>
                 ) : (
