@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ButtonContainer, CheckBoxTheme, Container, ThemeContainer, ThemeTitle, TilteMail, TilteName } from './UserMenuModal.styles'
-import { SecondaryButton } from '../Styles/GlobalStyles'
+import { SecondaryButton } from '../Styles/GlobalStyle'
 
 function UserMenuModal({ toggleModal, isTheme, handleTheme, handleAuth, $isDark }) {
     return (

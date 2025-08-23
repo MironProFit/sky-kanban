@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-import { GlobalStyle } from '../components/Styles/Global.Style.js'
-import { Wrapper } from '../components/Styles/GlobalStyles.js'
 import AppRoutes from './AppRoutes.jsx'
+import { GlobalStyle, Wrapper } from '../components/Styles/GlobalStyle.js'
 
 function App() {
     const [isTheme, setIsTheme] = useState(() => localStorage.getItem('isTheme') === 'true')

@@ -6,6 +6,17 @@ export default function Column({ title, cardsData, $isDark }) {
     const [visibleCards, setVisibleCards] = useState([])
     const [isVisible, setIsVisible] = useState(false)
     const containerRef = useRef(null)
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth)
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth < 600)
+        }
+        window.addEventListener('resize', handleResize)
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
 
     useEffect(() => {
         if (cardsData.length > 0) {
@@ -21,10 +32,11 @@ export default function Column({ title, cardsData, $isDark }) {
             container.removeEventListener('wheel', handleWheel)
         }
     }, [])
-
     const handleWheel = (e) => {
-        e.preventDefault()
-        e.currentTarget.scrollLeft += e.deltaY
+        if (isMobileView) {
+            e.preventDefault()
+            e.currentTarget.scrollLeft += e.deltaY
+        }
     }
 
     return (

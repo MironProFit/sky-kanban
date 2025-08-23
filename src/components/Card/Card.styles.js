@@ -97,6 +97,7 @@ export const CardTitle = styled.h3`
     line-height: 18px;
     ${reversePrimaryColor}
     margin-bottom: 10px;
+    white-space: break-spaces;
 `
 
 export const CardContent = styled.div`

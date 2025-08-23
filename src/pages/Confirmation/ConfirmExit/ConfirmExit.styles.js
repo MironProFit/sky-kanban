@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 import { textColor, wrapperColor, primaryColor, secondaryColor, hoverColor, hoverBackground, reverseTextColor, primaryBacground, reverseSecondaryColor } from '../../../components/Styles/Mexins.style'
-import { PrimaryButton, SecondaryButton } from '../../../components/Styles/GlobalStyles'
-import { Link } from 'react-router-dom'
-import { StyledLink } from '../../../components/Styles/Global.Style'
+
+import { PrimaryButton, SecondaryButton } from '../../../components/Styles/GlobalStyle'
 
 export const PopExit = styled.div`
     display: none;

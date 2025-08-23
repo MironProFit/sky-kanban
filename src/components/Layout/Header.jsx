@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Container, PrimaryButton } from '../Styles/GlobalStyles'
+import { Container } from '../Styles/GlobalStyle'
 import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav, HeaderModalBtn, HeaderNavBtn } from './Header.styles'
 import UserMenuModal from './UserMenuModal'
 

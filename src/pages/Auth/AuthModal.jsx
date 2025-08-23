@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Wrapper } from '../../components/Styles/GlobalStyles'
 import { ContainerSignin, FGLink, FGTitle, ModalBlock, ModalBtnEnter, ModalForm, ModalFormGroup, ModalSignin, ModalTitle, TextInput, Title } from './AuthModal.styled'
 import { useEffect, useState } from 'react'
+import { Wrapper } from '../../components/Styles/GlobalStyle'
 
 function AuthModal({ setIsAuth, isTheme, $isDark, toggleAuth }) {
     const [isPage, setIsPage] = useState('login')

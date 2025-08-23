@@ -4,6 +4,7 @@ import cards from '../../data/data'
 import { statusList } from '../../data/data'
 import formattedDate from '../../utils/dateFormat'
 import { useEffect, useState } from 'react'
+import './CardView.styles.css'
 
 export default function CardView() {
     const [currentStatus, setCurrentStatus] = useState(null)

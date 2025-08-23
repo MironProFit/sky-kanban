@@ -14,6 +14,7 @@ import Layout from '../components/Layout/Layout'
 
 function AppRoutes({ isTheme, setIsTheme }) {
     const [isAuth, setIsAuth] = useState(false)
+    
 
     const router = createBrowserRouter([
         {

@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import cards from '../../data/data'
 import { MainContainer, MainBlock, MainContent } from './MainPage.styles'
 import Column from '../../components/Layout/Column'
-import { Container } from '../../components/Styles/GlobalStyles'
+import { Container } from '../../components/Styles/GlobalStyle'
 
 export default function MainPage({ $isDark }) {
     const [cardsData] = useState(cards)

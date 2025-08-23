@@ -1,7 +1,6 @@
 import styled from 'styled-components'
-import { PrimaryButton } from '../../components/Styles/GlobalStyles'
 import { borderColor, primaryBacground, reversePrimaryColor } from '../../components/Styles/Mexins.style'
-import { StyledLink } from '../../components/Styles/Global.Style'
+import { PrimaryButton, StyledLink } from '../../components/Styles/GlobalStyle'
 
 export const ContainerSignin = styled.div`
     display: block;

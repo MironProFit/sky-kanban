@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-
+import './CreateCard.styles.css'
 export default function CreateCard() {
     const navigate = useNavigate()
     const location = useLocation()
