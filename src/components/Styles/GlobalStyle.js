@@ -1,5 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom'
-import styled, { createGlobalStyle, css } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import { linkColor } from './Mexins.style'
 
 export const GlobalStyle = createGlobalStyle`

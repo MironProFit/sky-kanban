@@ -38,7 +38,7 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
     return (
         <HeaderStyled $isDark={$isDark}>
             <Container>
-                {!isAuthPage && (
+                {!isAuthPage && isAuth && (
                     <HeaderBlock>
                         <HeaderLogo>
                             <Link to="/" target="_self">

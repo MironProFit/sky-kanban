@@ -3,7 +3,7 @@ import { ContainerSignin, FGLink, FGTitle, ModalBlock, ModalBtnEnter, ModalForm,
 import { useEffect, useState } from 'react'
 import { Wrapper } from '../../components/Styles/GlobalStyle'
 
-function AuthModal({ setIsAuth, isTheme, $isDark, toggleAuth }) {
+function AuthModal({ setIsAuth, $isDark, toggleAuth }) {
     const [isPage, setIsPage] = useState('login')
     const navigate = useNavigate()
     const location = useLocation()

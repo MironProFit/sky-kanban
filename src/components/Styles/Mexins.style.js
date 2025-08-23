@@ -1,6 +1,6 @@
 import { css } from 'styled-components'
 
-//Mexins
+// Миксины
 export const textColor = css`
     color: ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#606060')};
 `
@@ -42,7 +42,7 @@ export const setHoverButtonsColor = css`
     color: ${({ $isDark }) => (!$isDark ? '#FFFFFF' : '#565eef')};
 `
 
-//Colors
+// Цвета
 export const accentColor = '#94A6BE'
 export const accentButtonColor = '#565eef'
 export const accentPrimaryColor = '#151419'
@@ -54,31 +54,28 @@ export const primaryHoverColor = '#33399b'
 export const white = '#ffff'
 export const linkColor = '#94A6BE66'
 
-//Hovers
-
-// hover01
+// Ховеры
 export const hoverBackground = css`
     &:hover {
         background-color: ${primaryHoverColor};
     }
 `
 
-// hover02
 export const hoverColor = css`
     transition: color 0.3s;
 
     &:hover {
-        color: ${primaryHoverColor};
+        color: ${white};
     }
 `
-// hover02::after
+
 export const hoverBorder = css`
     &:hover::after {
         border-left-color: ${primaryHoverColor};
         border-bottom-color: ${primaryHoverColor};
     }
 `
-// hover03
+
 export const hoverCombination = css`
     &:hover {
         background-color: ${primaryHoverColor};

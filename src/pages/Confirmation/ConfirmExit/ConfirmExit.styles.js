@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { textColor, wrapperColor, primaryColor, secondaryColor, hoverColor, hoverBackground, reverseTextColor, primaryBacground, reverseSecondaryColor } from '../../../components/Styles/Mexins.style'
+import { primaryBacground, reverseSecondaryColor } from '../../../components/Styles/Mexins.style'
 
 import { PrimaryButton, SecondaryButton } from '../../../components/Styles/GlobalStyle'
 

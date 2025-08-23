@@ -1,7 +1,6 @@
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { PrimaryButton } from '../Styles/GlobalStyle'
-import { borderColor, hoverBorder, hoverColor, primaryBacground, secondaryColor, textColor } from '../Styles/Mexins.style'
+import { borderColor, hoverBorder, hoverColor, primaryBacground, textColor } from '../Styles/Mexins.style'
 primaryBacground
 export const HeaderStyled = styled.header`
     ${primaryBacground}
@@ -41,9 +40,9 @@ export const HeaderNavBtn = styled(PrimaryButton)`
         position: fixed;
         bottom: 30px;
         z-index: 9999;
-        margin: 0; // Сброс маргина
-        padding: 0; // Сброс паддинга
-        width: 100%; // Сброс ширины
+        margin: 0;
+        padding: 0;
+        width: 100%;
     }
 `
 
