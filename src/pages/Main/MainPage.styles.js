@@ -23,7 +23,6 @@ export const MainContent = styled.div`
     display: flex;
     width: 100%;
     flex-direction: row;
-    
 
     @media (max-width: 600px) {
         flex-direction: column;

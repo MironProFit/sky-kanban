@@ -6,7 +6,6 @@ import { Container } from '../../components/Styles/GlobalStyle'
 
 export default function MainPage({ $isDark }) {
     const [cardsData] = useState(cards)
-    const containerRef = useRef(null)
 
     const columns = useMemo(
         () => ({
@@ -18,27 +17,11 @@ export default function MainPage({ $isDark }) {
         }),
         [cardsData]
     )
-    useEffect(() => {
-        const container = containerRef.current
-        container.addEventListener('wheel', handleWheel, { passive: false })
-        return () => {
-            container.removeEventListener('wheel', handleWheel)
-        }
-    }, [])
-    const handleWheel = (e) => {
-        // if (isMobileView) {
-        e.preventDefault()
-        e.currentTarget.scrollLeft += e.deltaY
-        // }
-    }
-
     return (
         <MainContainer $isDark={$isDark}>
             <Container>
                 <MainBlock>
-                    <MainContent ref={containerRef} 
-                    // style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}
-                    >
+                    <MainContent>
                         {Object.keys(columns).map((status) => (
                             <Column $isDark={$isDark} key={status} title={status} cardsData={columns[status]} />
                         ))}

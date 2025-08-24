@@ -36,40 +36,32 @@ export const HeaderNav = styled.nav`
 export const HeaderNavBtn = styled(PrimaryButton)`
     width: 178px;
     height: 30px;
-    margin-right: 20px;
-    @media (max-width: 600px) {
-        display: none;
-    }
-`
-export const HeaderNavBtnWrap = styled.div`
-    display: none;
-
-    @media (max-width: 600px) {
-        display: flex;
-    }
-`
-
-export const HeaderNavBtnFixed = styled(PrimaryButton)`
-    display: none;
-    width: unset;
-    height: 40px;
     justify-content: center;
-    position: fixed;
-    bottom: 30px;
-    left: 0;
-    right: 0;
-    z-index: 9999;
+
     padding: 0;
 
     @media (min-width: 496px) and (max-width: 600px) {
-        display: flex;
+        width: unset;
+        height: 40px;
         margin: 0 30px;
         padding: 0;
+        position: fixed;
+        bottom: 30px;
+        left: 0;
+        right: 0;
+        z-index: 9999;
     }
 
     @media screen and (max-width: 495px) {
-        display: flex;
+        width: unset;
+        height: 40px;
         margin: 0 16px;
+        padding: 0;
+        position: fixed;
+        bottom: 30px;
+        left: 0;
+        right: 0;
+        z-index: 9999;
     }
 `
 

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Container, LinkButton, Wrapper } from '../Styles/GlobalStyle'
-import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav, HeaderNavBtn, HeaderNavBtnFixed, HeaderNavBtnWrap } from './Header.styles'
+import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav, HeaderNavBtn,
+    // HeaderNavBtnFixed, HeaderNavBtnWrap 
+} from './Header.styles'
 import UserMenuModal from './UserMenuModal'
 
 export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark }) {
@@ -66,13 +68,13 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
                                 </>
                             )}
                         </HeaderBlock>
-                        <HeaderNavBtnWrap>
+                        {/* <HeaderNavBtnWrap>
                             <Link to="createcard" state={{ modalWindow: true }}>
                                 <HeaderNavBtnFixed $isDark={$isDark} id="btnMainNew" type="button">
                                     Создать новую задачу
                                 </HeaderNavBtnFixed>
                             </Link>
-                        </HeaderNavBtnWrap>
+                        </HeaderNavBtnWrap> */}
                     </>
                 )}
             </Container>
