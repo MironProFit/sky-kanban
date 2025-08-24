@@ -40,7 +40,7 @@ export const PopBrowseContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    ${wrapperColor('#000', '#EAEEF6')}
+    background-color: rgba(0, 0, 0, 0.4);
 `
 
 export const PopBrowseBlock = styled.div`
@@ -63,6 +63,9 @@ export const PopBrowseContent = styled.div`
 
     .categories__theme {
         opacity: 1;
+    }
+    .theme-top {
+        display: none;
     }
 `
 
@@ -154,21 +157,19 @@ export const Status = styled.div`
 
 export const ButtonGroup = styled.div`
     display: flex;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: space-between;
-
-    button {
-        height: 30px;
+    /* button { */
+    /* height: 30px;
         margin-bottom: 10px;
         padding: 0 14px;
-        margin-right: 8px;
-        ${setButtonsColor}
-        ${hoverCombination}
-    }
+        margin-right: 8px; */
+    /* ${setButtonsColor} */
+    /* ${hoverCombination} */
+    /* } */
 `
 
-export const CloseButton = styled.button`
-    ${hoverBackground}
-    background-color: #f44336;
-`
+// export const CloseButton = styled.button`
+//     ${hoverBackground}
+//     background-color: #f44336;
+// `

@@ -21,7 +21,8 @@ export const HeaderBlock = styled.div`
     left: 0;
     padding: 0 10px;
     @media (max-width: 600px) {
-        display: block;
+        display: flex;
+        justify-content: space-between;
     }
 `
 export const HeaderNav = styled.nav`
@@ -37,12 +38,38 @@ export const HeaderNavBtn = styled(PrimaryButton)`
     height: 30px;
     margin-right: 20px;
     @media (max-width: 600px) {
-        position: fixed;
-        bottom: 30px;
-        z-index: 9999;
-        margin: 0;
+        display: none;
+    }
+`
+export const HeaderNavBtnWrap = styled.div`
+    display: none;
+
+    @media (max-width: 600px) {
+        display: flex;
+    }
+`
+
+export const HeaderNavBtnFixed = styled(PrimaryButton)`
+    display: none;
+    width: unset;
+    height: 40px;
+    justify-content: center;
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    padding: 0;
+
+    @media (min-width: 496px) and (max-width: 600px) {
+        display: flex;
+        margin: 0 30px;
         padding: 0;
-        width: 100%;
+    }
+
+    @media screen and (max-width: 495px) {
+        display: flex;
+        margin: 0 16px;
     }
 `
 

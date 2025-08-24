@@ -12,6 +12,7 @@ function Layout({ isAuth, setIsAuth, isTheme, setIsTheme }) {
                 <>
                     <MainPage $isDark={isTheme} />
                     <Outlet />
+                    
                 </>
             ) : (
                 <AuthModal isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} />

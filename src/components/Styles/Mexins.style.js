@@ -62,10 +62,9 @@ export const hoverBackground = css`
 `
 
 export const hoverColor = css`
-    transition: color 0.3s;
 
-    &:hover {
-        color: ${white};
+&:hover {
+        color: ${accentButtonColor};
     }
 `
 

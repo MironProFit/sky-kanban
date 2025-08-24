@@ -5,7 +5,7 @@ import { CardsContainer, CardWrapper, ColumnTitle, MainColumn, TitleText } from 
 export default function Column({ title, cardsData, $isDark }) {
     const [visibleCards, setVisibleCards] = useState([])
     const [isVisible, setIsVisible] = useState(false)
-    const containerRef = useRef(null)
+    // const containerRef = useRef(null)
     const [isMobileView, setIsMobileView] = useState(window.innerWidth)
 
     useEffect(() => {
@@ -25,26 +25,28 @@ export default function Column({ title, cardsData, $isDark }) {
             setIsVisible(true)
         }
     }, [cardsData])
-    useEffect(() => {
-        const container = containerRef.current
-        container.addEventListener('wheel', handleWheel, { passive: false })
-        return () => {
-            container.removeEventListener('wheel', handleWheel)
-        }
-    }, [])
-    const handleWheel = (e) => {
-        if (isMobileView) {
-            e.preventDefault()
-            e.currentTarget.scrollLeft += e.deltaY
-        }
-    }
+    // useEffect(() => {
+    //     const container = containerRef.current
+    //     container.addEventListener('wheel', handleWheel, { passive: false })
+    //     return () => {
+    //         container.removeEventListener('wheel', handleWheel)
+    //     }
+    // }, [])
+    // const handleWheel = (e) => {
+    //     if (isMobileView) {
+    //         e.preventDefault()
+    //         e.currentTarget.scrollLeft += e.deltaY
+    //     }
+    // }
 
     return (
         <MainColumn>
             <ColumnTitle>
                 <TitleText>{title}</TitleText>
             </ColumnTitle>
-            <CardsContainer ref={containerRef}>
+            <CardsContainer
+            // ref={containerRef}
+            >
                 {visibleCards.length === 0 ? (
                     <p>Загрузка данных...</p>
                 ) : (

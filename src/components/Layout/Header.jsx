@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Container } from '../Styles/GlobalStyle'
-import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav, HeaderModalBtn, HeaderNavBtn } from './Header.styles'
+import { Container, LinkButton, Wrapper } from '../Styles/GlobalStyle'
+import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav, HeaderNavBtn, HeaderNavBtnFixed, HeaderNavBtnWrap } from './Header.styles'
 import UserMenuModal from './UserMenuModal'
 
 export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark }) {
@@ -35,34 +35,45 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
         setIsAuth(true)
         navigate('/exit', { state: { modalWindow: true } })
     }
+    Wrapper
+
     return (
         <HeaderStyled $isDark={$isDark}>
             <Container>
                 {!isAuthPage && isAuth && (
-                    <HeaderBlock>
-                        <HeaderLogo>
-                            <Link to="/" target="_self">
-                                <img src={`../../../public/${isTheme ? 'logo_dark.png' : 'logo.png'}`} alt="logo"></img>
+                    <>
+                        <HeaderBlock>
+                            <HeaderLogo>
+                                <Link to="/" target="_self">
+                                    <img src={`../../../public/${isTheme ? 'logo_dark.png' : 'logo.png'}`} alt="logo"></img>
+                                </Link>
+                            </HeaderLogo>
+
+                            {!isAuthPage && isAuth && (
+                                <>
+                                    <HeaderNav>
+                                        <Link to="createcard" state={{ modalWindow: true }}>
+                                            <HeaderNavBtn $isDark={$isDark} id="btnMainNew" type="button">
+                                                Создать новую задачу
+                                            </HeaderNavBtn>
+                                        </Link>
+                                        <LinkButton $isDark={$isDark} $isOpen={modalOpen} onClick={toggleModal}>
+                                            Ваше имя
+                                        </LinkButton>
+
+                                        {modalOpen && <UserMenuModal isAuth={isAuth} toggleModal={toggleModal} handleTheme={handleTheme} handleAuth={handleAuth} isTheme={isTheme} $isDark={$isDark} />}
+                                    </HeaderNav>
+                                </>
+                            )}
+                        </HeaderBlock>
+                        <HeaderNavBtnWrap>
+                            <Link to="createcard" state={{ modalWindow: true }}>
+                                <HeaderNavBtnFixed $isDark={$isDark} id="btnMainNew" type="button">
+                                    Создать новую задачу
+                                </HeaderNavBtnFixed>
                             </Link>
-                        </HeaderLogo>
-
-                        {!isAuthPage && isAuth && (
-                            <>
-                                <HeaderNav>
-                                    <Link to="createcard" state={{ modalWindow: true }}>
-                                        <HeaderNavBtn $isDark={$isDark} id="btnMainNew" type="button">
-                                            Создать новую задачу
-                                        </HeaderNavBtn>
-                                    </Link>
-                                    <HeaderModalBtn $isDark={$isDark} $isOpen={modalOpen} onClick={toggleModal}>
-                                        Ваше имя
-                                    </HeaderModalBtn>
-
-                                    {modalOpen && <UserMenuModal isAuth={isAuth} toggleModal={toggleModal} handleTheme={handleTheme} handleAuth={handleAuth} isTheme={isTheme} $isDark={$isDark} />}
-                                </HeaderNav>
-                            </>
-                        )}
-                    </HeaderBlock>
+                        </HeaderNavBtnWrap>
+                    </>
                 )}
             </Container>
         </HeaderStyled>

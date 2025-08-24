@@ -21,7 +21,7 @@ function AppRoutes({ isTheme, setIsTheme }) {
                     children: [
                         { path: 'exit', element: <ConfirmExit isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} /> },
                         { path: 'createcard', element: <CreateCard /> },
-                        { path: 'cardview/:id', element: <CardView /> },
+                        { path: 'cardview/:id', element: <CardView $isDark={isTheme} /> },
                         { path: 'cardview/:id/edit', element: <CardView /> },
                     ],
                 },

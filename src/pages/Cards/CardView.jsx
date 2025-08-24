@@ -4,9 +4,10 @@ import cards from '../../data/data'
 import { statusList } from '../../data/data'
 import formattedDate from '../../utils/dateFormat'
 import { useEffect, useState } from 'react'
-import { PopBrowse, PopBrowseContainer, PopBrowseBlock, PopBrowseContent, PopBrowseTitle, FormWrap, Form, FormBlock, FormArea, Status, ButtonGroup, CloseButton } from './CardView.styles'
+import { PopBrowse, PopBrowseContainer, PopBrowseBlock, PopBrowseContent, PopBrowseTitle, FormWrap, Form, FormBlock, FormArea, Status, ButtonGroup } from './CardView.styles'
+import { PrimaryButton, SecondaryButton } from '../../components/Styles/GlobalStyle'
 
-export default function CardView() {
+export default function CardView({ $isDark }) {
     const [currentStatus, setCurrentStatus] = useState(null)
     const navigate = useNavigate()
     const location = useLocation()
@@ -14,7 +15,11 @@ export default function CardView() {
     const editMath = useMatch('/cardview/:id/edit')
     const isEditMode = Boolean(editMath)
     const card = cards.find((c) => String(c.id) === String(id))
-    const { modalWindow, topic, title, date, status, colorTopic } = card || {}
+    const { topic, title, date, status, colorTopic } = card || {}
+
+    const modalWindow = location.state?.modalWindow || false
+    const [openWindow, setOpenWindow] = useState(modalWindow)
+    console.log(openWindow)
 
     function handleClose() {
         navigate(-1)
@@ -145,6 +150,7 @@ export default function CardView() {
     //         </div>
     //     </div>
     // )
+
     return (
         <PopBrowse style={{ display: modalWindow ? 'block' : 'none' }} id="popBrowse">
             <PopBrowseContainer>
@@ -196,12 +202,8 @@ export default function CardView() {
                         <ButtonGroup>
                             {!isEditMode ? (
                                 <>
-                                    <button onClick={handleEditToggle} className="btn-browse__edit _btn-bor _hover03">
-                                        Редактировать задачу
-                                    </button>
-                                    <button className="btn-browse__delete _btn-bor _hover03">
-                                        <a href="#">Удалить задачу</a>
-                                    </button>
+                                    <SecondaryButton onClick={handleEditToggle}>Редактировать задачу</SecondaryButton>
+                                    <SecondaryButton>Удалить задачу</SecondaryButton>
                                 </>
                             ) : (
                                 <>
@@ -211,14 +213,12 @@ export default function CardView() {
                                     <button onClick={handleEditToggle} className="btn-edit__edit _btn-bor _hover03">
                                         Отменить
                                     </button>
-                                    <button className="btn-edit__delete _btn-bor _hover03" id="btnDelete">
-                                        <a href="#">Удалить задачу</a>
-                                    </button>
+                                    <SecondaryButton id="btnDelete">Удалить задачу</SecondaryButton>
                                 </>
                             )}
-                            <CloseButton onClick={handleClose} className="btn-browse__close _btn-bg _hover01">
+                            <PrimaryButton $width="auto" $isDark={$isDark} onClick={handleClose}>
                                 Закрыть
-                            </CloseButton>
+                            </PrimaryButton>
                         </ButtonGroup>
                     </PopBrowseContent>
                 </PopBrowseBlock>

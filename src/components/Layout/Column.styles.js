@@ -26,8 +26,26 @@ export const CardsContainer = styled.div`
     width: 100%;
     display: flex;
     position: relative;
-    overflow-x: hidden;
+    overflow-x: scroll;
     white-space: nowrap;
+    flex-direction: column;
+
+    &::-webkit-scrollbar {
+        height: 8px; // Высота полосы прокрутки
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: red; // Цвет полосы прокрутки
+        border-radius: 10px; // Закругляем края полосы
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: green; // Цвет полосы прокрутки при наведении
+    }
+
+    @media (max-width: 600px) {
+        flex-direction: row;
+    }
 `
 
 export const CardWrapper = styled.div`
