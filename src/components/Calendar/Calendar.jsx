@@ -1,5 +1,3 @@
-
-import './Calendar.styles.css'
 export default function Calendar() {
     return (
         <div>

@@ -1,5 +1,4 @@
 import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
-import Calendar from '../../components/Calendar/Calendar'
 import cards from '../../data/data'
 import { statusList } from '../../data/data'
 import formattedDate from '../../utils/dateFormat'
@@ -18,7 +17,7 @@ export default function CardView({ $isDark }) {
     const { topic, title, date, status, colorTopic } = card || {}
 
     const modalWindow = location.state?.modalWindow || false
-    const [openWindow, setOpenWindow] = useState(modalWindow)
+    const [openWindow] = useState(modalWindow)
     console.log(openWindow)
 
     function handleClose() {

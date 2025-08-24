@@ -1,23 +1,4 @@
-import styled, { css } from 'styled-components'
-
-import {
-    textColor,
-    reverseTextColor,
-    wrapperColor,
-    primaryColor,
-    reversePrimaryColor,
-    secondaryColor,
-    reverseSecondaryColor,
-    primaryBacground,
-    mainBacground,
-    inputColor,
-    setButtonsColor,
-    setHoverButtonsColor,
-    hoverBackground,
-    hoverColor,
-    hoverBorder,
-    hoverCombination,
-} from '../../components/Styles/Mexins.style'
+import { textColor, primaryBacground, inputColor, setButtonsColor, hoverCombination } from '../../components/Styles/Mexins.style'
 
 export const PopBrowse = styled.div`
     display: block;

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Card from '../Card/Card'
 import { CardsContainer, CardWrapper, ColumnTitle, MainColumn, TitleText } from './Column.styles'
 
