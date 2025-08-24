@@ -31,16 +31,16 @@ export const CardsContainer = styled.div`
     flex-direction: column;
 
     &::-webkit-scrollbar {
-        height: 8px; // Высота полосы прокрутки
+        height: 8px;
     }
 
     &::-webkit-scrollbar-thumb {
-        background: red; // Цвет полосы прокрутки
-        border-radius: 10px; // Закругляем края полосы
+        background: red;
+        border-radius: 10px;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-        background: green; // Цвет полосы прокрутки при наведении
+        background: green;
     }
 
     @media (max-width: 600px) {

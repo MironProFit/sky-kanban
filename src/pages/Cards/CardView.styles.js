@@ -140,17 +140,6 @@ export const ButtonGroup = styled.div`
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    /* button { */
-    /* height: 30px;
-        margin-bottom: 10px;
-        padding: 0 14px;
-        margin-right: 8px; */
-    /* ${setButtonsColor} */
-    /* ${hoverCombination} */
-    /* } */
+ 
 `
 
-// export const CloseButton = styled.button`
-//     ${hoverBackground}
-//     background-color: #f44336;
-// `

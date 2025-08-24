@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Container, LinkButton, Wrapper } from '../Styles/GlobalStyle'
-import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav, HeaderNavBtn,
-    // HeaderNavBtnFixed, HeaderNavBtnWrap 
-} from './Header.styles'
+import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav, HeaderNavBtn } from './Header.styles'
 import UserMenuModal from './UserMenuModal'
 
 export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark }) {

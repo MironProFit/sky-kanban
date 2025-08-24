@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { linkColor, primaryBacground, reverseSecondaryColor } from '../Styles/Mexins.style'
 
-//   User Settings Modal
 export const Container = styled.div`
     ${primaryBacground}
     display: block;
