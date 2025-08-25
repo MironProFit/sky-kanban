@@ -117,7 +117,6 @@ export default function CalendarComponent() {
         setCurrentDate(getCurrentDate)
     }, [])
 
-    const testDate = { ...other }
     console.log(testDate)
 
     return (
