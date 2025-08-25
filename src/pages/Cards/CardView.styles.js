@@ -1,4 +1,5 @@
-import { textColor, primaryBacground, inputColor, setButtonsColor, hoverCombination } from '../../components/Styles/Mexins.style'
+import styled from 'styled-components'
+import { textColor, primaryBacground, primaryColor, reverseSecondaryColor, accentColor, mainBacground, reversePrimaryColor } from '../../components/Styles/Mexins.style'
 
 export const PopBrowse = styled.div`
     display: block;
@@ -23,19 +24,17 @@ export const PopBrowseContainer = styled.div`
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.4);
 `
-
 export const PopBrowseBlock = styled.div`
     display: block;
     margin: 0 auto;
-    background-color: #ffffff;
     max-width: 630px;
     width: 100%;
     padding: 40px 30px 38px;
     border-radius: 10px;
     border: 0.7px solid #d4dbe5;
     position: relative;
-
-    ${primaryBacground}
+    ${primaryBacground};
+    ${primaryColor}
 `
 
 export const PopBrowseContent = styled.div`
@@ -69,18 +68,19 @@ export const Form = styled.form`
     display: block;
     margin-bottom: 20px;
 `
-
 export const FormBlock = styled.div`
     display: flex;
     flex-direction: column;
+    .subttl {
+        ${reversePrimaryColor};
+    }
 `
-
 export const FormArea = styled.textarea`
     max-width: 370px;
     width: 100%;
     outline: none;
     padding: 14px;
-    ${inputColor}
+    ${mainBacground}
     border: 0.7px solid rgba(148, 166, 190, 0.4);
     border-radius: 8px;
     font-size: 14px;
@@ -93,7 +93,7 @@ export const FormArea = styled.textarea`
         font-weight: 400;
         font-size: 14px;
         line-height: 1px;
-        color: #94a6be;
+        color: ${accentColor};
         letter-spacing: -0.14px;
     }
 
@@ -101,15 +101,15 @@ export const FormArea = styled.textarea`
         font-weight: 400;
         font-size: 14px;
         line-height: 1px;
-        color: #94a6be;
+        color: ${accentColor};
         letter-spacing: -0.14px;
     }
 `
-
 export const Status = styled.div`
     margin-bottom: 11px;
 
     .status__p {
+        ${reverseSecondaryColor};
         margin-bottom: 14px;
     }
 
@@ -119,14 +119,13 @@ export const Status = styled.div`
         align-items: flex-start;
         justify-content: flex-start;
     }
-
     .status__theme {
         border-radius: 24px;
         border: 0.7px solid rgba(148, 166, 190, 0.4);
-        ${textColor}
         padding: 11px 14px 10px;
         margin-right: 7px;
         margin-bottom: 7px;
+        background-color: ${accentColor};
     }
 
     .status__theme p {
@@ -138,8 +137,6 @@ export const Status = styled.div`
 
 export const ButtonGroup = styled.div`
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     flex-wrap: wrap;
- 
 `
-

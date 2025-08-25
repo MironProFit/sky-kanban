@@ -17,8 +17,6 @@ export default function CardView({ $isDark }) {
     const { topic, title, date, status, colorTopic } = card || {}
 
     const modalWindow = location.state?.modalWindow || false
-    const [openWindow] = useState(modalWindow)
-    console.log(openWindow)
 
     function handleClose() {
         navigate(-1)
@@ -44,15 +42,15 @@ export default function CardView({ $isDark }) {
     return (
         <PopBrowse style={{ display: modalWindow ? 'block' : 'none' }} id="popBrowse">
             <PopBrowseContainer>
-                <PopBrowseBlock>
+                <PopBrowseBlock $isDark={$isDark}>
                     <PopBrowseContent>
                         <div>
-                            <PopBrowseTitle>{title}</PopBrowseTitle>
+                            <PopBrowseTitle $isDark={$isDark}>{title}</PopBrowseTitle>
                             <div className={`categories__theme theme-top ${colorTopic} _active-category`}>
                                 <p className={colorTopic}>{topic}</p>
                             </div>
                         </div>
-                        <Status>
+                        <Status $isDark={$isDark}>
                             <p className="status__p subttl">Статус</p>
                             <div className="status__themes">
                                 {!isEditMode ? (
@@ -70,13 +68,13 @@ export default function CardView({ $isDark }) {
                                 )}
                             </div>
                         </Status>
-                        <FormWrap>
+                        <FormWrap $isDark={$isDark}>
                             <Form action="#" id="formBrowseCard">
-                                <FormBlock>
+                                <FormBlock $isDark={$isDark}>
                                     <label htmlFor="textArea01" className="subttl">
                                         Описание задачи
                                     </label>
-                                    <FormArea name="text" id="textArea01" readOnly placeholder="Введите описание задачи..." />
+                                    <FormArea $isDark={$isDark} name="text" id="textArea01" readOnly placeholder="Введите описание задачи..." />
                                 </FormBlock>
                             </Form>
                             <div className="theme-down__categories theme-down">
@@ -90,22 +88,26 @@ export default function CardView({ $isDark }) {
                             </p>
                         </FormWrap>
                         <ButtonGroup>
-                            {!isEditMode ? (
-                                <>
-                                    <SecondaryButton onClick={handleEditToggle}>Редактировать задачу</SecondaryButton>
-                                    <SecondaryButton>Удалить задачу</SecondaryButton>
-                                </>
-                            ) : (
-                                <>
-                                    <button className="btn-edit__edit _btn-bg _hover01">
-                                        <a href="#">Сохранить</a>
-                                    </button>
-                                    <button onClick={handleEditToggle} className="btn-edit__edit _btn-bor _hover03">
-                                        Отменить
-                                    </button>
-                                    <SecondaryButton id="btnDelete">Удалить задачу</SecondaryButton>
-                                </>
-                            )}
+                            <div>
+                                {!isEditMode ? (
+                                    <>
+                                        <SecondaryButton $isDark={$isDark} onClick={handleEditToggle}>
+                                            Редактировать задачу
+                                        </SecondaryButton>
+                                        <SecondaryButton $isDark={$isDark}>Удалить задачу</SecondaryButton>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button className="btn-edit__edit _btn-bg _hover01">
+                                            <a href="#">Сохранить</a>
+                                        </button>
+                                        <button onClick={handleEditToggle} className="btn-edit__edit _btn-bor _hover03">
+                                            Отменить
+                                        </button>
+                                        <SecondaryButton id="btnDelete">Удалить задачу</SecondaryButton>
+                                    </>
+                                )}
+                            </div>
                             <PrimaryButton $width="auto" $isDark={$isDark} onClick={handleClose}>
                                 Закрыть
                             </PrimaryButton>

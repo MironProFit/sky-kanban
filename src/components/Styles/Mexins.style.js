@@ -1,9 +1,12 @@
 import { css } from 'styled-components'
 
 // Миксины
+
+
 export const textColor = css`
     color: ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#606060')};
 `
+
 export const reverseTextColor = css`
     color: ${({ $isDark }) => (!$isDark ? '#FFFFFF' : '#606060')};
 `
@@ -27,6 +30,7 @@ export const reverseSecondaryColor = css`
 export const primaryBacground = css`
     background-color: ${({ $isDark }) => ($isDark ? '#20202C' : '#FFFFFF')};
 `
+
 export const mainBacground = css`
     background-color: ${({ $isDark }) => ($isDark ? '#151419' : '#EAEEF6')};
 `
