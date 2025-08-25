@@ -1,58 +1,45 @@
-import { useEffect, useState } from 'react'
-import cards from '../../data/data'
 import { Link } from 'react-router-dom'
 import formattedDate from '../../utils/dateFormat'
+import { CardContent, CardDate, CardDateText, CardGroup, CardItem, CardLink, CardsContainer, CardTitle, CardWrapper, Dot, DotContainer, Theme, ThemeText } from './Card.styles'
 
-export default function Card({ id, topic, title, date, status }) {
-    const colorTopics = [
-        {
-            topic: 'Web Design',
-            color: '_orange',
-        },
-        {
-            topic: 'UI/UX',
-            color: '_green',
-        },
-        {
-            topic: 'Проблемы и ошибки',
-            color: '_purple',
-        },
-        {
-            topic: 'Web Development',
-            color: '_gray',
-        },
-    ]
-
-    // Функция получения цвета по теме
-    const getColorTopic = (topic) => {
-        const foundColor = colorTopics.find((item) => item.topic === topic)
-        return foundColor ? foundColor.color : ''
+export default function Card({ id, topic, title, date, status, $isDark }) {
+    const getColorClass = (topic) => {
+        switch (topic) {
+            case 'Web Design':
+                return '_orange'
+            case 'UI/UX':
+                return '_green'
+            case 'Проблемы и ошибки':
+                return '_purple'
+            case 'Web Development':
+                return '_gray'
+            default:
+                return ''
+        }
     }
-    const colorTopic = getColorTopic(topic)
+
+    const colorTopicClass = getColorClass(topic)
 
     return (
-        <>
-            <div key={id} className="cards__item">
-                <div>
-                    <div className="cards__card ">
-                        {/* //тут был card */}
-
-                        <div className="card__group">
-                            <div className="card__theme 56">
-                                <p className={colorTopic}>{topic}</p>
-                            </div>
-                            <Link to={`cardview/${id}`} state={{ modalWindow: true, topic, title, date, status, colorTopic }}>
-                                <div style={{ display: 'flex' }}>
-                                    {' '}
-                                    <div>.</div>
-                                    <div>.</div>
-                                    <div>.</div>
-                                </div>
-                            </Link>
-                        </div>
-                        <div className="card__content">
-                            <h3 className="card__title">{title}</h3>
-                            <div className="card__date">
+        <CardsContainer >
+            <Link to={`cardview/${id}`} state={{ modalWindow: true, topic, title, date, status }}>
+                <CardItem key={id}>
+                    <CardWrapper $isDark={$isDark}>
+                        <CardGroup>
+                            <Theme className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}>
+                                <ThemeText>{topic}</ThemeText>
+                            </Theme>
+                            <CardLink to={`cardview/${id}`} state={{ modalWindow: true, topic, title, date, status }}>
+                                <DotContainer>
+                                    <Dot />
+                                    <Dot />
+                                    <Dot />
+                                </DotContainer>
+                            </CardLink>
+                        </CardGroup>
+                        <CardContent>
+                            <CardTitle $isDark={$isDark}>{title}</CardTitle>
+                            <CardDate>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
                                     <g clipPath="url(#clip0_1_415)">
                                         <path
@@ -75,12 +62,13 @@ export default function Card({ id, topic, title, date, status }) {
                                         </clipPath>
                                     </defs>
                                 </svg>
-                                <p>{formattedDate(date)}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </>
+
+                                <CardDateText>{formattedDate(date)}</CardDateText>
+                            </CardDate>
+                        </CardContent>
+                    </CardWrapper>
+                </CardItem>
+            </Link>
+        </CardsContainer>
     )
 }
