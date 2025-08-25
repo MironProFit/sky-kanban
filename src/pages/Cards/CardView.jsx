@@ -3,10 +3,24 @@ import cards from '../../data/data'
 import { statusList } from '../../data/data'
 import formattedDate from '../../utils/dateFormat'
 import { useEffect, useState } from 'react'
-import { PopBrowse, PopBrowseContainer, PopBrowseBlock, PopBrowseContent, PopBrowseTitle, FormWrap, Form, FormBlock, FormArea, Status, ButtonGroup } from './CardView.styles'
+import {
+    PopBrowse,
+    PopBrowseContainer,
+    PopBrowseBlock,
+    PopBrowseContent,
+    PopBrowseTitle,
+    FormWrap,
+    Form,
+    FormBlock,
+    FormArea,
+    Status,
+    ButtonGroup,
+    FormDateControl,
+    FormDateTitle,
+} from './CardView.styles'
 import { PrimaryButton, SecondaryButton } from '../../components/Styles/GlobalStyle'
-import { Calendar } from '../../components/Calendar/Calendar.styles'
 import CalendarComponent from '../../components/Calendar/Calendar'
+import { CalendarAndDateContainer } from '../../components/Calendar/Calendar.styles'
 
 export default function CardView({ $isDark }) {
     const [currentStatus, setCurrentStatus] = useState(null)
@@ -40,6 +54,7 @@ export default function CardView({ $isDark }) {
     const handleStatus = (id) => {
         setCurrentStatus(id)
     }
+
     return (
         <PopBrowse style={{ display: modalWindow ? 'block' : 'none' }} id="popBrowse">
             <PopBrowseContainer>
@@ -80,27 +95,23 @@ export default function CardView({ $isDark }) {
                                 </FormBlock>
                             </Form>
 
-                            <div className="theme-down__categories theme-down">
-                                <CalendarComponent/>
-
-                                <p className="categories__p subttl">Категория</p>
-                                <div className="categories__theme _orange _active-category">
-                                    <p className="_orange">Web Design</p>
-                                </div>
-                            </div>
-                            <p className="calendar__p date-end">
-                                Срок исполнения: <span className="date-control">{formattedDate(date)}</span>
-                            </p>
+                            <CalendarAndDateContainer>
+                                <FormDateTitle>Дата</FormDateTitle>
+                                <CalendarComponent $isDark={$isDark} />
+                                <FormDateControl>
+                                    Срок исполнения: <span>{formattedDate(date)}</span>
+                                </FormDateControl>
+                            </CalendarAndDateContainer>
                         </FormWrap>
                         <ButtonGroup>
-                            <div>
+                            <>
                                 {!isEditMode ? (
-                                    <>
+                                    <div>
                                         <SecondaryButton $isDark={$isDark} onClick={handleEditToggle}>
                                             Редактировать задачу
                                         </SecondaryButton>
                                         <SecondaryButton $isDark={$isDark}>Удалить задачу</SecondaryButton>
-                                    </>
+                                    </div>
                                 ) : (
                                     <>
                                         <button className="btn-edit__edit _btn-bg _hover01">
@@ -112,7 +123,7 @@ export default function CardView({ $isDark }) {
                                         <SecondaryButton id="btnDelete">Удалить задачу</SecondaryButton>
                                     </>
                                 )}
-                            </div>
+                            </>
                             <PrimaryButton $width="auto" $isDark={$isDark} onClick={handleClose}>
                                 Закрыть
                             </PrimaryButton>

@@ -1,17 +1,16 @@
 import styled, { css } from 'styled-components'
-import { accentColor, textColor, mainBacground, hoverBackground, hoverColor } from '../Styles/Mexins.style'
+import { accentColor, hoverBackground, hoverColor } from '../Styles/Mexins.style'
 
 export const Calendar = styled.div`
     width: 182px;
-    margin-bottom: 20px;
-
-    ${mainBacground}
+    /* margin-bottom: 14px; */
+    margin-top: 14px;
 `
 
 export const CalendarTitle = styled.div`
-    margin-bottom: 14px;
-    padding: 0 7px;
-    ${textColor}
+    margin-bottom: 7px;
+    display: flex;
+    justify-content: space-between;
 `
 
 export const CalendarP = styled.p`
@@ -33,11 +32,39 @@ export const CalendarMonth = styled.div`
     font-size: 14px;
     line-height: 25px;
     font-weight: 600;
-    ${textColor}
+`
+
+export const CalendarBtnWrap = styled.div`
+    display: flex;
+`
+export const CalendarBtnGroup = styled.div`
+    display: flex;
+    align-items: center;
+`
+export const CalendarAndDateContainer = styled.div`
+    display: block;
+    margin-bottom: 20px;
+`
+
+export const CalendarBtn = styled.button`
+    background-color: transparent;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    background-image: ${(props) => (props.isLeft ? "url('../../../public/prev.svg')" : "url('../../../public/next.svg')")};
+
+    margin-right: ${(props) => (props.isLeft ? '10px' : '0')};
+    margin-left: ${(props) => (props.isLeft ? '0' : '10px')};
 `
 
 export const CalendarContent = styled.div`
     margin-bottom: 12px;
+    margin-left: -7px;
 `
 
 export const CalendarDaysNames = styled.div`
@@ -55,12 +82,10 @@ export const CalendarDayName = styled.div`
     font-weight: 500;
     line-height: normal;
     letter-spacing: -0.2px;
-    ${textColor}
 `
 
 export const CalendarCells = styled.div`
     width: 182px;
-    height: 126px;
     display: flex;
     flex-wrap: wrap;
 `
@@ -85,6 +110,12 @@ export const CalendarCell = styled.div`
         css`
             opacity: 0;
             pointer-events: none;
+        `};
+    ${({ isToday }) =>
+        isToday &&
+        css`
+            background-color: ${accentColor};
+            color: black;
         `};
     ${({ cellDay }) =>
         cellDay &&

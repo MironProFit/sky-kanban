@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { textColor, primaryBacground, primaryColor, reverseSecondaryColor, accentColor, mainBacground, reversePrimaryColor } from '../../components/Styles/Mexins.style'
+import { textColor, primaryBacground, primaryColor, reverseSecondaryColor, accentColor, mainBacground, reversePrimaryColor, white } from '../../components/Styles/Mexins.style'
 
 export const PopBrowse = styled.div`
     display: block;
@@ -51,6 +51,7 @@ export const PopBrowseContent = styled.div`
 
 export const PopBrowseTitle = styled.h3`
     ${textColor}
+    margin-bottom: 21px;
     font-size: 20px;
     font-weight: 600;
     line-height: 24px;
@@ -69,13 +70,20 @@ export const Form = styled.form`
     margin-bottom: 20px;
 `
 export const FormBlock = styled.div`
+    color: ${white};
+    font-weight: 400;
+    font-size: 14px;
     display: flex;
     flex-direction: column;
+
     .subttl {
+        font-weight: 400;
+        font-size: 14px;
         ${reversePrimaryColor};
     }
 `
 export const FormArea = styled.textarea`
+    resize: none;
     max-width: 370px;
     width: 100%;
     outline: none;
@@ -87,7 +95,7 @@ export const FormArea = styled.textarea`
     line-height: 1;
     letter-spacing: -0.14px;
     margin-top: 14px;
-    height: 200px;
+    height: 236px;
 
     &::-moz-placeholder {
         font-weight: 400;
@@ -104,6 +112,21 @@ export const FormArea = styled.textarea`
         color: ${accentColor};
         letter-spacing: -0.14px;
     }
+`
+
+export const FormDateControl = styled.p`
+    color: ${accentColor};
+    font-size: 12px;
+    & span {
+        color: ${white};
+        font-size: 12px;
+    }
+`
+
+export const FormDateTitle = styled.p`
+    color: ${white};
+    font-weight: 400;
+    font-size: 14px;
 `
 export const Status = styled.div`
     margin-bottom: 11px;
