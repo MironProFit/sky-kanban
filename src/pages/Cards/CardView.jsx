@@ -5,6 +5,8 @@ import formattedDate from '../../utils/dateFormat'
 import { useEffect, useState } from 'react'
 import { PopBrowse, PopBrowseContainer, PopBrowseBlock, PopBrowseContent, PopBrowseTitle, FormWrap, Form, FormBlock, FormArea, Status, ButtonGroup } from './CardView.styles'
 import { PrimaryButton, SecondaryButton } from '../../components/Styles/GlobalStyle'
+import { Calendar } from '../../components/Calendar/Calendar.styles'
+import CalendarComponent from '../../components/Calendar/Calendar'
 
 export default function CardView({ $isDark }) {
     const [currentStatus, setCurrentStatus] = useState(null)
@@ -38,7 +40,6 @@ export default function CardView({ $isDark }) {
     const handleStatus = (id) => {
         setCurrentStatus(id)
     }
-
     return (
         <PopBrowse style={{ display: modalWindow ? 'block' : 'none' }} id="popBrowse">
             <PopBrowseContainer>
@@ -50,6 +51,7 @@ export default function CardView({ $isDark }) {
                                 <p className={colorTopic}>{topic}</p>
                             </div>
                         </div>
+
                         <Status $isDark={$isDark}>
                             <p className="status__p subttl">Статус</p>
                             <div className="status__themes">
@@ -77,7 +79,10 @@ export default function CardView({ $isDark }) {
                                     <FormArea $isDark={$isDark} name="text" id="textArea01" readOnly placeholder="Введите описание задачи..." />
                                 </FormBlock>
                             </Form>
+
                             <div className="theme-down__categories theme-down">
+                                <CalendarComponent/>
+
                                 <p className="categories__p subttl">Категория</p>
                                 <div className="categories__theme _orange _active-category">
                                     <p className="_orange">Web Design</p>
