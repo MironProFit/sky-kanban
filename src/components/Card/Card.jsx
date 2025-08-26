@@ -1,27 +1,25 @@
 import { Link } from 'react-router-dom'
 import formattedDate from '../../utils/dateFormat'
 import { CardContent, CardDate, CardDateText, CardGroup, CardItem, CardLink, CardsContainer, CardTitle, CardWrapper, Dot, DotContainer, Theme, ThemeText } from './Card.styles'
-
-export default function Card({ id, topic, title, date, status, $isDark }) {
-    const getColorClass = (topic) => {
-        switch (topic) {
-            case 'Web Design':
-                return '_orange'
-            case 'UI/UX':
-                return '_green'
-            case 'Проблемы и ошибки':
-                return '_purple'
-            case 'Web Development':
-                return '_gray'
-            default:
-                return ''
-        }
+export const getColorClass = (topic) => {
+    switch (topic) {
+        case 'Web Design':
+            return '_orange'
+        case 'UI/UX':
+            return '_green'
+        case 'Проблемы и ошибки':
+            return '_purple'
+        case 'Web Development':
+            return '_gray'
+        default:
+            return ''
     }
-
+}
+export default function Card({ id, topic, title, date, status, $isDark }) {
     const colorTopicClass = getColorClass(topic)
 
     return (
-        <CardsContainer >
+        <CardsContainer>
             <Link to={`cardview/${id}`} state={{ modalWindow: true, topic, title, date, status }}>
                 <CardItem key={id}>
                     <CardWrapper $isDark={$isDark}>

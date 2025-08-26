@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { textColor, primaryBacground, primaryColor, reverseSecondaryColor, accentColor, mainBacground, reversePrimaryColor, white } from '../../components/Styles/Mexins.style'
+import { textColor, primaryBacground, primaryColor, accentColor, mainBacground, reversePrimaryColor, white } from '../../components/Styles/Mexins.style'
 
 export const PopBrowse = styled.div`
     display: block;
@@ -49,6 +49,11 @@ export const PopBrowseContent = styled.div`
     }
 `
 
+export const TopicContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+`
+
 export const PopBrowseTitle = styled.h3`
     ${textColor}
     margin-bottom: 21px;
@@ -83,6 +88,9 @@ export const FormBlock = styled.div`
     }
 `
 export const FormArea = styled.textarea`
+    color: ${({ $isDark }) => ($isDark ? accentColor : 'black')};
+
+    cursor: ${({ $isEditMode }) => ($isEditMode ? 'text' : 'not-allowed')};
     resize: none;
     max-width: 370px;
     width: 100%;
@@ -130,34 +138,53 @@ export const FormDateTitle = styled.p`
 `
 export const Status = styled.div`
     margin-bottom: 11px;
-
-    .status__p {
-        ${reverseSecondaryColor};
-        margin-bottom: 14px;
-    }
-
-    .status__themes {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        justify-content: flex-start;
-    }
-    .status__theme {
-        border-radius: 24px;
-        border: 0.7px solid rgba(148, 166, 190, 0.4);
-        padding: 11px 14px 10px;
-        margin-right: 7px;
-        margin-bottom: 7px;
-        background-color: ${accentColor};
-    }
-
-    .status__theme p {
-        font-size: 14px;
-        line-height: 1;
-        letter-spacing: -0.14px;
-    }
 `
 
+export const StatusTitle = styled.p`
+    ${reversePrimaryColor};
+
+    margin-bottom: 14px;
+`
+export const StatusThemes = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+`
+export const StatusTheme = styled.div`
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 24px;
+    border: 0.7px solid rgba(148, 166, 190, 0.4);
+    padding: 11px 14px 10px;
+    margin-right: 7px;
+    margin-bottom: 7px;
+    background-color: ${accentColor};
+`
+
+export const StatusButton = styled.button`
+    cursor: pointer;
+    background-color: transparent;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 24px;
+    border: 0.7px solid rgba(148, 166, 190, 0.4);
+    padding: 11px 14px 10px;
+    margin-right: 7px;
+    margin-bottom: 7px;
+    color: ${accentColor};
+
+    ${({ $active }) => $active && ` background-color: ${accentColor};  ${reversePrimaryColor};`}
+`
+
+export const StatusText = styled.p`
+    ${({ $active }) => $active && primaryColor}
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+`
 export const ButtonGroup = styled.div`
     display: flex;
     justify-content: space-between;

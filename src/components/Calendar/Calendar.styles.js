@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { accentColor, hoverBackground, hoverColor } from '../Styles/Mexins.style'
+import { accentColor, hoverBackground, hoverColor, selectedDate } from '../Styles/Mexins.style'
 
 export const Calendar = styled.div`
     width: 182px;
@@ -134,8 +134,12 @@ export const CalendarCell = styled.div`
         css`
             font-weight: 700;
         `};
+    ${({ selected }) =>
+        selected &&
+        css`
+            ${selectedDate}
+        `}
 `
-
 export const CalendarNav = styled.div`
     width: 100%;
     display: flex;

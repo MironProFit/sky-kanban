@@ -12,11 +12,12 @@ import {
     CalendarBtn,
     CalendarBtnGroup,
 } from './Calendar.styles.js'
+import formattedDate from '../../utils/dateFormat.js'
 
 const daysNames = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
 const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
 
-export default function CalendarComponent({ $isDark }) {
+export default function CalendarComponent({ $isDark, handleDateChange, selectDate }) {
     const today = new Date()
     const [displayedDate, setDisplayedDate] = useState(new Date())
 
@@ -50,6 +51,7 @@ export default function CalendarComponent({ $isDark }) {
         const idx = calendarMap.length
         const weekend = idx % 7 >= 5
         const isToday = i === today.getDate() && month === today.getMonth() && year === today.getFullYear()
+
         calendarMap.push({
             num: i,
             date,
@@ -83,6 +85,11 @@ export default function CalendarComponent({ $isDark }) {
     // Навигация
     const onPrevMonth = () => setDisplayedDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))
     const onNextMonth = () => setDisplayedDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))
+
+    // const showPlannedDate = () => {
+
+    // }
+
     return (
         <Calendar $isDark={$isDark}>
             <CalendarTitle>
@@ -105,7 +112,18 @@ export default function CalendarComponent({ $isDark }) {
                     </CalendarDaysNames>
                     <CalendarCells>
                         {calendarMap.map((cell, i) => (
-                            <CalendarCell key={i} otherMonth={cell.otherMonth} cellDay={cell.cellDay} isToday={cell.isToday} weekend={cell.weekend}>
+                            <CalendarCell
+                                onClick={() => {
+                                    handleDateChange(formattedDate(cell.date))
+                                }}
+                                $isDark={$isDark}
+                                selected={formattedDate(cell.date) === selectDate}
+                                key={i}
+                                otherMonth={cell.otherMonth}
+                                cellDay={cell.cellDay}
+                                isToday={cell.isToday}
+                                weekend={cell.weekend}
+                            >
                                 {cell.num}
                             </CalendarCell>
                         ))}

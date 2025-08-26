@@ -84,7 +84,6 @@ export const Theme = styled.div`
 
 export const ThemeText = styled.p`
     padding: 5px 10px 5px 10px;
-
     border-radius: 18px;
     font-size: 10px;
     font-weight: 600;

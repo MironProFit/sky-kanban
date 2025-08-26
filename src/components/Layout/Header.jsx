@@ -66,13 +66,6 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
                                 </>
                             )}
                         </HeaderBlock>
-                        {/* <HeaderNavBtnWrap>
-                            <Link to="createcard" state={{ modalWindow: true }}>
-                                <HeaderNavBtnFixed $isDark={$isDark} id="btnMainNew" type="button">
-                                    Создать новую задачу
-                                </HeaderNavBtnFixed>
-                            </Link>
-                        </HeaderNavBtnWrap> */}
                     </>
                 )}
             </Container>

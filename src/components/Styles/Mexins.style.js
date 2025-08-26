@@ -2,7 +2,6 @@ import { css } from 'styled-components'
 
 // Миксины
 
-
 export const textColor = css`
     color: ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#606060')};
 `
@@ -29,6 +28,9 @@ export const reverseSecondaryColor = css`
 
 export const primaryBacground = css`
     background-color: ${({ $isDark }) => ($isDark ? '#20202C' : '#FFFFFF')};
+`
+export const selectedDate = css`
+    background-color: ${({ $isDark }) => ($isDark ? '#151419' : '#EAEEF6')};
 `
 
 export const mainBacground = css`
@@ -66,8 +68,7 @@ export const hoverBackground = css`
 `
 
 export const hoverColor = css`
-
-&:hover {
+    &:hover {
         color: ${accentButtonColor};
     }
 `

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import ConfirmExit from '../pages/Confirmation/ConfirmExit/ConfirmExit'
 import NotFound from '../pages/Main/NotFound'
 import CreateCard from '../pages/Cards/CreateCard'
-import CardView from '../pages/Cards/CardView'
+import CardView from '../pages/Cards/CardViewEdit'
 import PrivateRoute from './PrivateRoute'
 import Layout from '../components/Layout/Layout'
 
@@ -22,7 +22,7 @@ function AppRoutes({ isTheme, setIsTheme }) {
                         { path: 'exit', element: <ConfirmExit isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} /> },
                         { path: 'createcard', element: <CreateCard /> },
                         { path: 'cardview/:id', element: <CardView $isDark={isTheme} /> },
-                        { path: 'cardview/:id/edit', element: <CardView /> },
+                        { path: 'cardview/:id/edit', element: <CardView $isDark={isTheme} /> },
                     ],
                 },
                 { path: '*', element: <NotFound /> },
