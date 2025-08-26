@@ -13,6 +13,9 @@ export const CardItem = styled.div`
     animation-name: card-animation;
     animation-duration: 500ms;
     animation-timing-function: linear;
+    @media (max-width: 600px) {
+        padding-bottom: 15px;
+    }
 `
 
 export const CardWrapper = styled.div`

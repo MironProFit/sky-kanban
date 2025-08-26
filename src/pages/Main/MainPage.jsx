@@ -20,7 +20,7 @@ export default function MainPage({ $isDark }) {
     return (
         <MainContainer $isDark={$isDark}>
             <Container>
-                <MainBlock>
+                <MainBlock $isDark={$isDark}>
                     <MainContent>
                         {Object.keys(columns).map((status) => (
                             <Column $isDark={$isDark} key={status} title={status} cardsData={columns[status]} />

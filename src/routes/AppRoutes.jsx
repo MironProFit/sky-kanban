@@ -4,7 +4,7 @@ import { useState } from 'react'
 import ConfirmExit from '../pages/Confirmation/ConfirmExit/ConfirmExit'
 import NotFound from '../pages/Main/NotFound'
 import CreateCard from '../pages/Cards/CreateCard'
-import CardView from '../pages/Cards/CardViewEdit'
+import CardView from '../pages/Cards/CardModal'
 import PrivateRoute from './PrivateRoute'
 import Layout from '../components/Layout/Layout'
 

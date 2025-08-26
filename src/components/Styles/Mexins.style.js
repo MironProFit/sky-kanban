@@ -18,6 +18,8 @@ export const primaryColor = css`
 export const reversePrimaryColor = css`
     color: ${({ $isDark }) => (!$isDark ? 'black' : '#ffff')};
 `
+export const scrollbarTrackColor = ({ $isDark }) => ($isDark ? '#20202C' : '#ffff')
+export const scrollbarThumbColor = ({ $isDark }) => ($isDark ? '#94a6be' : '#94a6be')
 
 export const secondaryColor = css`
     color: ${({ $isDark }) => ($isDark ? 'black' : '#FFFFFF')};

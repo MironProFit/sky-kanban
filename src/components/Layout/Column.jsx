@@ -19,7 +19,7 @@ export default function Column({ title, cardsData, $isDark }) {
             <ColumnTitle>
                 <TitleText>{title}</TitleText>
             </ColumnTitle>
-            <CardsContainer>
+            <CardsContainer $isDark={$isDark}>
                 {visibleCards.length === 0 ? (
                     <p>Загрузка данных...</p>
                 ) : (

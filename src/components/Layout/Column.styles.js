@@ -1,6 +1,8 @@
 import styled from 'styled-components'
+import { scrollbarThumbColor, scrollbarTrackColor } from '../Styles/Mexins.style'
 
 export const MainColumn = styled.div`
+    width: 100%;
     margin: 0 auto;
     display: block;
 `
@@ -21,7 +23,6 @@ export const TitleText = styled.p`
     line-height: 1;
     text-transform: uppercase;
 `
-
 export const CardsContainer = styled.div`
     width: 100%;
     display: flex;
@@ -35,13 +36,14 @@ export const CardsContainer = styled.div`
     }
 
     &::-webkit-scrollbar-thumb {
-        background: red;
+        background-color: ${scrollbarThumbColor};
         border-radius: 10px;
+        transition: 1s ease;
     }
-
-    &::-webkit-scrollbar-thumb:hover {
-        background: green;
-    }
+    /* &::-webkit-scrollbar-track {
+        background: ${scrollbarTrackColor};
+        border-radius: 10px;
+    } */
 
     @media (max-width: 600px) {
         flex-direction: row;
