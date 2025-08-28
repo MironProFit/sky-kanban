@@ -52,7 +52,7 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
                             {!isAuthPage && isAuth && (
                                 <>
                                     <HeaderNav>
-                                        <Link to="createcard" state={{ modalWindow: true }}>
+                                        <Link to="createcard" state={{ modalWindow: true,  createMode: true }}>
                                             <HeaderNavBtn $isDark={$isDark} id="btnMainNew" type="button">
                                                 Создать новую задачу
                                             </HeaderNavBtn>

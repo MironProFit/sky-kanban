@@ -6,13 +6,12 @@ import AuthModal from '../../pages/Auth/AuthModal'
 function Layout({ isAuth, setIsAuth, isTheme, setIsTheme }) {
     return (
         <>
-            <Header isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} setIsTheme={setIsTheme} $isDark={isTheme} />
+            <Header isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} setIsTheme={setIsTheme} $isDark={isTheme}  />
 
             {isAuth ? (
                 <>
                     <MainPage $isDark={isTheme} />
                     <Outlet />
-                    
                 </>
             ) : (
                 <AuthModal isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} />

@@ -17,12 +17,13 @@ import {
     FormDateTitle,
     TopicContainer,
 } from './CardViewEdit.styles'
-import { PrimaryButton, SecondaryButton } from '../../components/Styles/GlobalStyle'
+import { PrimaryButton, SecondaryButton, TopicButton } from '../../components/Styles/GlobalStyle'
 import CalendarComponent from '../../components/Calendar/Calendar'
 import { CalendarAndDateContainer } from '../../components/Calendar/Calendar.styles'
 import { getColorClass } from '../../components/Card/Card'
 import { Theme, ThemeText } from '../../components/Card/Card.styles'
 import { StatusButton, StatusText, StatusTheme, StatusThemes, StatusTitle } from './CardViewEdit.styles'
+import formattedDate from '../../utils/dateFormat'
 
 export default function CardView({ $isDark }) {
     const [currentStatus, setCurrentStatus] = useState(null)
@@ -34,7 +35,8 @@ export default function CardView({ $isDark }) {
     const isEditMode = Boolean(editMath)
     const card = cards.find((c) => String(c.id) === String(id))
     const { topic, title, date, status } = card || {}
-    const [taskState, setTaskState] = useState({ ...card, id: currentStatus, description: card?.description || '' })
+    const [taskState, setTaskState] = useState({ ...card, date, id: currentStatus, description: card?.description || '' })
+    const formattedTaskDate = formattedDate(date)
     const selectDate = taskState.date
 
     const handleDateChange = (dateString) => {
@@ -129,9 +131,9 @@ export default function CardView({ $isDark }) {
 
                             <CalendarAndDateContainer>
                                 <FormDateTitle>Дата</FormDateTitle>
-                                <CalendarComponent handleDateChange={handleDateChange} selectDate={selectDate} $isDark={$isDark} />
+                                <CalendarComponent isEditMode={isEditMode} handleDateChange={handleDateChange} selectDate={selectDate} $isDark={$isDark} />
                                 <FormDateControl>
-                                    Срок исполнения: <span>{selectDate || ''}</span>
+                                    Срок исполнения: <span>{formattedTaskDate || ''}</span>
                                 </FormDateControl>
                             </CalendarAndDateContainer>
                         </FormWrap>

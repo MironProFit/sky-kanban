@@ -17,7 +17,7 @@ import formattedDate from '../../utils/dateFormat.js'
 const daysNames = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
 const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
 
-export default function CalendarComponent({ $isDark, handleDateChange, selectDate }) {
+export default function CalendarComponent({ $isDark, handleDateChange, selectDate, isEditMode }) {
     const today = new Date()
     const [displayedDate, setDisplayedDate] = useState(new Date())
 
@@ -113,9 +113,14 @@ export default function CalendarComponent({ $isDark, handleDateChange, selectDat
                     <CalendarCells>
                         {calendarMap.map((cell, i) => (
                             <CalendarCell
-                                onClick={() => {
-                                    handleDateChange(formattedDate(cell.date))
-                                }}
+                                $isEditMode={isEditMode}
+                                onClick={
+                                    isEditMode
+                                        ? () => {
+                                              handleDateChange(formattedDate(cell.date))
+                                          }
+                                        : undefined
+                                }
                                 $isDark={$isDark}
                                 selected={formattedDate(cell.date) === selectDate}
                                 key={i}

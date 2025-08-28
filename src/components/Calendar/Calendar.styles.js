@@ -102,8 +102,15 @@ export const CalendarCell = styled.div`
     font-size: 10px;
     line-height: 1;
     letter-spacing: -0.2px;
-    cursor: pointer;
+
     transition: background 0.2s;
+    cursor: pointer;
+
+    ${({ $isEditMode }) =>
+        !$isEditMode &&
+        css`
+            cursor: default;
+        `}
 
     ${({ otherMonth }) =>
         otherMonth &&
@@ -117,11 +124,12 @@ export const CalendarCell = styled.div`
             background-color: ${accentColor};
             color: black;
         `};
-    ${({ cellDay }) =>
+    ${({ cellDay, $isEditMode }) =>
         cellDay &&
+        $isEditMode &&
         css`
-            ${hoverBackground}
-            ${hoverColor}
+            ${hoverBackground} : none;
+            ${hoverColor};
         `};
     ${({ activeDay }) =>
         activeDay &&

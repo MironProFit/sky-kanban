@@ -2,6 +2,8 @@ import { css } from 'styled-components'
 
 // Миксины
 
+
+
 export const textColor = css`
     color: ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#606060')};
 `
@@ -71,7 +73,8 @@ export const hoverBackground = css`
 
 export const hoverColor = css`
     &:hover {
-        color: ${accentButtonColor};
+        /* color: ${accentButtonColor}; */
+        color: ${white};
     }
 `
 

@@ -2,7 +2,15 @@ import { format } from 'date-fns'
 import { ru } from 'date-fns/locale'
 
 const formattedDate = (date) => {
-    return format(new Date(date), 'dd.MM.yy', { locale: ru })
+    if (!date) {
+        return 'Дата не доступна'
+    }
+    const parsedDate = new Date(date)
+    if (isNaN(parsedDate)) {
+        return 'Некоректная дата'
+    }
+
+    return format(parsedDate, 'dd.MM.yy', { locale: ru })
 }
 
 export default formattedDate

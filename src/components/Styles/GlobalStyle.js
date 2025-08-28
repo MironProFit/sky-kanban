@@ -1,6 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom'
-import styled, { createGlobalStyle } from 'styled-components'
-import { borderColor, hoverBorder, hoverCombination, linkColor, primaryHoverColor, textColor } from './Mexins.style'
+import styled, { createGlobalStyle, css } from 'styled-components'
+import { borderColor, hoverBorder, hoverCombination, linkColor, primaryHoverColor, reversePrimaryColor, textColor } from './Mexins.style'
 import '../../components/Styles/Mexins.style'
 
 export const GlobalStyle = createGlobalStyle`
@@ -145,4 +145,87 @@ export const SecondaryButton = styled.button`
         border: 1px solid ${({ $isDark }) => (!$isDark ? '#FFFFFF' : '#565eef')};
         color: ${white};
     }
+`
+export const TopicButton = styled.button`
+    box-sizing: border-box;
+    color: ${white};
+    opacity: 0.4;
+    width: ${({ $width }) => $width || 'auto'};
+    height: 30px;
+    padding: 0 14px;
+    margin-right: 8px;
+    ${({ $color }) => $color}
+    border: 1px solid transparent;
+    transition: 0.3s;
+    cursor: pointer;
+    border-radius: 24px;
+    &.active {
+        opacity: 1;
+    }
+
+    ${({ $isActive }) =>
+        $isActive &&
+        css`
+            opacity: 1;
+        `}
+
+    ${({ $isDark }) =>
+        $isDark &&
+        css`
+            &._orange {
+                background-color: #ff6d00;
+                /* color: #ffe4c2; */
+            }
+            &._green {
+                background-color: #06b16e;
+                /* color: #b4fdd1; */
+            }
+            &._purple {
+                background-color: #9a48f1;
+                /* color: #e9d4ff; */
+            }
+            &._gray {
+                background: #94a6be;
+                /* color: #ffffff; */
+            }
+        `}
+
+    ${({ $isDark }) =>
+        !$isDark &&
+        css`
+            &._orange {
+                background-color: #ffe4c2;
+                color: #ff6d00;
+            }
+            &._green {
+                background-color: #b4fdd1;
+                color: #06b16e;
+            }
+            &._purple {
+                background-color: #e9d4ff;
+                color: #9a48f1;
+            }
+            &._gray {
+                background: #94a6be;
+                color: #ffffff;
+            }
+        `}
+
+
+
+    &:hover {
+        opacity: 0.8;
+    }
+    &:active {
+        opacity: 1;
+        
+    }
+`
+
+export const TextContainer = styled.p`
+    margin-bottom: 20px;
+    display: block;
+    font-weight: 400;
+    font-size: 14px;
+    ${reversePrimaryColor};
 `

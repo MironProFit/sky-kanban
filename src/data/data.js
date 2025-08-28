@@ -20,6 +20,13 @@ export const cards = [
     { id: 16, topic: 'Web Design', title: 'Создание логотипа', date: '2024-07-07', status: 'Без статуса' },
 ]
 
+export const topicsList = [
+    { name: 'Web Design', color: '_orange' },
+    { name: 'UI/UX', color: '_green' },
+    { name: 'Проблемы и ошибки', color: ' _purple' },
+    { name: 'Web Development', color: '_gray' },
+]
+
 export const statusList = [
     { id: 0, name: 'Без статуса' },
     { id: 1, name: 'Нужно сделать' },

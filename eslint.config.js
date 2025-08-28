@@ -28,7 +28,7 @@ export default defineConfig([
             'react/react-in-jsx-scope': 'off',
 
             // unused-imports правило
-            'unused-imports/no-unused-imports': 'warn',
+            'unused-imports/no-unused-imports': 'off',
             'unused-imports/no-unused-vars': ['warn', { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' }],
             'no-unused-vars': 'off',
         },

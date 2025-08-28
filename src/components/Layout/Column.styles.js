@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { scrollbarThumbColor, scrollbarTrackColor } from '../Styles/Mexins.style'
+import { scrollbarThumbColor } from '../Styles/Mexins.style'
 
 export const MainColumn = styled.div`
     width: 100%;
@@ -30,6 +30,7 @@ export const CardsContainer = styled.div`
     overflow-x: scroll;
     white-space: nowrap;
     flex-direction: column;
+    cursor: w-resize;
 
     &::-webkit-scrollbar {
         height: 8px;
@@ -40,10 +41,6 @@ export const CardsContainer = styled.div`
         border-radius: 10px;
         transition: 1s ease;
     }
-    /* &::-webkit-scrollbar-track {
-        background: ${scrollbarTrackColor};
-        border-radius: 10px;
-    } */
 
     @media (max-width: 600px) {
         flex-direction: row;
