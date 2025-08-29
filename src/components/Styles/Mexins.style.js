@@ -44,6 +44,9 @@ export const mainBacground = css`
 export const inputColor = css`
     background-color: ${({ $isDark }) => ($isDark ? '#20202C' : '#94a6be')};
 `
+export const modalWith600pxColor = css`
+    background-color: ${({ $isDark }) => ($isDark ? '#20202C' : '#FFFFFF')};
+`
 
 export const setButtonsColor = css`
     color: ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#565eef')};

@@ -14,7 +14,7 @@ export const Container = styled.div`
     box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
     padding: 34px;
     text-align: center;
-    z-index: 2;
+    z-index: 9999;
 `
 export const TilteName = styled.p`
     ${reverseSecondaryColor}

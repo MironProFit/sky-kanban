@@ -11,6 +11,10 @@ export const PopBrowse = styled.div`
     top: 0;
     left: 0;
     z-index: 7;
+    @media (max-width: 600px) {
+        position: relative;
+        background-color: inherit;
+    }
 `
 
 export const PopBrowseContainer = styled.div`
@@ -23,6 +27,12 @@ export const PopBrowseContainer = styled.div`
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.4);
+
+    @media (max-width: 600px) {
+        padding: 0;
+        background-color: inherit;
+        min-height: 0;
+    }
 `
 export const PopBrowseBlock = styled.div`
     display: block;
@@ -35,6 +45,16 @@ export const PopBrowseBlock = styled.div`
     position: relative;
     ${primaryBacground};
     ${primaryColor}
+    @media (max-width: 600px) {
+        display: flex;
+        border: none;
+        align-items: center;
+        border-radius: 0;
+        border: none;
+        padding: 0;
+        height: 100vh;
+        flex-direction: column;
+    }
 `
 
 export const PopBrowseContent = styled.div`
@@ -46,6 +66,11 @@ export const PopBrowseContent = styled.div`
     }
     .theme-top {
         display: none;
+    }
+    @media (max-width: 600px) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 `
 
@@ -66,6 +91,9 @@ export const FormWrap = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    @media (max-width: 600px) {
+        flex-direction: column;
+    }
 `
 
 export const Form = styled.form`
@@ -73,6 +101,9 @@ export const Form = styled.form`
     width: 100%;
     display: block;
     margin-bottom: 20px;
+    @media (max-width: 600px) {
+        margin-bottom: 40px;
+    }
 `
 export const FormBlock = styled.div`
     margin-bottom: ${({ $marginBotton }) => ($marginBotton ? $marginBotton : 'none')};
@@ -81,6 +112,9 @@ export const FormBlock = styled.div`
     font-size: 14px;
     display: flex;
     flex-direction: column;
+    @media (max-width: 600px) {
+        height: 30px;
+    }
 
     .subttl {
         font-weight: 400;
@@ -105,6 +139,9 @@ export const FormArea = styled.textarea`
     letter-spacing: -0.14px;
     margin-top: 14px;
     height: ${({ $maxHeight }) => $maxHeight || '236px'};
+    @media (max-width: 600px) {
+        overflow: hidden;
+    }
 
     &::-moz-placeholder {
         font-weight: 400;
@@ -143,14 +180,18 @@ export const Status = styled.div`
 
 export const StatusTitle = styled.p`
     ${reversePrimaryColor};
-
     margin-bottom: 14px;
+    display: flex;
 `
 export const StatusThemes = styled.div`
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: flex-start;
+    @media (max-width: 600px) {
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
 `
 export const StatusTheme = styled.div`
     height: 30px;
@@ -190,4 +231,13 @@ export const ButtonGroup = styled.div`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+`
+
+export const ButtonControlsWrap = styled.div`
+    @media (max-width: 600px) {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        width: 100%;
+    }
 `

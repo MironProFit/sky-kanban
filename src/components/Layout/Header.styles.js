@@ -40,7 +40,7 @@ export const HeaderNavBtn = styled(PrimaryButton)`
 
     padding: 0;
 
-    @media (min-width: 496px) and (max-width: 600px) {
+    @media /* (min-width: 496px) and */ (max-width: 600px) {
         width: unset;
         height: 40px;
         margin: 0 30px;

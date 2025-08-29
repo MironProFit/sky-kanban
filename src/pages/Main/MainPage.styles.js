@@ -3,6 +3,7 @@ import { mainBacground, scrollbarThumbColor, scrollbarTrackColor } from '../../c
 
 export const MainContainer = styled.main`
     width: 100%;
+    display: flex;
     ${mainBacground}
 `
 export const MainBlock = styled.div`

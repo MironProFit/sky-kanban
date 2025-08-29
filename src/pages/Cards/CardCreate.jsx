@@ -80,7 +80,7 @@ export default function CardView({ $isDark }) {
                                         }}
                                         $isDark={$isDark}
                                         selectedDate={selectDate}
-                                        name="name"
+                                        name="text"
                                         id="formTitle"
                                         readOnly={!isEditMode}
                                         $isEditMode={isEditMode}
@@ -109,7 +109,7 @@ export default function CardView({ $isDark }) {
                             </Form>
 
                             <CalendarAndDateContainer>
-                                <FormDateTitle>Дата</FormDateTitle>
+                                <FormDateTitle>Даты</FormDateTitle>
                                 <CalendarComponent isEditMode={isEditMode} handleDateChange={handleDateChange} selectDate={selectDate} $isDark={$isDark} />
                                 <FormDateControl>
                                     {' '}

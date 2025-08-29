@@ -1,4 +1,4 @@
-import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
 import { statusList, cards } from '../../data/data'
 import { useEffect, useState } from 'react'
 import {
@@ -16,8 +16,9 @@ import {
     FormDateControl,
     FormDateTitle,
     TopicContainer,
+    ButtonControlsWrap,
 } from './CardViewEdit.styles'
-import { PrimaryButton, SecondaryButton, TopicButton } from '../../components/Styles/GlobalStyle'
+import { PrimaryButton, SecondaryButton, TextContainer, TopicButton } from '../../components/Styles/GlobalStyle'
 import CalendarComponent from '../../components/Calendar/Calendar'
 import { CalendarAndDateContainer } from '../../components/Calendar/Calendar.styles'
 import { getColorClass } from '../../components/Card/Card'
@@ -25,7 +26,7 @@ import { Theme, ThemeText } from '../../components/Card/Card.styles'
 import { StatusButton, StatusText, StatusTheme, StatusThemes, StatusTitle } from './CardViewEdit.styles'
 import formattedDate from '../../utils/dateFormat'
 
-export default function CardView({ $isDark }) {
+export default function CardView({ $isDark, isMobile }) {
     const [currentStatus, setCurrentStatus] = useState(null)
     // const [colorTopic, setColorTopic] = useState()
     const navigate = useNavigate()
@@ -80,9 +81,13 @@ export default function CardView({ $isDark }) {
                     <PopBrowseContent>
                         <TopicContainer>
                             <PopBrowseTitle $isDark={$isDark}>{title}</PopBrowseTitle>
-                            <Theme style={{ height: '30px' }} className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}>
-                                <ThemeText>{topic}</ThemeText>
-                            </Theme>
+                            {!isMobile ? (
+                                <Theme style={{ height: '30px' }} className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}>
+                                    <ThemeText>{topic}</ThemeText>
+                                </Theme>
+                            ) : (
+                                ''
+                            )}
                         </TopicContainer>
 
                         <Status $isDark={$isDark}>
@@ -130,28 +135,37 @@ export default function CardView({ $isDark }) {
                             </Form>
 
                             <CalendarAndDateContainer>
-                                <FormDateTitle>Дата</FormDateTitle>
+                                <FormDateTitle>Даты</FormDateTitle>
                                 <CalendarComponent isEditMode={isEditMode} handleDateChange={handleDateChange} selectDate={selectDate} $isDark={$isDark} />
                                 <FormDateControl>
                                     Срок исполнения: <span>{formattedTaskDate || ''}</span>
                                 </FormDateControl>
                             </CalendarAndDateContainer>
                         </FormWrap>
+                        <>
+                            <TextContainer $secondaryColor>Категория</TextContainer>
+                            <Theme style={{ height: '30px' }} className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}>
+                                <ThemeText>{topic}</ThemeText>
+                            </Theme>
+                        </>
+
                         <ButtonGroup>
                             <>
                                 {!isEditMode ? (
-                                    <div>
+                                    <ButtonControlsWrap>
                                         <SecondaryButton $isDark={$isDark} onClick={handleEditToggle} state={{ modalWindow: true }}>
                                             Редактировать задачу
                                         </SecondaryButton>
                                         <SecondaryButton $isDark={$isDark}>Удалить задачу</SecondaryButton>
-                                    </div>
+                                    </ButtonControlsWrap>
                                 ) : (
                                     <div>
                                         <SecondaryButton $isDark={$isDark}>Сохранить</SecondaryButton>
-                                        <SecondaryButton $isDark={$isDark} onClick={handleEditToggle}>
-                                            Отменить
-                                        </SecondaryButton>
+                                        <Link to="/">
+                                            <SecondaryButton $isDark={$isDark} onClick={handleEditToggle}>
+                                                Отменить
+                                            </SecondaryButton>
+                                        </Link>
                                         <SecondaryButton $isDark={$isDark} id="btnDelete">
                                             Удалить задачу
                                         </SecondaryButton>

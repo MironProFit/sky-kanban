@@ -2,11 +2,12 @@ import { Outlet } from 'react-router-dom'
 import Header from '../Layout/Header'
 import MainPage from '../../pages/Main/MainPage'
 import AuthModal from '../../pages/Auth/AuthModal'
+import { useState } from 'react'
 
 function Layout({ isAuth, setIsAuth, isTheme, setIsTheme }) {
     return (
         <>
-            <Header isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} setIsTheme={setIsTheme} $isDark={isTheme}  />
+            <Header isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} setIsTheme={setIsTheme} $isDark={isTheme} />
 
             {isAuth ? (
                 <>

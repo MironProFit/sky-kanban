@@ -1,10 +1,14 @@
 import styled, { css } from 'styled-components'
-import { accentColor, hoverBackground, hoverColor, selectedDate } from '../Styles/Mexins.style'
+import { accentColor, accentPrimaryColor, hoverBackground, hoverColor, selectedDate } from '../Styles/Mexins.style'
 
 export const Calendar = styled.div`
     width: 182px;
-    /* margin-bottom: 14px; */
     margin-top: 14px;
+
+    @media (max-width: 600px) {
+        width: 100%;
+        margin: 0;
+    }
 `
 
 export const CalendarTitle = styled.div`
@@ -43,6 +47,7 @@ export const CalendarBtnGroup = styled.div`
 `
 export const CalendarAndDateContainer = styled.div`
     display: block;
+    margin-left: 20px;
     margin-bottom: 20px;
 `
 
@@ -89,7 +94,6 @@ export const CalendarCells = styled.div`
     display: flex;
     flex-wrap: wrap;
 `
-
 export const CalendarCell = styled.div`
     width: 22px;
     height: 22px;
@@ -105,6 +109,13 @@ export const CalendarCell = styled.div`
 
     transition: background 0.2s;
     cursor: pointer;
+
+    ${({ $past }) =>
+        $past &&
+        css`
+            cursor: default;
+            color: #47464c;
+        `}
 
     ${({ $isEditMode }) =>
         !$isEditMode &&
@@ -124,9 +135,10 @@ export const CalendarCell = styled.div`
             background-color: ${accentColor};
             color: black;
         `};
-    ${({ cellDay, $isEditMode }) =>
+    ${({ cellDay, $isEditMode, $past }) =>
         cellDay &&
         $isEditMode &&
+        !$past &&
         css`
             ${hoverBackground} : none;
             ${hoverColor};

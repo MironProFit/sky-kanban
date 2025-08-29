@@ -1,6 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom'
 import styled, { createGlobalStyle, css } from 'styled-components'
-import { borderColor, hoverBorder, hoverCombination, linkColor, primaryHoverColor, reversePrimaryColor, textColor } from './Mexins.style'
+import { borderColor, hoverBorder, hoverCombination, linkColor, primaryHoverColor, reversePrimaryColor, secondaryColor, textColor } from './Mexins.style'
 import '../../components/Styles/Mexins.style'
 
 export const GlobalStyle = createGlobalStyle`
@@ -126,6 +126,11 @@ export const PrimaryButton = styled.button`
         background-color: ${primaryHoverColor};
         color: ${white};
     }
+    @media (max-width: 600px) {
+        display: ${({ $display }) => $display || 'flex'};
+        width: 100%;
+        margin: 0;
+    }
 `
 export const SecondaryButton = styled.button`
     width: ${({ $width }) => $width || 'auto'};
@@ -144,6 +149,10 @@ export const SecondaryButton = styled.button`
         background: ${accentButtonColor};
         border: 1px solid ${({ $isDark }) => (!$isDark ? '#FFFFFF' : '#565eef')};
         color: ${white};
+    }
+    @media (max-width: 600px) {
+        margin: 0;
+        width: 100%;
     }
 `
 export const TopicButton = styled.button`
@@ -218,7 +227,6 @@ export const TopicButton = styled.button`
     }
     &:active {
         opacity: 1;
-        
     }
 `
 
@@ -227,5 +235,5 @@ export const TextContainer = styled.p`
     display: block;
     font-weight: 400;
     font-size: 14px;
-    ${reversePrimaryColor};
+    ${({ $secondaryColor }) => ($secondaryColor ? secondaryColor : reversePrimaryColor)}
 `

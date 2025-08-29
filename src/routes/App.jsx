@@ -7,6 +7,7 @@ function App() {
     useEffect(() => {
         localStorage.setItem('isTheme', isTheme)
     }, [isTheme])
+
     return (
         <>
             <GlobalStyle $isDark={isTheme} />

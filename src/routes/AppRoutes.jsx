@@ -10,8 +10,7 @@ import Layout from '../components/Layout/Layout'
 
 function AppRoutes({ isTheme, setIsTheme }) {
     const [isAuth, setIsAuth] = useState(false)
-    // const [isCreateMode, setIsCreateMode] = useState(false)
-задачи
+
     const router = createBrowserRouter([
         {
             path: '/',
@@ -22,8 +21,8 @@ function AppRoutes({ isTheme, setIsTheme }) {
                     children: [
                         { path: 'exit', element: <ConfirmExit isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} /> },
                         { path: 'createcard', element: <CardCreate $isDark={isTheme} /> },
-                        { path: 'cardview/:id', element: <CardViewEdit $isDark={isTheme} /> },
-                        { path: 'cardview/:id/edit', element: <CardViewEdit $isDark={isTheme} /> },
+                        { path: 'cardview/:id', element: <CardViewEdit setIsModal={setIsModal} $isDark={isTheme} /> },
+                        { path: 'cardview/:id/edit', element: <CardViewEdit setIsModal={setIsModal} $isDark={isTheme} /> },
                         { path: 'cardview/:id/delete', element: <CardViewEdit $isDark={isTheme} /> },
                     ],
                 },

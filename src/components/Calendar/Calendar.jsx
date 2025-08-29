@@ -43,6 +43,7 @@ export default function CalendarComponent({ $isDark, handleDateChange, selectDat
             date,
             otherMonth: true,
             weekend: calendarMap.length % 7 >= 5,
+            past: date < today,
         })
     }
     // Текущий месяц
@@ -58,6 +59,7 @@ export default function CalendarComponent({ $isDark, handleDateChange, selectDat
             cellDay: true,
             weekend,
             isToday,
+            past: date < today,
         })
     }
     // Следующий месяц
@@ -115,7 +117,7 @@ export default function CalendarComponent({ $isDark, handleDateChange, selectDat
                             <CalendarCell
                                 $isEditMode={isEditMode}
                                 onClick={
-                                    isEditMode
+                                    isEditMode && !cell.past
                                         ? () => {
                                               handleDateChange(formattedDate(cell.date))
                                           }
@@ -128,6 +130,8 @@ export default function CalendarComponent({ $isDark, handleDateChange, selectDat
                                 cellDay={cell.cellDay}
                                 isToday={cell.isToday}
                                 weekend={cell.weekend}
+                                past={cell.past}
+                                $past={cell.past}
                             >
                                 {cell.num}
                             </CalendarCell>
