@@ -2,8 +2,6 @@ import { css } from 'styled-components'
 
 // Миксины
 
-
-
 export const textColor = css`
     color: ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#606060')};
 `
@@ -59,6 +57,7 @@ export const setHoverButtonsColor = css`
 export const accentColor = '#94A6BE'
 export const accentButtonColor = '#565eef'
 export const accentPrimaryColor = '#151419'
+export const accentPrimaryBackg = '#20202C'
 
 export const borderColor = ({ $isDark }) => ($isDark ? '#4e5566' : '#D4DBE5')
 
@@ -76,8 +75,8 @@ export const hoverBackground = css`
 
 export const hoverColor = css`
     &:hover {
-        /* color: ${accentButtonColor}; */
-        color: ${white};
+        color: ${accentButtonColor};
+        /* color: ${white}; */
     }
 `
 

@@ -25,8 +25,9 @@ import { getColorClass } from '../../components/Card/Card'
 import { Theme, ThemeText } from '../../components/Card/Card.styles'
 import { StatusButton, StatusText, StatusTheme, StatusThemes, StatusTitle } from './CardViewEdit.styles'
 import formattedDate from '../../utils/dateFormat'
+import { useAppContext } from '../../routes/AppContext'
 
-export default function CardView({ $isDark, isMobile }) {
+export default function CardView({ $isDark }) {
     const [currentStatus, setCurrentStatus] = useState(null)
     // const [colorTopic, setColorTopic] = useState()
     const navigate = useNavigate()
@@ -40,6 +41,8 @@ export default function CardView({ $isDark, isMobile }) {
     const formattedTaskDate = formattedDate(date)
     const selectDate = taskState.date
 
+    const { isMobile, setISMobile, isModal, setIsModal, handleResize, handleModalOpen, handleModalClose } = useAppContext()
+
     const handleDateChange = (dateString) => {
         setTaskState((prev) => ({
             ...prev,
@@ -49,14 +52,17 @@ export default function CardView({ $isDark, isMobile }) {
 
     const colorTopicClass = getColorClass(topic)
 
-    const modalWindow = location.state?.modalWindow || false
-
     function handleClose() {
         navigate(-1)
+        setIsModal(false)
     }
     const handleEditToggle = () => {
         if (!isEditMode) {
-            navigate(`${location.pathname}/edit`, { state: { modalWindow: true }, replace: true, $isDark: $isDark })
+            navigate(`${location.pathname}/edit`, {
+                // state: { modalWindow: true },
+                replace: true,
+                $isDark: $isDark,
+            })
         } else {
             const basePath = location.pathname.replace(/\/edit$/, '')
             navigate(basePath, { replace: true })
@@ -71,11 +77,9 @@ export default function CardView({ $isDark, isMobile }) {
     const handleStatus = (id) => {
         setCurrentStatus(id)
     }
-    const getDesc = (value) => {
-        return console.log(value)
-    }
+
     return (
-        <PopBrowse style={{ display: modalWindow ? 'block' : 'none' }} id="popBrowse">
+        <PopBrowse style={{ display: isModal ? 'block' : 'none' }} id="popBrowse">
             <PopBrowseContainer>
                 <PopBrowseBlock $isDark={$isDark}>
                     <PopBrowseContent>
@@ -142,39 +146,57 @@ export default function CardView({ $isDark, isMobile }) {
                                 </FormDateControl>
                             </CalendarAndDateContainer>
                         </FormWrap>
-                        <>
-                            <TextContainer $secondaryColor>Категория</TextContainer>
-                            <Theme style={{ height: '30px' }} className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}>
-                                <ThemeText>{topic}</ThemeText>
-                            </Theme>
-                        </>
+                        {isMobile ? (
+                            <>
+                                <TextContainer $secondaryColor>Категория</TextContainer>
+                                <Theme style={{ height: '30px' }} className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}>
+                                    <ThemeText>{topic}</ThemeText>
+                                </Theme>
+                            </>
+                        ) : (
+                            ''
+                        )}
 
-                        <ButtonGroup>
+                        <ButtonGroup $fixed>
                             <>
                                 {!isEditMode ? (
-                                    <ButtonControlsWrap>
-                                        <SecondaryButton $isDark={$isDark} onClick={handleEditToggle} state={{ modalWindow: true }}>
+                                    <ButtonControlsWrap $fixed>
+                                        <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleEditToggle}>
                                             Редактировать задачу
                                         </SecondaryButton>
-                                        <SecondaryButton $isDark={$isDark}>Удалить задачу</SecondaryButton>
-                                    </ButtonControlsWrap>
-                                ) : (
-                                    <div>
-                                        <SecondaryButton $isDark={$isDark}>Сохранить</SecondaryButton>
-                                        <Link to="/">
-                                            <SecondaryButton $isDark={$isDark} onClick={handleEditToggle}>
-                                                Отменить
-                                            </SecondaryButton>
-                                        </Link>
-                                        <SecondaryButton $isDark={$isDark} id="btnDelete">
+                                        <SecondaryButton $fixedBtn $isDark={$isDark}>
                                             Удалить задачу
                                         </SecondaryButton>
-                                    </div>
+                                        {isMobile && (
+                                            <PrimaryButton $fixedBtn $width="auto" $isDark={$isDark} onClick={handleClose}>
+                                                Закрыть
+                                            </PrimaryButton>
+                                        )}
+                                    </ButtonControlsWrap>
+                                ) : (
+                                    <ButtonControlsWrap $fixed style={{ bottom: '180px' }}>
+                                        <SecondaryButton $fixedBtn $isDark={$isDark}>
+                                            Сохранить
+                                        </SecondaryButton>
+                                        {isMobile && (
+                                            <PrimaryButton $fixedBtn $width="auto" $isDark={$isDark} onClick={handleClose}>
+                                                Закрыть
+                                            </PrimaryButton>
+                                        )}
+                                        <SecondaryButton $fixedBtn to="/" $isDark={$isDark} onClick={handleModalClose}>
+                                            Отменить
+                                        </SecondaryButton>
+                                        <SecondaryButton $fixedBtn $isDark={$isDark} id="btnDelete">
+                                            Удалить задачу
+                                        </SecondaryButton>
+                                    </ButtonControlsWrap>
                                 )}
                             </>
-                            <PrimaryButton $width="auto" $isDark={$isDark} onClick={handleClose}>
-                                Закрыть
-                            </PrimaryButton>
+                            {!isMobile && (
+                                <PrimaryButton $fixedBtn $width="auto" $isDark={$isDark} onClick={handleClose}>
+                                    Закрыть
+                                </PrimaryButton>
+                            )}
                         </ButtonGroup>
                     </PopBrowseContent>
                 </PopBrowseBlock>

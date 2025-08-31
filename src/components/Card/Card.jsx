@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import formattedDate from '../../utils/dateFormat'
 import { CardContent, CardDate, CardDateText, CardGroup, CardItem, CardLink, CardsContainer, CardTitle, CardWrapper, Dot, DotContainer, Theme, ThemeText } from './Card.styles'
+import { useAppContext } from '../../routes/AppContext'
+
 export const getColorClass = (topic) => {
     switch (topic) {
         case 'Web Design':
@@ -16,18 +18,29 @@ export const getColorClass = (topic) => {
     }
 }
 export default function Card({ id, topic, title, date, status, $isDark }) {
+    const { isModal, setIsModal, isMobile, setISMobile } = useAppContext()
+    const handleWindowOpen = () => {
+        setIsModal(true)
+    }
+
     const colorTopicClass = getColorClass(topic)
 
     return (
         <CardsContainer>
-            <Link to={`cardview/${id}`} state={{ modalWindow: true, topic, title, date, status }}>
+            <Link to={`cardview/${id}`} onClick={handleWindowOpen} state={{ topic, title, date, status }}>
                 <CardItem key={id}>
                     <CardWrapper $isDark={$isDark}>
                         <CardGroup>
                             <Theme className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}>
                                 <ThemeText>{topic}</ThemeText>
                             </Theme>
-                            <CardLink to={`cardview/${id}`} state={{ modalWindow: true, topic, title, date, status }}>
+                            <CardLink
+                                onClick={() => {
+                                    handleWindowOpen
+                                }}
+                                to={`cardview/${id}`}
+                                state={{ topic, title, date, status }}
+                            >
                                 <DotContainer>
                                     <Dot />
                                     <Dot />

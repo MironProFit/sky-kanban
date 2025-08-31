@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import { ButtonContainer, CheckBoxTheme, Container, ThemeContainer, ThemeTitle, TilteMail, TilteName } from './UserMenuModal.styles'
 import { SecondaryButton } from '../Styles/GlobalStyle'
+import { useAppContext } from '../../routes/AppContext'
 
-function UserMenuModal({ toggleModal, isTheme, handleTheme, handleAuth, $isDark }) {
+function UserMenuModal({ toggleUserMenu, isTheme, handleTheme, handleAuth, $isDark }) {
+    const { isMobile } = useAppContext()
     return (
         <Container $isDark={$isDark} id="user-set-target">
-            <Link className="pop-user-set__close" onClick={toggleModal}>
-                &#10006;
-            </Link>
+            {/* <Link onClick={toggleUserMenu}>&#10006;</Link> */}
             <TilteName $isDark={$isDark}>Ivan Ivanov</TilteName>
             <TilteMail>ivan.ivanov@gmail.com</TilteMail>
             <ThemeContainer>
@@ -16,7 +16,7 @@ function UserMenuModal({ toggleModal, isTheme, handleTheme, handleAuth, $isDark 
             </ThemeContainer>
 
             <ButtonContainer>
-                <SecondaryButton $isDark={$isDark} $width="72px" onClick={handleAuth} type="button">
+                <SecondaryButton style={{ height: isMobile ? '40px' : '30px' }} $isDark={$isDark} $width="72px" onClick={handleAuth} type="button">
                     Выйти
                 </SecondaryButton>
             </ButtonContainer>

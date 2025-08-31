@@ -7,8 +7,8 @@ export const Container = styled.div`
     position: absolute;
     top: 61px;
     right: 0;
-    width: 213px;
-    height: 205px;
+    /* width: 213px; */
+    /* height: 205px; */
     border-radius: 10px;
     border: 0.7px solid rgba(148, 166, 190, 0.4);
     box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);

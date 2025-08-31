@@ -1,8 +1,7 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { textColor, primaryBacground, primaryColor, accentColor, mainBacground, reversePrimaryColor, white } from '../../components/Styles/Mexins.style'
 
 export const PopBrowse = styled.div`
-    display: block;
     width: 100%;
     height: 100%;
     min-width: 375px;
@@ -12,6 +11,7 @@ export const PopBrowse = styled.div`
     left: 0;
     z-index: 7;
     @media (max-width: 600px) {
+        display: ${({ $isModal }) => ($isModal ? 'block' : 'none')};
         position: relative;
         background-color: inherit;
     }
@@ -232,12 +232,41 @@ export const ButtonGroup = styled.div`
     justify-content: space-between;
     flex-wrap: wrap;
 `
-
 export const ButtonControlsWrap = styled.div`
     @media (max-width: 600px) {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
         width: 100%;
+        gap: 10px;
     }
+
+    ${({ $fixed }) =>
+        $fixed &&
+        css`
+            bottom: 130px;
+            @media (max-width: 600px) {
+                width: unset;
+                height: 40px;
+                margin: 0 30px;
+                padding: 0;
+                position: fixed;
+                /* bottom: 30px; */
+                left: 0;
+                right: 0;
+                z-index: 9999;
+            }
+
+            @media screen and (max-width: 495px) {
+                width: unset;
+                height: 40px;
+                margin: 0 16px;
+                padding: 0;
+                position: fixed;
+                /* bottom: 30px; */
+                left: 0;
+                right: 0;
+                z-index: 9999;
+            }
+        `}
 `

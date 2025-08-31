@@ -1,6 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom'
 import styled, { createGlobalStyle, css } from 'styled-components'
-import { borderColor, hoverBorder, hoverCombination, linkColor, primaryHoverColor, reversePrimaryColor, secondaryColor, textColor } from './Mexins.style'
+import { accentPrimaryBackg, accentPrimaryColor, borderColor, hoverBorder, hoverCombination, linkColor, primaryHoverColor, reversePrimaryColor, secondaryColor, textColor } from './Mexins.style'
 import '../../components/Styles/Mexins.style'
 
 export const GlobalStyle = createGlobalStyle`
@@ -108,29 +108,46 @@ export const PrimaryButton = styled.button`
     letter-spacing: -0.14px;
     cursor: pointer;
     transition: 0.3s;
-
-    /* margin-bottom: 10px; */
     padding: 0 14px;
     margin-right: 8px;
-    /* ${hoverCombination} */
-    /* a {
-        color: #ffffff;
-        text-decoration: none;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    } */
+
     &:hover {
         background-color: ${primaryHoverColor};
         color: ${white};
     }
     @media (max-width: 600px) {
+        height: 40px;
         display: ${({ $display }) => $display || 'flex'};
         width: 100%;
         margin: 0;
     }
+    ${({ $fixed }) =>
+        $fixed &&
+        css`
+            @media (max-width: 600px) {
+                width: unset;
+                height: 40px;
+                margin: 0 30px;
+                padding: 0;
+                position: fixed;
+                bottom: 30px;
+                left: 0;
+                right: 0;
+                z-index: 9999;
+            }
+
+            @media screen and (max-width: 495px) {
+                width: unset;
+                height: 40px;
+                margin: 0 16px;
+                padding: 0;
+                position: fixed;
+                bottom: 30px;
+                left: 0;
+                right: 0;
+                z-index: 9999;
+            }
+        `}
 `
 export const SecondaryButton = styled.button`
     width: ${({ $width }) => $width || 'auto'};
@@ -138,7 +155,7 @@ export const SecondaryButton = styled.button`
     margin-bottom: 10px;
     padding: 0 14px;
     margin-right: 8px;
-    background: transparent;
+    background-color: transparent;
     ${setButtonsColor};
     border-radius: 4px;
     border: 1px solid ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#565eef')};
@@ -154,6 +171,34 @@ export const SecondaryButton = styled.button`
         margin: 0;
         width: 100%;
     }
+    ${({ $fixedBtn }) =>
+        $fixedBtn &&
+        css`
+            background-color: ${({ $isDark }) => ($isDark ? accentPrimaryBackg : white)};
+            @media (max-width: 600px) {
+                /* width: unset; */
+                height: 40px;
+                /* margin: 0 30px; */
+                padding: 0;
+                /* position: fixed; */
+                bottom: 30px;
+                left: 0;
+                right: 0;
+                z-index: 9999;
+            }
+
+            @media screen and (max-width: 495px) {
+                /* width: unset; */
+                height: 40px;
+                /* margin: 0 16px; */
+                padding: 0;
+                /* position: fixed;  */
+                bottom: 30px;
+                left: 0;
+                right: 0;
+                z-index: 9999;
+            }
+        `}
 `
 export const TopicButton = styled.button`
     box-sizing: border-box;

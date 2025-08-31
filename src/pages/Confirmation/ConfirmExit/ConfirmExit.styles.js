@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { primaryBacground, reverseSecondaryColor } from '../../../components/Styles/Mexins.style'
 
 import { PrimaryButton, SecondaryButton } from '../../../components/Styles/GlobalStyle'
@@ -6,7 +6,7 @@ import { PrimaryButton, SecondaryButton } from '../../../components/Styles/Globa
 export const PopExit = styled.div`
     display: none;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     min-width: 320px;
     min-height: 100vh;
     position: absolute;
@@ -36,6 +36,12 @@ export const PopExitBlock = styled.div`
     border-radius: 10px;
     border: 0.7px solid #d4dbe5;
     box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
+    ${({ $isMobile }) =>
+        $isMobile &&
+        css`
+            max-width: 100%;
+            padding: 50px 20px;
+        `}
 `
 export const PopExitTitle = styled.h2`
     text-align: center;
@@ -46,6 +52,20 @@ export const PopExitTitle = styled.h2`
     margin-bottom: 20px;
     ${reverseSecondaryColor}
 `
+
+export const PopExitFormGroup = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    ${({ $isMobile }) =>
+        $isMobile &&
+        css`
+            flex-direction: column;
+            gap: 10px;
+        `}
+`
+
 export const PopExitButtonYes = styled(PrimaryButton)`
     width: 153px;
     height: 30px;
@@ -53,6 +73,13 @@ export const PopExitButtonYes = styled(PrimaryButton)`
     margin-right: 10px;
     font-size: 14px;
     line-height: 21px;
+
+    ${({ $isMobile }) =>
+        $isMobile &&
+        css`
+            width: 100%;
+            height: 41px;
+        `}
 `
 
 export const PopExitButtonYesLink = styled(PopExitButtonYes)`
@@ -67,6 +94,12 @@ export const PopExitButtonNo = styled(SecondaryButton)`
     height: 30px;
     border-radius: 4px;
     outline: none;
+    ${({ $isMobile }) =>
+        $isMobile &&
+        css`
+            width: 100%;
+            height: 41px;
+        `}
 `
 
 export const PopExitButtonNoLink = styled(PopExitButtonYes)`
@@ -75,10 +108,4 @@ export const PopExitButtonNoLink = styled(PopExitButtonYes)`
     display: flex;
     align-items: center;
     justify-content: center;
-`
-
-export const PopExitFormGroup = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
 `

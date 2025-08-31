@@ -3,8 +3,12 @@ import { cards } from '../../data/data'
 import { MainContainer, MainBlock, MainContent } from './MainPage.styles'
 import Column from '../../components/Layout/Column'
 import { Container } from '../../components/Styles/GlobalStyle'
+import { useAppContext } from '../../routes/AppContext'
 
 export default function MainPage({ $isDark }) {
+    const { isModal, setIsModal, isMobile, setISMobile, handleModalOpen, handleModalClose } = useAppContext()
+    console.log(isModal, isMobile)
+    console.log(`isModal: ${isModal}, isMobile: ${isMobile}`)
     const [cardsData] = useState(cards)
 
     const columns = useMemo(
@@ -17,8 +21,10 @@ export default function MainPage({ $isDark }) {
         }),
         [cardsData]
     )
+
     return (
-        <MainContainer $isDark={$isDark}>
+        
+        <MainContainer $isModal={isModal} $isMobile={isMobile} $isDark={$isDark}>
             <Container>
                 <MainBlock $isDark={$isDark}>
                     <MainContent>

@@ -20,6 +20,7 @@ import { PrimaryButton, TextContainer, TopicButton } from '../../components/Styl
 import CalendarComponent from '../../components/Calendar/Calendar'
 import { CalendarAndDateContainer } from '../../components/Calendar/Calendar.styles'
 import { Theme } from '../../components/Card/Card.styles'
+import { useAppContext } from '../../routes/AppContext'
 
 export default function CardView({ $isDark }) {
     const navigate = useNavigate()
@@ -31,6 +32,8 @@ export default function CardView({ $isDark }) {
     const isEditMode = Boolean(createMatch)
 
     const [selectDate, setSelectDate] = useState('')
+
+    const { isModal, setIsModal } = useAppContext()
 
     const handleDateChange = (dateString) => {
         setTaskState((prev) => ({
@@ -45,10 +48,9 @@ export default function CardView({ $isDark }) {
         console.log(`Кнопка ${i} нажата`)
     }
 
-    const modalWindow = location.state?.modalWindow || false
-
     function handleClose() {
         navigate(-1)
+        setIsModal(false)
     }
 
     const getDescription = (value) => {
@@ -58,7 +60,7 @@ export default function CardView({ $isDark }) {
         setTaskState((prev) => ({ ...prev, topic: value }))
     }
     return (
-        <PopBrowse style={{ display: modalWindow ? 'block' : 'none' }} id="popBrowse">
+        <PopBrowse $isModal={isModal} id="popBrowse">
             <PopBrowseContainer>
                 <PopBrowseBlock $isDark={$isDark}>
                     <PopBrowseContent>
@@ -146,7 +148,7 @@ export default function CardView({ $isDark }) {
                             </Theme>
                         </ButtonGroup>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <PrimaryButton $width="auto" $isDark={$isDark} onClick={handleClose}>
+                            <PrimaryButton $fixed $width="auto" $isDark={$isDark} onClick={handleClose}>
                                 Создать задачу
                             </PrimaryButton>
                         </div>

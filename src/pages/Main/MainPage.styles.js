@@ -2,9 +2,12 @@ import styled from 'styled-components'
 import { mainBacground, scrollbarThumbColor, scrollbarTrackColor } from '../../components/Styles/Mexins.style'
 
 export const MainContainer = styled.main`
-    width: 100%;
     display: flex;
+    width: 100%;
     ${mainBacground}
+    @media (max-width: 600px) {
+        display: ${({ $isModal }) => ($isModal ? 'none' : 'flex')};
+    }
 `
 export const MainBlock = styled.div`
     @media (min-width: 601px) {
@@ -12,10 +15,8 @@ export const MainBlock = styled.div`
         width: 100%;
         margin: 0 auto;
         padding: 25px 0 49px;
-        
-        
+
         &::-webkit-scrollbar-track {
-            background: red;
             border-radius: 10px;
         }
     }
