@@ -6,12 +6,11 @@ import UserMenuModal from './UserMenuModal'
 import { useAppContext } from '../../routes/AppContext'
 
 export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark }) {
-    const [userMenu, setUserMenu] = useState(false)
     const [isAuthPage, setIsAuthPage] = useState(false)
     const location = useLocation()
     const navigate = useNavigate()
 
-    const { isModal, handleModalClose, isMobile, handleModalOpen } = useAppContext()
+    const { isModal, handleModalClose, isMobile, handleModalOpen, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu } = useAppContext()
 
     useEffect(() => {
         if (location.pathname === '/login' || location.pathname === '/register') {
@@ -21,31 +20,16 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
         }
     }, [location.pathname])
 
-    // function toggleModal(event) {
-    //     event.preventDefault()
-    //     setModalOpen((prev) => !prev)
-    // }
-
     const handleTheme = () => {
         setIsTheme((prev) => !prev)
     }
-    // const handleCreateModal = (event) => {
-    //     event.preventDefault()
-
-    //     handleModalOpen()
-    //     console.log(isModal)
-    // }
 
     const handleAuth = () => {
-        setUserMenu(false)
-        setIsAuth(true)
+        setIsUserMenuOpen(false)
+        setIsAuth(false)
         navigate('/exit')
     }
-    const toggleUserMenu = (e) => {
-        e.preventDefault()
-        setUserMenu((prev) => !prev)
-    }
-    console.log(userMenu)
+
     return (
         <HeaderStyled $isDark={$isDark}>
             <Container>
@@ -71,11 +55,11 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
                                             ''
                                         )}
 
-                                        <LinkButton $isDark={$isDark} $isOpen={userMenu} onClick={toggleUserMenu}>
+                                        <LinkButton $isDark={$isDark} $isOpen={isUserMenuOpen} onClick={toggleUserMenu}>
                                             Ваше имя
                                         </LinkButton>
 
-                                        {userMenu && (
+                                        {isUserMenuOpen && (
                                             <UserMenuModal toggleUserMenu={toggleUserMenu} isAuth={isAuth} handleTheme={handleTheme} handleAuth={handleAuth} isTheme={isTheme} $isDark={$isDark} />
                                         )}
                                     </HeaderNav>

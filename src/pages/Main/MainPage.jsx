@@ -6,9 +6,7 @@ import { Container } from '../../components/Styles/GlobalStyle'
 import { useAppContext } from '../../routes/AppContext'
 
 export default function MainPage({ $isDark }) {
-    const { isModal, setIsModal, isMobile, setISMobile, handleModalOpen, handleModalClose } = useAppContext()
-    console.log(isModal, isMobile)
-    console.log(`isModal: ${isModal}, isMobile: ${isMobile}`)
+    const { isModal, setIsModal, isMobile, setISMobile, handleModalOpen, handleModalClose, isUserMenuOpen, toggleUserMenu } = useAppContext()
     const [cardsData] = useState(cards)
 
     const columns = useMemo(
@@ -23,8 +21,14 @@ export default function MainPage({ $isDark }) {
     )
 
     return (
-        
-        <MainContainer $isModal={isModal} $isMobile={isMobile} $isDark={$isDark}>
+        <MainContainer
+            onClick={() => {
+                isUserMenuOpen && toggleUserMenu()
+            }}
+            $isModal={isModal}
+            $isMobile={isMobile}
+            $isDark={$isDark}
+        >
             <Container>
                 <MainBlock $isDark={$isDark}>
                     <MainContent>

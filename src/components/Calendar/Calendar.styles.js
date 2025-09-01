@@ -49,6 +49,10 @@ export const CalendarAndDateContainer = styled.div`
     display: block;
     margin-left: 20px;
     margin-bottom: 20px;
+    @media (max-width: 600px) {
+        margin-left: 0;
+        margin-bottom: 20px;
+    }
 `
 
 export const CalendarBtn = styled.button`
@@ -65,14 +69,15 @@ export const CalendarBtn = styled.button`
 
     margin-right: ${(props) => (props.isLeft ? '10px' : '0')};
     margin-left: ${(props) => (props.isLeft ? '0' : '10px')};
+    @media (max-width: 600px) {
+    }
 `
 
 export const CalendarContent = styled.div`
-
-
-
     margin-bottom: 12px;
     margin-left: -7px;
+    @media (max-width: 600px) {
+    }
 `
 
 export const CalendarDaysNames = styled.div`
@@ -82,6 +87,11 @@ export const CalendarDaysNames = styled.div`
     justify-content: space-between;
     margin: 7px 0;
     padding: 0 7px;
+    @media (max-width: 600px) {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 35px;
+    }
 `
 
 export const CalendarDayName = styled.div`
@@ -93,11 +103,21 @@ export const CalendarDayName = styled.div`
 `
 
 export const CalendarCells = styled.div`
+    @media (max-width: 600px) {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+        gap: 20px;
+    }
     width: 182px;
     display: flex;
     flex-wrap: wrap;
 `
 export const CalendarCell = styled.div`
+    @media (max-width: 600px) {
+        width: 22px;
+        height: 22px;
+    }
     width: 22px;
     height: 22px;
     margin: 2px;
@@ -175,4 +195,3 @@ export const CalendarNav = styled.div`
 export const CalendarPeriod = styled.div`
     padding: 0 7px;
 `
-

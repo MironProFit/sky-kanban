@@ -4,7 +4,6 @@ export default function ConfirmExit({ $isDark, setIsAuth, toggleAuth, isAuth }) 
     const location = useLocation()
     const navigate = useNavigate()
     const { modalWindow } = location.state || {}
-    console.log(isAuth)
 
     function toggleAuth(e) {
         e.preventDefault()

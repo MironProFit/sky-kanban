@@ -14,6 +14,8 @@ export const PopBrowse = styled.div`
         display: ${({ $isModal }) => ($isModal ? 'block' : 'none')};
         position: relative;
         background-color: inherit;
+        min-width: auto;
+        min-height: auto;
     }
 `
 
@@ -52,7 +54,7 @@ export const PopBrowseBlock = styled.div`
         border-radius: 0;
         border: none;
         padding: 0;
-        height: 100vh;
+        height: ${({ $isEditMode }) => ($isEditMode ? '135vh' : '120vh')};
         flex-direction: column;
     }
 `
@@ -68,9 +70,12 @@ export const PopBrowseContent = styled.div`
         display: none;
     }
     @media (max-width: 600px) {
+        width: 300px;
+        margin-left: 15px;
+        margin-right: 15px;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
     }
 `
 
@@ -85,6 +90,8 @@ export const PopBrowseTitle = styled.h3`
     font-size: 20px;
     font-weight: 600;
     line-height: 24px;
+    @media (max-width: 600px) {
+    }
 `
 
 export const FormWrap = styled.div`
@@ -141,6 +148,7 @@ export const FormArea = styled.textarea`
     height: ${({ $maxHeight }) => $maxHeight || '236px'};
     @media (max-width: 600px) {
         overflow: hidden;
+        background-color: transparent;
     }
 
     &::-moz-placeholder {
@@ -173,6 +181,10 @@ export const FormDateTitle = styled.p`
     color: ${white};
     font-weight: 400;
     font-size: 14px;
+    @media (max-width: 600px) {
+        margin-bottom: 13px;
+        margin-top: 20px;
+    }
 `
 export const Status = styled.div`
     margin-bottom: 11px;
@@ -189,6 +201,7 @@ export const StatusThemes = styled.div`
     align-items: flex-start;
     justify-content: flex-start;
     @media (max-width: 600px) {
+        width: 300px;
         flex-wrap: wrap;
         flex-direction: row;
     }
@@ -231,6 +244,8 @@ export const ButtonGroup = styled.div`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    @media (max-width: 600px) {
+    }
 `
 export const ButtonControlsWrap = styled.div`
     @media (max-width: 600px) {

@@ -13,7 +13,7 @@ function App() {
         <AppProvider>
             <GlobalStyle $isDark={isTheme} />
             <Wrapper $isDark={isTheme}>
-                <AppRoutes isTheme={isTheme} setIsTheme={setIsTheme} />
+                <AppRoutes  isTheme={isTheme} setIsTheme={setIsTheme} />
             </Wrapper>
         </AppProvider>
     )

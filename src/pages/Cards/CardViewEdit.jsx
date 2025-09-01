@@ -41,7 +41,7 @@ export default function CardView({ $isDark }) {
     const formattedTaskDate = formattedDate(date)
     const selectDate = taskState.date
 
-    const { isMobile, setISMobile, isModal, setIsModal, handleResize, handleModalOpen, handleModalClose } = useAppContext()
+    const { isMobile, setISMobile, isModal, setIsModal, handleResize, handleModalOpen, handleModalClose, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu } = useAppContext()
 
     const handleDateChange = (dateString) => {
         setTaskState((prev) => ({
@@ -53,7 +53,7 @@ export default function CardView({ $isDark }) {
     const colorTopicClass = getColorClass(topic)
 
     function handleClose() {
-        navigate(-1)
+        navigate('/')
         setIsModal(false)
     }
     const handleEditToggle = () => {
@@ -80,8 +80,12 @@ export default function CardView({ $isDark }) {
 
     return (
         <PopBrowse style={{ display: isModal ? 'block' : 'none' }} id="popBrowse">
-            <PopBrowseContainer>
-                <PopBrowseBlock $isDark={$isDark}>
+            <PopBrowseContainer
+                onClick={() => {
+                    isUserMenuOpen && toggleUserMenu()
+                }}
+            >
+                <PopBrowseBlock $isEditMode={isEditMode} $isDark={$isDark}>
                     <PopBrowseContent>
                         <TopicContainer>
                             <PopBrowseTitle $isDark={$isDark}>{title}</PopBrowseTitle>
@@ -183,9 +187,10 @@ export default function CardView({ $isDark }) {
                                                 Закрыть
                                             </PrimaryButton>
                                         )}
-                                        <SecondaryButton $fixedBtn to="/" $isDark={$isDark} onClick={handleModalClose}>
+                                        <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleModalClose}>
                                             Отменить
                                         </SecondaryButton>
+
                                         <SecondaryButton $fixedBtn $isDark={$isDark} id="btnDelete">
                                             Удалить задачу
                                         </SecondaryButton>

@@ -37,7 +37,7 @@ export const ModalBlock = styled.div`
     @media screen and (max-width: 375px) {
         max-width: 368px;
         width: 100%;
-        padding: 0 16px;
+        padding: 50px 20px;
         border-radius: none;
         border: none;
         box-shadow: none;

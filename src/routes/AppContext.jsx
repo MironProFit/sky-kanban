@@ -15,16 +15,24 @@ export const AppProvider = ({ children }) => {
         }
     }, [])
     const handleModalOpen = () => {
-        // e.preventDefault()
         setIsModal(true)
     }
     const handleModalClose = () => {
-        // e.preventDefault()
         setIsModal(false)
     }
-    console.log(isMobile)
 
-    return <AppContext.Provider value={{ isModal, setIsModal, isMobile, setISMobile, handleModalOpen, handleModalClose }}>{children}</AppContext.Provider>
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+
+    const toggleUserMenu = () => {
+        // e.preventDefault()
+        setIsUserMenuOpen((prev) => !prev)
+    }
+
+    return (
+        <AppContext.Provider value={{ isModal, setIsModal, isMobile, setISMobile, handleModalOpen, handleModalClose, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu }}>
+            {children}
+        </AppContext.Provider>
+    )
 }
 
 export default AppProvider

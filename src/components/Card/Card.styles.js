@@ -42,6 +42,7 @@ export const CardGroup = styled.div`
 export const Theme = styled.div`
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     width: auto;
     height: 20px;
     padding: 5px 14px;
@@ -86,7 +87,7 @@ export const Theme = styled.div`
 `
 
 export const ThemeText = styled.p`
-    padding: 5px 10px 5px 10px;
+    /* padding: 5px 10px 5px 10px; */
     border-radius: 18px;
     font-size: 10px;
     font-weight: 600;

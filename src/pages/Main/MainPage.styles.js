@@ -23,7 +23,7 @@ export const MainBlock = styled.div`
     @media (max-width: 600px) {
         width: 100%;
         margin: 0 auto;
-        padding: 40px 0 64px;
+        padding: 30px 0 64px;
         display: flex;
         flex-direction: row;
     }

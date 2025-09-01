@@ -45,7 +45,6 @@ export default function CardView({ $isDark }) {
 
     const handleActive = (i) => {
         setActiveButton(i)
-        console.log(`Кнопка ${i} нажата`)
     }
 
     function handleClose() {
@@ -75,7 +74,7 @@ export default function CardView({ $isDark }) {
                                         Название задачи
                                     </label>
 
-                                    <FormArea
+                                    <FormArea 
                                         $maxHeight={'50px'}
                                         onChange={(e) => {
                                             getTaskName(e.target.value)
@@ -92,7 +91,7 @@ export default function CardView({ $isDark }) {
                                 </FormBlock>
 
                                 <FormBlock $isDark={$isDark}>
-                                    <label htmlFor="textArea01" className="subttl">
+                                    <label htmlFor="textArea01" className="subttl" style={{ marginTop: '20px' }}>
                                         Описание задачи
                                     </label>
                                     <FormArea
@@ -114,7 +113,6 @@ export default function CardView({ $isDark }) {
                                 <FormDateTitle>Даты</FormDateTitle>
                                 <CalendarComponent isEditMode={isEditMode} handleDateChange={handleDateChange} selectDate={selectDate} $isDark={$isDark} />
                                 <FormDateControl>
-                                    {' '}
                                     {!selectDate ? (
                                         'Выберите срок исполнения.'
                                     ) : (
@@ -128,7 +126,7 @@ export default function CardView({ $isDark }) {
                         <div>
                             <TextContainer $isDark={$isDark}>Категория</TextContainer>
                         </div>
-                        <ButtonGroup>
+                        <ButtonGroup className="buttongroup">
                             <Theme $isDark={$isDark} className={$isDark ? 'dark' : 'light'} style={{ marginBottom: '20px', padding: 0 }}>
                                 {topicsList.map((topic, i) => {
                                     return (

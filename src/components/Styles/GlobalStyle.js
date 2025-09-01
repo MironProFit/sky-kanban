@@ -55,7 +55,8 @@ export const Container = styled.div`
 
     @media screen and (max-width: 495px) {
         width: 100%;
-        padding: 0 16px;
+        padding: 0;
+        /* padding: 0 16px; */
     }
 `
 // Button
@@ -272,6 +273,10 @@ export const TopicButton = styled.button`
     }
     &:active {
         opacity: 1;
+    }
+    @media (max-width: 600px) {
+        margin-bottom: 10px;
+        
     }
 `
 
