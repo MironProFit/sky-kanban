@@ -7,11 +7,9 @@ import CardCreate from '../pages/Cards/CardCreate'
 import CardViewEdit from '../pages/Cards/CardViewEdit'
 import PrivateRoute from './PrivateRoute'
 import Layout from '../components/Layout/Layout'
-import { useAppContext } from './AppContext'
 
 function AppRoutes({ isTheme, setIsTheme }) {
     const [isAuth, setIsAuth] = useState(false)
-    const { isModal, setIsModal } = useAppContext()
 
     const router = createBrowserRouter([
         {

@@ -1,4 +1,4 @@
-import { Link, useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
 import { statusList, cards } from '../../data/data'
 import { useEffect, useState } from 'react'
 import {
@@ -41,7 +41,7 @@ export default function CardView({ $isDark }) {
     const formattedTaskDate = formattedDate(date)
     const selectDate = taskState.date
 
-    const { isMobile, setISMobile, isModal, setIsModal, handleResize, handleModalOpen, handleModalClose, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu } = useAppContext()
+    const { isMobile, isModal, setIsModal, handleModalClose, isUserMenuOpen, toggleUserMenu } = useAppContext()
 
     const handleDateChange = (dateString) => {
         setTaskState((prev) => ({

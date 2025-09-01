@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { PopExit, PopExitContainer, PopExitBlock, PopExitTitle, PopExitButtonYes, PopExitButtonNo, PopExitFormGroup } from '../ConfirmExit/ConfirmExit.styles'
-export default function ConfirmExit({ $isDark, setIsAuth, toggleAuth, isAuth }) {
+export default function ConfirmExit({ $isDark, setIsAuth, toggleAuth }) {
     const location = useLocation()
     const navigate = useNavigate()
     const { modalWindow } = location.state || {}

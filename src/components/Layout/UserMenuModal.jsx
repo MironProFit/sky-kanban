@@ -4,7 +4,7 @@ import { SecondaryButton } from '../Styles/GlobalStyle'
 import { useAppContext } from '../../routes/AppContext'
 import { useEffect, useRef } from 'react'
 
-function UserMenuModal({ isTheme, handleTheme, handleAuth, $isDark, toggleUserMenu, setIsUserMenuOpen }) {
+function UserMenuModal({ isTheme, handleTheme, handleAuth, $isDark }) {
     const { isMobile } = useAppContext()
 
     return (
@@ -17,7 +17,7 @@ function UserMenuModal({ isTheme, handleTheme, handleAuth, $isDark, toggleUserMe
             </ThemeContainer>
 
             <ButtonContainer>
-                <SecondaryButton to="/exit" style={{ height: isMobile ? '40px' : '30px' }} $isDark={$isDark} $width="72px" onClick={handleAuth} type="button">
+                <SecondaryButton style={{ height: isMobile ? '40px' : '30px' }} $isDark={$isDark} $width="72px" onClick={handleAuth} type="button">
                     Выйти
                 </SecondaryButton>
             </ButtonContainer>

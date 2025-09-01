@@ -3,7 +3,9 @@ const AppContext = createContext()
 
 export const AppProvider = ({ children }) => {
     const [isModal, setIsModal] = useState(false)
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
     const [isMobile, setISMobile] = useState(window.innerWidth <= 600)
+
     useEffect(() => {
         const handleResize = () => {
             setISMobile(window.innerWidth <= 600)
@@ -21,10 +23,7 @@ export const AppProvider = ({ children }) => {
         setIsModal(false)
     }
 
-    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
-
     const toggleUserMenu = () => {
-        // e.preventDefault()
         setIsUserMenuOpen((prev) => !prev)
     }
 

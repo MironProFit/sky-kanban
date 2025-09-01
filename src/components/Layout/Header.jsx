@@ -10,7 +10,7 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
     const location = useLocation()
     const navigate = useNavigate()
 
-    const { isModal, handleModalClose, isMobile, handleModalOpen, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu } = useAppContext()
+    const { isMobile, handleModalOpen, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu } = useAppContext()
 
     useEffect(() => {
         if (location.pathname === '/login' || location.pathname === '/register') {
@@ -25,9 +25,9 @@ export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark
     }
 
     const handleAuth = () => {
-        setIsUserMenuOpen(false)
-        setIsAuth(false)
         navigate('/exit')
+        setIsAuth(true)
+        setIsUserMenuOpen(false)
     }
 
     return (

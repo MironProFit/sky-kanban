@@ -1,4 +1,4 @@
-import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useMatch, useNavigate } from 'react-router-dom'
 import { topicsList } from '../../data/data'
 import { useState } from 'react'
 import {
@@ -74,7 +74,7 @@ export default function CardView({ $isDark }) {
                                         Название задачи
                                     </label>
 
-                                    <FormArea 
+                                    <FormArea
                                         $maxHeight={'50px'}
                                         onChange={(e) => {
                                             getTaskName(e.target.value)
