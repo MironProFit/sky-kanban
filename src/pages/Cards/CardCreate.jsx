@@ -24,7 +24,6 @@ import { useAppContext } from '../../routes/AppContext'
 
 export default function CardView({ $isDark }) {
     const navigate = useNavigate()
-    const location = useLocation()
     const [activeButton, setActiveButton] = useState(null)
     const [taskState, setTaskState] = useState([])
 

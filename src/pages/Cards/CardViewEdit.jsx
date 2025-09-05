@@ -50,6 +50,8 @@ export default function CardView({ $isDark }) {
         }))
     }
 
+    
+
     const colorTopicClass = getColorClass(topic)
 
     function handleClose() {
