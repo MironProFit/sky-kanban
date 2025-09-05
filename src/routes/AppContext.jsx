@@ -5,6 +5,7 @@ export const AppProvider = ({ children }) => {
     const [isModal, setIsModal] = useState(false)
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
     const [isMobile, setISMobile] = useState(window.innerWidth <= 600)
+    
 
     useEffect(() => {
         const handleResize = () => {

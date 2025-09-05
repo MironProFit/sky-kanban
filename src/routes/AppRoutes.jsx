@@ -7,6 +7,8 @@ import CardCreate from '../pages/Cards/CardCreate'
 import CardViewEdit from '../pages/Cards/CardViewEdit'
 import PrivateRoute from './PrivateRoute'
 import Layout from '../components/Layout/Layout'
+import { fetchUsers } from '../services/auth/getUsers'
+import ErrorBoundary from '../components/Layout/ErrorBoundary'
 
 function AppRoutes({ isTheme, setIsTheme }) {
     const [isAuth, setIsAuth] = useState(false)
@@ -15,6 +17,8 @@ function AppRoutes({ isTheme, setIsTheme }) {
         {
             path: '/',
             element: <Layout isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} $isDark={isTheme} setIsTheme={setIsTheme} />,
+            errorElement: <ErrorBoundary />,
+
             children: [
                 {
                     element: <PrivateRoute isAuth={isAuth} setIsAuth={setIsAuth} />,

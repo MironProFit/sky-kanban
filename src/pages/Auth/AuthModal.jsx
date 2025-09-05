@@ -1,12 +1,14 @@
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
 import { ContainerSignin, FGLink, FGTitle, ModalBlock, ModalBtnEnter, ModalForm, ModalFormGroup, ModalSignin, ModalTitle, TextInput, Title } from './AuthModal.styled'
 import { useEffect, useState } from 'react'
 import { Wrapper } from '../../components/Styles/GlobalStyle'
+import { loginUser } from '../../services/auth/login'
 
 function AuthModal({ setIsAuth, $isDark, toggleAuth }) {
     const [isPage, setIsPage] = useState('login')
     const navigate = useNavigate()
     const location = useLocation()
+  
 
     useEffect(() => {
         if (location.pathname === '/register') {
@@ -46,7 +48,7 @@ function AuthModal({ setIsAuth, $isDark, toggleAuth }) {
 
                                 <TextInput $isDark={$isDark} type="password" name="password" id="formpassword" placeholder="Пароль" />
 
-                                <ModalBtnEnter type="submit" id="btnEnter">
+                                <ModalBtnEnter onClick={() => loginUser()} type="submit" id="btnEnter">
                                     Войти
                                 </ModalBtnEnter>
 
