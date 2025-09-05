@@ -6,21 +6,23 @@ import { useState } from 'react'
 import { useAppContext } from '../../routes/AppContext'
 import UserMenuModal from './UserMenuModal'
 
-function Layout({ isAuth, setIsAuth, isTheme, setIsTheme }) {
-    
+function Layout() {
+    const { isAuth } = useAppContext()
+    const data = useLoaderData()
+    console.log(data)
 
     return (
         <>
-            <Header isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} setIsTheme={setIsTheme} $isDark={isTheme} />
+            <Header />
 
             {isAuth ? (
                 <>
-                    <MainPage $isDark={isTheme} />
+                    <MainPage />
 
                     <Outlet />
                 </>
             ) : (
-                <AuthModal isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} />
+                <AuthModal />
             )}
         </>
     )

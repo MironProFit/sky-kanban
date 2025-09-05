@@ -3,11 +3,12 @@ import { PopExit, PopExitContainer, PopExitBlock, PopExitTitle, PopExitButtonYes
 import { useAppContext } from '../../../routes/AppContext'
 import { useState } from 'react'
 
-export default function ConfirmExit({ $isDark, setIsAuth, toggleAuth }) {
+export default function ConfirmExit() {
+    const { $isDark, isMobile, setIsAuth } = useAppContext()
+
     const location = useLocation()
     const navigate = useNavigate()
 
-    const { isMobile } = useAppContext()
     const [isExit] = useState(location.pathname === '/exit')
 
     function toggleAuth(e) {
@@ -15,7 +16,6 @@ export default function ConfirmExit({ $isDark, setIsAuth, toggleAuth }) {
         setIsAuth(true)
         navigate('/')
     }
-    console.log(isExit)
 
     return (
         <PopExit style={{ display: isExit ? 'block' : 'none' }} id="popExit" $isDark={$isDark}>

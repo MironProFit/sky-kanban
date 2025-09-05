@@ -75,6 +75,8 @@ export const TextInput = styled.input`
     outline: none;
     padding: 10px 8px;
     background-color: inherit;
+    color: #94a6be;
+    transition: 0.3s;
 
     &::-moz-placeholder {
         font-family: 'Roboto', sans-serif;
@@ -91,6 +93,9 @@ export const TextInput = styled.input`
         line-height: 21px;
         letter-spacing: -0.28px;
         color: #94a6be;
+    }
+    &:focus {
+        border: 1px solid #94a6be;
     }
 `
 

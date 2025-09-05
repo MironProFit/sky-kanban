@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router-dom'
 import { ButtonContainer, CheckBoxTheme, Container, ThemeContainer, ThemeTitle, TilteMail, TilteName } from './UserMenuModal.styles'
 import { SecondaryButton } from '../Styles/GlobalStyle'
 import { useAppContext } from '../../routes/AppContext'
 import { useEffect, useRef } from 'react'
 
 function UserMenuModal({ isTheme, handleTheme, handleAuth, $isDark }) {
+    // const data = useLoaderData()
+    // console.log(data)
     const { isMobile } = useAppContext()
 
     return (

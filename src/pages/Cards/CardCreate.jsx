@@ -1,4 +1,4 @@
-import { useLocation, useMatch, useNavigate } from 'react-router-dom'
+import { useMatch, useNavigate } from 'react-router-dom'
 import { topicsList } from '../../data/data'
 import { useState } from 'react'
 import {
@@ -16,13 +16,15 @@ import {
     FormDateTitle,
     TopicContainer,
 } from './CardViewEdit.styles'
+
 import { PrimaryButton, TextContainer, TopicButton } from '../../components/Styles/GlobalStyle'
 import CalendarComponent from '../../components/Calendar/Calendar'
 import { CalendarAndDateContainer } from '../../components/Calendar/Calendar.styles'
 import { Theme } from '../../components/Card/Card.styles'
 import { useAppContext } from '../../routes/AppContext'
 
-export default function CardView({ $isDark }) {
+export default function CardView() {
+    const { $isDark } = useAppContext()
     const navigate = useNavigate()
     const [activeButton, setActiveButton] = useState(null)
     const [taskState, setTaskState] = useState([])

@@ -1,12 +1,13 @@
 import axios from 'axios'
+import { useAppContext } from '../../routes/AppContext'
 
-export async function loginUser() {
+export async function loginUser(login, password) {
     try {
         const res = await axios.post(
             'https://wedev-api.sky.pro/api/user/login',
             {
-                login: 'Miron',
-                password: 'Miron',
+                login: login,
+                password: password,
             },
             {
                 headers: {
@@ -14,11 +15,13 @@ export async function loginUser() {
                 },
             }
         )
+        if (res.status === 200) {
+            setIsAuth(true)
+        }
 
         if (!res.status) {
             throw new Error(`HTTP Error: ${res.status}`)
         }
-        
         return res.data
     } catch (error) {
         console.error('Ошибка:', error.response ? error.response.data : error.message)

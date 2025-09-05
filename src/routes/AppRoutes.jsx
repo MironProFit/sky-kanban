@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { useState } from 'react'
 
 import ConfirmExit from '../pages/Confirmation/ConfirmExit/ConfirmExit'
 import NotFound from '../pages/Main/NotFound'
@@ -7,27 +6,25 @@ import CardCreate from '../pages/Cards/CardCreate'
 import CardViewEdit from '../pages/Cards/CardViewEdit'
 import PrivateRoute from './PrivateRoute'
 import Layout from '../components/Layout/Layout'
-import { fetchUsers } from '../services/auth/getUsers'
 import ErrorBoundary from '../components/Layout/ErrorBoundary'
+import { loginUser } from '../services/auth/login'
 
-function AppRoutes({ isTheme, setIsTheme }) {
-    const [isAuth, setIsAuth] = useState(false)
-
+function AppRoutes() {
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <Layout isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} $isDark={isTheme} setIsTheme={setIsTheme} />,
-            errorElement: <ErrorBoundary />,
+            element: <Layout />,
+            // errorElement: <ErrorBoundary />,
 
             children: [
                 {
-                    element: <PrivateRoute isAuth={isAuth} setIsAuth={setIsAuth} />,
+                    element: <PrivateRoute />,
                     children: [
-                        { path: 'exit', element: <ConfirmExit isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} /> },
-                        { path: 'createcard', element: <CardCreate $isDark={isTheme} /> },
-                        { path: 'cardview/:id', element: <CardViewEdit $isDark={isTheme} /> },
-                        { path: 'cardview/:id/edit', element: <CardViewEdit $isDark={isTheme} /> },
-                        { path: 'cardview/:id/delete', element: <CardViewEdit $isDark={isTheme} /> },
+                        { path: 'exit', element: <ConfirmExit /> },
+                        { path: 'createcard', element: <CardCreate /> },
+                        { path: 'cardview/:id', element: <CardViewEdit /> },
+                        { path: 'cardview/:id/edit', element: <CardViewEdit /> },
+                        { path: 'cardview/:id/delete', element: <CardViewEdit /> },
                     ],
                 },
                 { path: '*', element: <NotFound /> },

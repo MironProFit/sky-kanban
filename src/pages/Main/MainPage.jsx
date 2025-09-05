@@ -5,8 +5,8 @@ import Column from '../../components/Layout/Column'
 import { Container } from '../../components/Styles/GlobalStyle'
 import { useAppContext } from '../../routes/AppContext'
 
-export default function MainPage({ $isDark }) {
-    const { isModal, isMobile, isUserMenuOpen, toggleUserMenu } = useAppContext()
+export default function MainPage() {
+    const { isModal, isMobile, isUserMenuOpen, toggleUserMenu, $isDark } = useAppContext()
     const [cardsData] = useState(cards)
 
     const columns = useMemo(

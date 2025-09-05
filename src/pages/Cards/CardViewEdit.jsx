@@ -18,7 +18,7 @@ import {
     TopicContainer,
     ButtonControlsWrap,
 } from './CardViewEdit.styles'
-import { PrimaryButton, SecondaryButton, TextContainer, TopicButton } from '../../components/Styles/GlobalStyle'
+import { PrimaryButton, SecondaryButton, TextContainer } from '../../components/Styles/GlobalStyle'
 import CalendarComponent from '../../components/Calendar/Calendar'
 import { CalendarAndDateContainer } from '../../components/Calendar/Calendar.styles'
 import { getColorClass } from '../../components/Card/Card'
@@ -27,9 +27,9 @@ import { StatusButton, StatusText, StatusTheme, StatusThemes, StatusTitle } from
 import formattedDate from '../../utils/dateFormat'
 import { useAppContext } from '../../routes/AppContext'
 
-export default function CardView({ $isDark }) {
+export default function CardView() {
+    const { $isDark } = useAppContext()
     const [currentStatus, setCurrentStatus] = useState(null)
-    // const [colorTopic, setColorTopic] = useState()
     const navigate = useNavigate()
     const location = useLocation()
     const { id } = useParams()
@@ -49,8 +49,6 @@ export default function CardView({ $isDark }) {
             date: dateString,
         }))
     }
-
-    
 
     const colorTopicClass = getColorClass(topic)
 

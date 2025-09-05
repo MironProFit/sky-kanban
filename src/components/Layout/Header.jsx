@@ -5,12 +5,12 @@ import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav, HeaderNavBtn } from '
 import UserMenuModal from './UserMenuModal'
 import { useAppContext } from '../../routes/AppContext'
 
-export default function Header({ isAuth, setIsAuth, isTheme, setIsTheme, $isDark }) {
+export default function Header() {
+    const { isAuth, setIsAuth, isTheme, setIsTheme, $isDark, isMobile, handleModalOpen, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu } = useAppContext()
+
     const [isAuthPage, setIsAuthPage] = useState(false)
     const location = useLocation()
     const navigate = useNavigate()
-
-    const { isMobile, handleModalOpen, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu } = useAppContext()
 
     useEffect(() => {
         if (location.pathname === '/login' || location.pathname === '/register') {

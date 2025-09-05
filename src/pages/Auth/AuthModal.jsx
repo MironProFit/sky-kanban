@@ -1,14 +1,17 @@
-import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { ContainerSignin, FGLink, FGTitle, ModalBlock, ModalBtnEnter, ModalForm, ModalFormGroup, ModalSignin, ModalTitle, TextInput, Title } from './AuthModal.styled'
 import { useEffect, useState } from 'react'
 import { Wrapper } from '../../components/Styles/GlobalStyle'
 import { loginUser } from '../../services/auth/login'
+import { useAppContext } from '../../routes/AppContext'
+import { af } from 'date-fns/locale'
 
-function AuthModal({ setIsAuth, $isDark, toggleAuth }) {
+function AuthModal() {
+    const { setIsAuth, $isDark } = useAppContext()
+
     const [isPage, setIsPage] = useState('login')
     const navigate = useNavigate()
     const location = useLocation()
-  
 
     useEffect(() => {
         if (location.pathname === '/register') {
@@ -27,10 +30,16 @@ function AuthModal({ setIsAuth, $isDark, toggleAuth }) {
             navigate('/login')
         }
     }
+
+    const [login, setLogin] = useState()
+    const [password, setPassword] = useState()
     function toggleAuth(e) {
         e.preventDefault()
-        setIsAuth(true)
-        navigate('/')
+       loginUser(login, password, setIsAuth)
+
+        
+
+        // navigate('/')
     }
 
     return (
@@ -44,11 +53,33 @@ function AuthModal({ setIsAuth, $isDark, toggleAuth }) {
 
                         {isPage === 'login' && (
                             <ModalForm id="formLogIn" onSubmit={toggleAuth}>
-                                <TextInput $isDark={$isDark} type="email" name="login" id="formlogin" placeholder="Эл. почта" />
+                                <TextInput
+                                    $isDark={$isDark}
+                                    onChange={(e) => {
+                                        setLogin(e.target.value)
+                                    }}
+                                    type="text"
+                                    name="login"
+                                    id="formlogin"
+                                    placeholder="Логин"
+                                />
 
-                                <TextInput $isDark={$isDark} type="password" name="password" id="formpassword" placeholder="Пароль" />
+                                <TextInput
+                                    $isDark={$isDark}
+                                    onChange={(e) => {
+                                        setPassword(e.target.value)
+                                    }}
+                                    type="password"
+                                    name="password"
+                                    id="formpassword"
+                                    placeholder="Пароль"
+                                />
 
-                                <ModalBtnEnter onClick={() => loginUser()} type="submit" id="btnEnter">
+                                <ModalBtnEnter
+                                    // onClick={() => loginUser()}
+                                    type="submit"
+                                    id="btnEnter"
+                                >
                                     Войти
                                 </ModalBtnEnter>
 

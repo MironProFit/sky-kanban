@@ -276,7 +276,6 @@ export const TopicButton = styled.button`
     }
     @media (max-width: 600px) {
         margin-bottom: 10px;
-        
     }
 `
 
