@@ -1,0 +1,43 @@
+import { useMemo, useState } from 'react'
+import { cards } from '../../data/data'
+import { MainContainer, MainBlock, MainContent } from './MainPage.styles'
+import Column from '../../components/Layout/Column'
+import { Container } from '../../components/Styles/GlobalStyle'
+import { useAppContext } from '../../routes/AppContext'
+
+export default function MainPage({ $isDark }) {
+    const { isModal, isMobile, isUserMenuOpen, toggleUserMenu } = useAppContext()
+    const [cardsData] = useState(cards)
+
+    const columns = useMemo(
+        () => ({
+            'Без статуса': cardsData.filter((card) => card.status === 'Без статуса'),
+            'Нужно сделать': cardsData.filter((card) => card.status === 'Нужно сделать'),
+            'В работе': cardsData.filter((card) => card.status === 'В работе'),
+            Тестирование: cardsData.filter((card) => card.status === 'Тестирование'),
+            Готово: cardsData.filter((card) => card.status === 'Готово'),
+        }),
+        [cardsData]
+    )
+
+    return (
+        <MainContainer
+            onClick={() => {
+                isUserMenuOpen && toggleUserMenu()
+            }}
+            $isModal={isModal}
+            $isMobile={isMobile}
+            $isDark={$isDark}
+        >
+            <Container>
+                <MainBlock $isDark={$isDark}>
+                    <MainContent>
+                        {Object.keys(columns).map((status) => (
+                            <Column $isDark={$isDark} key={status} title={status} cardsData={columns[status]} />
+                        ))}
+                    </MainContent>
+                </MainBlock>
+            </Container>
+        </MainContainer>
+    )
+}

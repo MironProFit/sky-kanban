@@ -1,55 +1,144 @@
+import { useState } from 'react'
+import {
+    Calendar,
+    CalendarTitle,
+    CalendarMonth,
+    CalendarBlock,
+    CalendarContent,
+    CalendarDaysNames,
+    CalendarDayName,
+    CalendarCells,
+    CalendarCell,
+    CalendarBtn,
+    CalendarBtnGroup,
+} from './Calendar.styles.js'
+import formattedDate from '../../utils/dateFormat.js'
 
-export default function Calendar() {
+const daysNames = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
+const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+
+export default function CalendarComponent({ $isDark, handleDateChange, selectDate, isEditMode }) {
+    const today = new Date()
+    const [displayedDate, setDisplayedDate] = useState(new Date())
+
+    const year = displayedDate.getFullYear()
+    const month = displayedDate.getMonth()
+    const daysInMonth = new Date(year, month + 1, 0).getDate()
+
+    // В JS: воскресенье=0. Для РФ : понедельник=1 ... воскресенье=7
+    let firstDayOfWeek = new Date(year, month, 1).getDay()
+    if (firstDayOfWeek === 0) firstDayOfWeek = 7
+
+    // Дней в предыдущем месяце
+    const prevMonth = month === 0 ? 11 : month - 1
+    const prevMonthYear = month === 0 ? year - 1 : year
+    const daysInPrevMonth = new Date(prevMonthYear, prevMonth + 1, 0).getDate()
+
+    const calendarMap = []
+    // Предыдущий месяц
+    for (let i = firstDayOfWeek - 2; i >= 0; i--) {
+        let date = new Date(prevMonthYear, prevMonth, daysInPrevMonth - i)
+        calendarMap.push({
+            num: daysInPrevMonth - i,
+            date,
+            otherMonth: true,
+            weekend: calendarMap.length % 7 >= 5,
+            past: date < today,
+        })
+    }
+    // Текущий месяц
+    for (let i = 1; i <= daysInMonth; i++) {
+        let date = new Date(year, month, i)
+        const idx = calendarMap.length
+        const weekend = idx % 7 >= 5
+        const isToday = i === today.getDate() && month === today.getMonth() && year === today.getFullYear()
+
+        calendarMap.push({
+            num: i,
+            date,
+            cellDay: true,
+            weekend,
+            isToday,
+            past: date < today,
+        })
+    }
+    // Следующий месяц
+    while (calendarMap.length % 7 !== 0) {
+        let d = calendarMap.length - daysInMonth - (firstDayOfWeek - 2) + 1
+        let date = new Date(year, month + 1, d)
+        calendarMap.push({
+            num: d,
+            date,
+            otherMonth: true,
+            weekend: calendarMap.length % 7 >= 5,
+        })
+    }
+    while (calendarMap.length < 42) {
+        let d = calendarMap.length - daysInMonth - (firstDayOfWeek - 2) + 1
+        let date = new Date(year, month + 1, d)
+        calendarMap.push({
+            num: d,
+            date,
+            otherMonth: true,
+            weekend: calendarMap.length % 7 >= 5,
+        })
+    }
+
+    // Навигация
+    const onPrevMonth = () => setDisplayedDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))
+    const onNextMonth = () => setDisplayedDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))
+
+    // const showPlannedDate = () => {
+
+    // }
+
     return (
-        <div>
-            <div className="calendar__content">
-                <div className="calendar__days-names">
-                    <div className="calendar__day-name">пн</div>
-                    <div className="calendar__day-name">вт</div>
-                    <div className="calendar__day-name">ср</div>
-                    <div className="calendar__day-name">чт</div>
-                    <div className="calendar__day-name">пт</div>
-                    <div className="calendar__day-name -weekend-">сб</div>
-                    <div className="calendar__day-name -weekend-">вс</div>
-                </div>
-                <div className="calendar__cells">
-                    <div className="calendar__cell _other-month">28</div>
-                    <div className="calendar__cell _other-month">29</div>
-                    <div className="calendar__cell _other-month">30</div>
-                    <div className="calendar__cell _cell-day">31</div>
-                    <div className="calendar__cell _cell-day">1</div>
-                    <div className="calendar__cell _cell-day _weekend">2</div>
-                    <div className="calendar__cell _cell-day _weekend">3</div>
-                    <div className="calendar__cell _cell-day">4</div>
-                    <div className="calendar__cell _cell-day">5</div>
-                    <div className="calendar__cell _cell-day ">6</div>
-                    <div className="calendar__cell _cell-day">7</div>
-                    <div className="calendar__cell _cell-day _current">8</div>
-                    <div className="calendar__cell _cell-day _weekend _active-day">9</div>
-                    <div className="calendar__cell _cell-day _weekend">10</div>
-                    <div className="calendar__cell _cell-day">11</div>
-                    <div className="calendar__cell _cell-day">12</div>
-                    <div className="calendar__cell _cell-day">13</div>
-                    <div className="calendar__cell _cell-day">14</div>
-                    <div className="calendar__cell _cell-day">15</div>
-                    <div className="calendar__cell _cell-day _weekend">16</div>
-                    <div className="calendar__cell _cell-day _weekend">17</div>
-                    <div className="calendar__cell _cell-day">18</div>
-                    <div className="calendar__cell _cell-day">19</div>
-                    <div className="calendar__cell _cell-day">20</div>
-                    <div className="calendar__cell _cell-day">21</div>
-                    <div className="calendar__cell _cell-day">22</div>
-                    <div className="calendar__cell _cell-day _weekend">23</div>
-                    <div className="calendar__cell _cell-day _weekend">24</div>
-                    <div className="calendar__cell _cell-day">25</div>
-                    <div className="calendar__cell _cell-day">26</div>
-                    <div className="calendar__cell _cell-day">27</div>
-                    <div className="calendar__cell _cell-day">28</div>
-                    <div className="calendar__cell _cell-day">29</div>
-                    <div className="calendar__cell _cell-day _weekend">30</div>
-                    <div className="calendar__cell _other-month _weekend">1</div>
-                </div>
-            </div>
-        </div>
+        <Calendar $isDark={$isDark}>
+            <CalendarTitle>
+                {/* Направленные стрелки + месяц/год посередине */}
+                <CalendarMonth>
+                    {monthNames[month]} {year}
+                </CalendarMonth>
+                <CalendarBtnGroup>
+                    <CalendarBtn isLeft onClick={onPrevMonth} aria-label="Предыдущий месяц" />
+                    <CalendarBtn onClick={onNextMonth} aria-label="Следующий месяц" />
+                </CalendarBtnGroup>
+                {/* <CalendarP>{`${today.getDate()} ${monthNames[today.getMonth()]}`}</CalendarP> */}
+            </CalendarTitle>
+            <CalendarBlock>
+                <CalendarContent>
+                    <CalendarDaysNames>
+                        {daysNames.map((n, i) => (
+                            <CalendarDayName key={i}>{n}</CalendarDayName>
+                        ))}
+                    </CalendarDaysNames>
+                    <CalendarCells>
+                        {calendarMap.map((cell, i) => (
+                            <CalendarCell
+                                $isEditMode={isEditMode}
+                                onClick={
+                                    isEditMode && !cell.past
+                                        ? () => {
+                                              handleDateChange(formattedDate(cell.date))
+                                          }
+                                        : undefined
+                                }
+                                $isDark={$isDark}
+                                selected={formattedDate(cell.date) === selectDate}
+                                key={i}
+                                otherMonth={cell.otherMonth}
+                                cellDay={cell.cellDay}
+                                isToday={cell.isToday}
+                                weekend={cell.weekend}
+                                past={cell.past}
+                                $past={cell.past}
+                            >
+                                {cell.num}
+                            </CalendarCell>
+                        ))}
+                    </CalendarCells>
+                </CalendarContent>
+            </CalendarBlock>
+        </Calendar>
     )
 }
