@@ -8,7 +8,8 @@ import PrivateRoute from './PrivateRoute'
 import Layout from '../components/Layout/Layout'
 import ErrorBoundary from '../components/Layout/ErrorBoundary'
 import AuthModal from '../pages/Auth/AuthModal'
-
+import { loginAction, loginUser } from '../services/auth/login'
+import MainPage from '../pages/Main/MainPage'
 function AppRoutes() {
     const router = createBrowserRouter([
         {
@@ -18,6 +19,7 @@ function AppRoutes() {
                 {
                     element: <PrivateRoute />,
                     children: [
+                        { index: true, element: <MainPage /> },
                         {
                             path: 'card',
                             children: [
@@ -30,7 +32,7 @@ function AppRoutes() {
                         { path: 'exit', element: <ConfirmExit /> },
                     ],
                 },
-                { path: 'login', element: <AuthModal /> },
+                { path: 'login', element: <AuthModal />, action: loginAction, errorElement: <AuthModal /> },
                 { path: 'register', element: <AuthModal /> },
             ],
         },

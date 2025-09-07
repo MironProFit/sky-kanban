@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
-import { borderColor, linkColor, primaryBacground, reversePrimaryColor } from '../../components/Styles/Mexins.style'
+import { borderColor, linkColor, primaryBacground, reversePrimaryColor, textColor } from '../../components/Styles/Mexins.style'
 import { PrimaryButton, StyledLink } from '../../components/Styles/GlobalStyle'
+import { Form } from 'react-router-dom'
 
 export const ContainerSignin = styled.div`
     display: block;
@@ -55,6 +56,9 @@ export const ModalBlock = styled.div`
 export const ModalTitle = styled.div`
     text-align: center;
 `
+// export const ModalError = styled.div`
+//     text-align: center;
+// `
 export const Title = styled.h2`
     ${reversePrimaryColor}
     font-size: 20px;
@@ -64,7 +68,7 @@ export const Title = styled.h2`
     margin-bottom: 20px;
 `
 
-export const ModalForm = styled.form`
+export const ModalForm = styled(Form)`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -75,6 +79,15 @@ export const ModalForm = styled.form`
         margin-bottom: 7px;
     }
 `
+export const TextError = styled.p`
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 14px;
+    ${textColor}
+`
+
 export const TextInput = styled.input`
     color: red;
     width: 100%;

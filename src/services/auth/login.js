@@ -1,36 +1,30 @@
 import axios from 'axios'
-import { useState } from 'react'
-export async function loginUser(login, password, setIsAuth, setIsLoading, setUserName, setToken) {
-    setIsLoading(true)
-    try {
-        const res = await axios.post(
-            'https://wedev-api.sky.pro/api/user/login',
-            {
-                login: login,
-                password: password,
+
+export async function loginUser(login, password) {
+    const res = await axios.post(
+        'https://wedev-api.sky.pro/api/user/login',
+        { login, password },
+        {
+            headers: {
+                'Content-Type': 'raw',
             },
-            {
-                headers: {
-                    'Content-Type': 'raw',
-                },
-            }
-        )
-        if (res.status === 200 || res.status === 201) {
-            setUserName(res.data.user.name)
-            setToken(res.data.user.token)
         }
+    )
+    return res
+}
 
-        if (!res.status) {
-            throw new Error(`HTTP Error: ${res.status}`)
-        }
-        setIsAuth(true)
+export async function loginAction({ request }) {
+    const formData = await request.formData()
+    const login = formData.get('login')
+    const password = formData.get('password')
+    console.log(formData, login, password)
+    try {
+        const res = await loginUser(login, password)
 
-        console.log(res.data.user.name)
-        return res.data
-    } catch (error) {
-        console.error('Ошибка:', error.response ? error.response.data : error.message)
-        throw error
-    } finally {
-        setIsLoading(false)
+        return { res }
+    } catch (e) {
+        const errMsg = e?.response?.data?.error || e?.response?.data?.message || e?.message || 'Ошибка входа'
+
+        return { error: errMsg }
     }
 }

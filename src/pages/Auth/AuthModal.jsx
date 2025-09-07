@@ -1,7 +1,7 @@
-import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
+import { Form, useActionData, useLoaderData, useLocation, useNavigate, useNavigation, useRouteError } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { ContainerSignin, FGLink, FGTitle, ModalBlock, ModalBtnEnter, ModalForm, ModalFormGroup, ModalSignin, ModalTitle, TextInput, Title } from './AuthModal.styled'
+import { ContainerSignin, FGLink, FGTitle, ModalBlock, ModalBtnEnter, ModalForm, ModalFormGroup, ModalSignin, ModalTitle, TextError, TextInput, Title } from './AuthModal.styled'
 import { TextContainer, Wrapper } from '../../components/Styles/GlobalStyle'
 
 import { loginUser } from '../../services/auth/login'
@@ -10,16 +10,16 @@ import Loading from '../Loading/LoadingModal'
 import { registerUser } from '../../services/auth/register'
 
 function AuthModal() {
-    const { setIsAuth, isLoading, setIsLoading, $isDark, setUserName, setToken, token, isAuth } = useAppContext()
+    const { setIsAuth, setIsLoading, $isDark, setUserName, setToken, token, isAuth } = useAppContext()
 
     const [isPage, setIsPage] = useState('login')
     const navigate = useNavigate()
+
     const location = useLocation()
 
     // react-hook-form для обеих форм:
     const {
         register,
-        handleSubmit,
         reset,
         formState: { errors, isValid },
     } = useForm({ mode: 'onChange' })
@@ -55,10 +55,6 @@ function AuthModal() {
         }
     }
 
-    // // Авторизация
-    const onSubmitLogin = async (data) => {
-        await loginUser(data.login, data.password, setIsAuth, setIsLoading, setUserName, setToken)
-    }
     useEffect(() => {
         if (isAuth) {
             const from = location.state?.from || '/'
@@ -66,14 +62,17 @@ function AuthModal() {
         }
     }, [isAuth, location.state?.from, navigate])
 
-    //     // Можно тут редиректить по желанию
-    //
-    const onSubmitRegister = async (data) => {
-        await registerUser(data['login'], data.login, data.password, setIsAuth, setIsLoading, setUserName, setToken)
+    const actionData = useActionData()
+    const navigation = useNavigation()
+    const isLoading = navigation.state === 'submitting'
 
-        // navigate куда нужно
-    }
-
+    useEffect(() => {
+        console.log(actionData?.res?.data)
+        if (actionData?.res?.data.user) {
+            setUserName(actionData?.res?.data.user.name), setToken(actionData?.res?.data.user.token)
+            setIsAuth(true)
+        }
+    }, [actionData])
     return (
         <Wrapper $isDark={$isDark}>
             <ContainerSignin $isLoading={isLoading} $isDark={$isDark}>
@@ -85,9 +84,11 @@ function AuthModal() {
                             <ModalTitle>
                                 <Title $isDark={$isDark}>{isPage === 'login' ? 'Вход' : 'Регистрация'}</Title>
                             </ModalTitle>
+                            {/* <ModalError>Текст ошибки</ModalError> */}
+                            {actionData?.error && <TextError>{actionData?.error}</TextError>}
 
                             {isPage === 'login' && (
-                                <ModalForm id="formLogIn" onSubmit={handleSubmit(onSubmitLogin)}>
+                                <ModalForm method="post" action="/login" id="formLogIn">
                                     <TextInput
                                         $isDark={$isDark}
                                         type="text"
