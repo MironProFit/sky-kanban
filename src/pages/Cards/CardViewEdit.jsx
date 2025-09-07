@@ -33,7 +33,7 @@ export default function CardView() {
     const navigate = useNavigate()
     const location = useLocation()
     const { id } = useParams()
-    const editMath = useMatch('/cardview/:id/edit')
+    const editMath = useMatch('/card/:id/edit')
     const isEditMode = Boolean(editMath)
     const card = cards.find((c) => String(c.id) === String(id))
     const { topic, title, date, status } = card || {}

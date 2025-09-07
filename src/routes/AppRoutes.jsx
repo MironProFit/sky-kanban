@@ -7,29 +7,34 @@ import CardViewEdit from '../pages/Cards/CardViewEdit'
 import PrivateRoute from './PrivateRoute'
 import Layout from '../components/Layout/Layout'
 import ErrorBoundary from '../components/Layout/ErrorBoundary'
-import { loginUser } from '../services/auth/login'
+import AuthModal from '../pages/Auth/AuthModal'
 
 function AppRoutes() {
     const router = createBrowserRouter([
         {
             path: '/',
             element: <Layout />,
-            // errorElement: <ErrorBoundary />,
-
             children: [
                 {
                     element: <PrivateRoute />,
                     children: [
+                        {
+                            path: 'card',
+                            children: [
+                                { path: 'create', element: <CardCreate /> },
+                                { path: ':id', element: <CardViewEdit /> },
+                                { path: ':id/edit', element: <CardViewEdit /> },
+                                { path: ':id/delete', element: <CardViewEdit /> },
+                            ],
+                        },
                         { path: 'exit', element: <ConfirmExit /> },
-                        { path: 'createcard', element: <CardCreate /> },
-                        { path: 'cardview/:id', element: <CardViewEdit /> },
-                        { path: 'cardview/:id/edit', element: <CardViewEdit /> },
-                        { path: 'cardview/:id/delete', element: <CardViewEdit /> },
                     ],
                 },
-                { path: '*', element: <NotFound /> },
+                { path: 'login', element: <AuthModal /> },
+                { path: 'register', element: <AuthModal /> },
             ],
         },
+        { path: '*', element: <NotFound />, errorElement: <ErrorBoundary /> },
     ])
     return <RouterProvider router={router} />
 }

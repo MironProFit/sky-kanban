@@ -4,15 +4,15 @@ import { SecondaryButton } from '../Styles/GlobalStyle'
 import { useAppContext } from '../../routes/AppContext'
 import { useEffect, useRef } from 'react'
 
-function UserMenuModal({ isTheme, handleTheme, handleAuth, $isDark }) {
+function UserMenuModal({ handleAuth }) {
     // const data = useLoaderData()
     // console.log(data)
-    const { isMobile } = useAppContext()
+    const { isMobile, isTheme, handleTheme, $isDark, userName } = useAppContext()
 
     return (
         <Container $isDark={$isDark} id="user-set-target">
-            <TilteName $isDark={$isDark}>Ivan Ivanov</TilteName>
-            <TilteMail>ivan.ivanov@gmail.com</TilteMail>
+            <TilteName $isDark={$isDark}>{userName || 'Личный кабинет'}</TilteName>
+            <TilteMail>{userName}@gmail.com</TilteMail>
             <ThemeContainer>
                 <ThemeTitle $isDark={$isDark}>{isTheme ? 'Темная тема' : 'Светлая тема '}</ThemeTitle>
                 <CheckBoxTheme checked={isTheme} onChange={handleTheme} type="checkbox" className="checkbox" name="checkbox"></CheckBoxTheme>

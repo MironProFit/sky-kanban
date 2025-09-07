@@ -29,8 +29,9 @@ export default function CardView() {
     const [activeButton, setActiveButton] = useState(null)
     const [taskState, setTaskState] = useState([])
 
-    const createMatch = useMatch('/createcard/')
+    const createMatch = useMatch('/create')
     const isEditMode = Boolean(createMatch)
+    console.log(isEditMode)
 
     const [selectDate, setSelectDate] = useState('')
 

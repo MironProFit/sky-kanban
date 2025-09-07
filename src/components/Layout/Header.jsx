@@ -6,7 +6,7 @@ import UserMenuModal from './UserMenuModal'
 import { useAppContext } from '../../routes/AppContext'
 
 export default function Header() {
-    const { isAuth, setIsAuth, isTheme, setIsTheme, $isDark, isMobile, handleModalOpen, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu } = useAppContext()
+    const { isAuth, setIsAuth, isTheme, $isDark, isMobile, handleModalOpen, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu, userName } = useAppContext()
 
     const [isAuthPage, setIsAuthPage] = useState(false)
     const location = useLocation()
@@ -19,10 +19,6 @@ export default function Header() {
             setIsAuthPage(false)
         }
     }, [location.pathname])
-
-    const handleTheme = () => {
-        setIsTheme((prev) => !prev)
-    }
 
     const handleAuth = () => {
         navigate('/exit')
@@ -45,23 +41,23 @@ export default function Header() {
                             {!isAuthPage && isAuth && (
                                 <>
                                     <HeaderNav>
-                                        {location.pathname === '/' ? (
-                                            <Link style={{ marginRight: '20px' }} to="createcard" state={{ createMode: true }}>
-                                                <PrimaryButton $fixed={isMobile && location.pathname === '/'} onClick={handleModalOpen} $isDark={$isDark} id="btnMainNew" type="button">
-                                                    Создать новую задачу
-                                                </PrimaryButton>
-                                            </Link>
-                                        ) : (
-                                            ''
-                                        )}
+                                        <Link style={{ marginRight: '20px' }} to="card/create" state={{ createMode: true }}>
+                                            <PrimaryButton
+                                                style={{ whiteSpace: 'nowrap' }}
+                                                $fixed={isMobile && location.pathname === '/'}
+                                                onClick={handleModalOpen}
+                                                $isDark={$isDark}
+                                                id="btnMainNew"
+                                                type="button"
+                                            >
+                                                Создать новую задачу
+                                            </PrimaryButton>
+                                        </Link>
 
-                                        <LinkButton $isDark={$isDark} $isOpen={isUserMenuOpen} onClick={toggleUserMenu}>
-                                            Ваше имя
+                                        <LinkButton style={{ whiteSpace: 'nowrap' }} $isDark={$isDark} $isOpen={isUserMenuOpen} onClick={toggleUserMenu}>
+                                            {userName || 'Личный кабинет'}
                                         </LinkButton>
-
-                                        {isUserMenuOpen && (
-                                            <UserMenuModal toggleUserMenu={toggleUserMenu} isAuth={isAuth} handleTheme={handleTheme} handleAuth={handleAuth} isTheme={isTheme} $isDark={$isDark} />
-                                        )}
+                                        {isUserMenuOpen && <UserMenuModal toggleUserMenu={toggleUserMenu} isAuth={isAuth} handleAuth={handleAuth} isTheme={isTheme} $isDark={$isDark} />}
                                     </HeaderNav>
                                 </>
                             )}

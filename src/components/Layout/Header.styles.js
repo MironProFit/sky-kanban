@@ -3,6 +3,7 @@ import { PrimaryButton } from '../Styles/GlobalStyle'
 import { borderColor, hoverBorder, hoverColor, primaryBacground, textColor } from '../Styles/Mexins.style'
 primaryBacground
 export const HeaderStyled = styled.header`
+    top: 0;
     ${primaryBacground}
     width: 100%;
     margin: 0 auto;
@@ -66,6 +67,7 @@ export const HeaderNavBtn = styled(PrimaryButton)`
 `
 
 export const HeaderModalBtn = styled.button`
+
     background: inherit;
     height: 20px;
     display: flex;

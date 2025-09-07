@@ -7,6 +7,31 @@ export const AppProvider = ({ children }) => {
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
     const [isMobile, setISMobile] = useState(window.innerWidth <= 600)
 
+    const [isTheme, setIsTheme] = useState(() => localStorage.getItem('isTheme') === 'true')
+
+    const [isAuth, setIsAuth] = useState(() => localStorage.getItem('isAuth') === 'true')
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [userName, setUserName] = useState(() => localStorage.getItem('userName') || '')
+    const [token, setToken] = useState(() => localStorage.getItem('token') || '')
+    // const [userData, setUserData] = useState({})
+
+    useEffect(() => {
+        localStorage.setItem('isTheme', isTheme)
+    }, [isTheme])
+
+    useEffect(() => {
+        localStorage.setItem('isAuth', isAuth)
+    }, [isAuth])
+
+    useEffect(() => {
+        localStorage.setItem('token', token)
+    }, [token])
+
+    useEffect(() => {
+        localStorage.setItem('userName', userName)
+    }, [userName])
+
     useEffect(() => {
         const handleResize = () => {
             setISMobile(window.innerWidth <= 600)
@@ -17,6 +42,7 @@ export const AppProvider = ({ children }) => {
             window.removeEventListener('resize', handleResize)
         }
     }, [])
+
     const handleModalOpen = () => {
         setIsModal(true)
     }
@@ -27,12 +53,9 @@ export const AppProvider = ({ children }) => {
     const toggleUserMenu = () => {
         setIsUserMenuOpen((prev) => !prev)
     }
-
-    const [isAuth, setIsAuth] = useState(false)
-    const [isTheme, setIsTheme] = useState(() => localStorage.getItem('isTheme') === 'true')
-    useEffect(() => {
-        localStorage.setItem('isTheme', isTheme)
-    }, [isTheme])
+    const handleTheme = () => {
+        setIsTheme((prev) => !prev)
+    }
 
     return (
         <AppContext.Provider
@@ -43,13 +66,8 @@ export const AppProvider = ({ children }) => {
                 isMobile,
                 setISMobile,
 
-                handleModalOpen,
-                handleModalClose,
-
                 isUserMenuOpen,
                 setIsUserMenuOpen,
-
-                toggleUserMenu,
 
                 isAuth,
                 setIsAuth,
@@ -57,6 +75,23 @@ export const AppProvider = ({ children }) => {
                 isTheme,
                 setIsTheme,
                 $isDark: isTheme,
+
+                isLoading,
+                setIsLoading,
+
+                userName,
+                setUserName,
+
+                token,
+                setToken,
+
+                // userData,
+                // setUserData,
+
+                handleModalOpen,
+                handleModalClose,
+                handleTheme,
+                toggleUserMenu,
             }}
         >
             {children}

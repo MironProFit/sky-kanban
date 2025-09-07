@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { borderColor, primaryBacground, reversePrimaryColor } from '../../components/Styles/Mexins.style'
+import styled, { css } from 'styled-components'
+import { borderColor, linkColor, primaryBacground, reversePrimaryColor } from '../../components/Styles/Mexins.style'
 import { PrimaryButton, StyledLink } from '../../components/Styles/GlobalStyle'
 
 export const ContainerSignin = styled.div`
@@ -7,6 +7,14 @@ export const ContainerSignin = styled.div`
     width: 100vw;
     min-height: 100vh;
     margin: 0 auto;
+    ${({ $isLoading }) =>
+        $isLoading &&
+        css`
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        `}
 `
 export const ModalSignin = styled.div`
     width: 100%;
@@ -68,6 +76,7 @@ export const ModalForm = styled.form`
     }
 `
 export const TextInput = styled.input`
+    color: red;
     width: 100%;
     min-width: 100%;
     border-radius: 8px;
@@ -98,8 +107,19 @@ export const TextInput = styled.input`
         border: 1px solid #94a6be;
     }
 `
-
 export const ModalBtnEnter = styled(PrimaryButton)`
+    background-color: ${({ $isValid }) => !$isValid && linkColor};
+    cursor: ${({ $isValid }) => !$isValid && 'default'};
+    pointer-events: ${({ $isValid }) => !$isValid && 'none'};
+    ${({ $isValid }) => {
+        $isValid &&
+            css`
+                cursor: default;
+                background-color: ${linkColor};
+                pointer-events: none;
+            `
+    }}
+
     margin-top: 20px;
     margin-bottom: 20px;
 `

@@ -4,9 +4,10 @@ import { MainContainer, MainBlock, MainContent } from './MainPage.styles'
 import Column from '../../components/Layout/Column'
 import { Container } from '../../components/Styles/GlobalStyle'
 import { useAppContext } from '../../routes/AppContext'
+import Loading from '../Loading/LoadingModal'
 
 export default function MainPage() {
-    const { isModal, isMobile, isUserMenuOpen, toggleUserMenu, $isDark } = useAppContext()
+    const { isModal, isMobile, isUserMenuOpen, toggleUserMenu, $isDark, isLoading } = useAppContext()
     const [cardsData] = useState(cards)
 
     const columns = useMemo(
@@ -19,7 +20,6 @@ export default function MainPage() {
         }),
         [cardsData]
     )
-
     return (
         <MainContainer
             onClick={() => {
@@ -30,6 +30,7 @@ export default function MainPage() {
             $isDark={$isDark}
         >
             <Container>
+                {isLoading && <Loading />}
                 <MainBlock $isDark={$isDark}>
                     <MainContent>
                         {Object.keys(columns).map((status) => (

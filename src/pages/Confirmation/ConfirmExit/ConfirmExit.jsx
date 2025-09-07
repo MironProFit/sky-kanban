@@ -17,6 +17,12 @@ export default function ConfirmExit() {
         navigate('/')
     }
 
+    function toggleLogout(e) {
+        e.preventDefault()
+        setIsAuth(false)
+        navigate('/')
+    }
+
     return (
         <PopExit style={{ display: isExit ? 'block' : 'none' }} id="popExit" $isDark={$isDark}>
             <PopExitContainer>
@@ -24,7 +30,7 @@ export default function ConfirmExit() {
                     <PopExitTitle $isDark={$isDark}>Выйти из аккаунта?</PopExitTitle>
                     <form className="pop-exit__form" id="formExit" action="#">
                         <PopExitFormGroup $isMobile={isMobile}>
-                            <PopExitButtonYes $isMobile={isMobile} id="exitYes" to="/login" $isDark={$isDark}>
+                            <PopExitButtonYes onClick={toggleLogout} $isMobile={isMobile} id="exitYes" to="/login" $isDark={$isDark}>
                                 Да, выйти
                             </PopExitButtonYes>
                             <PopExitButtonNo $isMobile={isMobile} onClick={toggleAuth} id="exitNo" $isDark={$isDark}>

@@ -36,6 +36,9 @@ export const StyledLink = styled(RouterLink)`
     }
 `
 import { accentButtonColor, hoverColor, setButtonsColor, white, wrapperColor } from './Mexins.style'
+export const RootApp = styled.div`height: 100vh;
+  display: flex;
+  flex-direction: column;`
 
 export const Wrapper = styled.div`
     ${wrapperColor()}
@@ -122,6 +125,7 @@ export const PrimaryButton = styled.button`
         width: 100%;
         margin: 0;
     }
+
     ${({ $fixed }) =>
         $fixed &&
         css`

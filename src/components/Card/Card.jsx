@@ -17,8 +17,8 @@ export const getColorClass = (topic) => {
             return ''
     }
 }
-export default function Card({ id, topic, title, date, status, $isDark }) {
-    const { isModal, setIsModal, isMobile, setISMobile } = useAppContext()
+export default function Card({ id, topic, title, date, status }) {
+    const { setIsModal, $isDark } = useAppContext()
     const handleWindowOpen = () => {
         setIsModal(true)
     }
@@ -27,7 +27,7 @@ export default function Card({ id, topic, title, date, status, $isDark }) {
 
     return (
         <CardsContainer>
-            <Link to={`cardview/${id}`} onClick={handleWindowOpen} state={{ topic, title, date, status }}>
+            <Link to={`card/${id}`} onClick={handleWindowOpen} state={{ topic, title, date, status }}>
                 <CardItem key={id}>
                     <CardWrapper $isDark={$isDark}>
                         <CardGroup>
@@ -38,7 +38,7 @@ export default function Card({ id, topic, title, date, status, $isDark }) {
                                 onClick={() => {
                                     handleWindowOpen
                                 }}
-                                to={`cardview/${id}`}
+                                to={`card/${id}`}
                                 state={{ topic, title, date, status }}
                             >
                                 <DotContainer>

@@ -1,12 +1,13 @@
 import axios from 'axios'
-import { useState } from 'react'
-export async function loginUser(login, password, setIsAuth, setIsLoading, setUserName, setToken) {
+
+export async function registerUser(login, password, name, setIsAuth, setIsLoading, setUserName, setToken) {
     setIsLoading(true)
     try {
         const res = await axios.post(
             'https://wedev-api.sky.pro/api/user/login',
             {
                 login: login,
+                name: name,
                 password: password,
             },
             {
