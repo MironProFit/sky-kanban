@@ -22,6 +22,9 @@ export const AppProvider = ({ children }) => {
 
     useEffect(() => {
         localStorage.setItem('isAuth', isAuth)
+        if (!isAuth) {
+            setToken(''), setUserName('')
+        }
     }, [isAuth])
 
     useEffect(() => {

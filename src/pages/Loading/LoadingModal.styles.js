@@ -24,7 +24,7 @@ export const Overlay = styled.div`
 
 export const SpinnerWrap = styled.div`
     padding: 20px;
-    background-color: ${({ $isDark }) => ($isDark ? 'whitesmoke' : 'black')};
+    background-color: ${({ $isDark }) => (!$isDark ? 'whitesmoke' : 'black')};
     opacity: 0.6;
     border-radius: 20px;
     display: flex;
@@ -41,7 +41,7 @@ export const DotsSpinner = styled.div`
         width: 13px;
         height: 13px;
         border-radius: 50%;
-        background: ${({ $isDark }) => (!$isDark ? 'whitesmoke' : 'black')};
+        background: ${({ $isDark }) => ($isDark ? 'whitesmoke' : 'black')};
         opacity: 0.25;
         animation: ${bounce} 1.15s infinite;
     }
@@ -55,7 +55,7 @@ export const DotsSpinner = styled.div`
 
 export const SpinnerText = styled.div`
     font-size: 1.03rem;
-    color: ${({ $isDark }) => (!$isDark ? 'whitesmoke' : 'black')};
+    color: ${({ $isDark }) => ($isDark ? 'whitesmoke' : 'black')};
     opacity: 0.8;
     font-family: inherit;
     font-weight: 500;

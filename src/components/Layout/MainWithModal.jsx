@@ -1,14 +1,11 @@
 import { Outlet } from 'react-router-dom'
-import Header from '../Layout/Header'
 import MainPage from '../../pages/Main/MainPage'
 
-function Layout() {
+export default function MainWithModal() {
     return (
         <>
-            <Header />
+            <MainPage />
             <Outlet />
         </>
     )
 }
-
-export default Layout

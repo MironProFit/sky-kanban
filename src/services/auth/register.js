@@ -1,37 +1,33 @@
 import axios from 'axios'
 
-export async function registerUser(login, password, name, setIsAuth, setIsLoading, setUserName, setToken) {
-    setIsLoading(true)
-    try {
-        const res = await axios.post(
-            'https://wedev-api.sky.pro/api/user/login',
-            {
-                login: login,
-                name: name,
-                password: password,
+// Функция для регистрации пользователя
+export async function registerUser(login, name, password) {
+    console.log(login, name, password)
+    const res = await axios.post(
+        'https://wedev-api.sky.pro/api/user',
+        { login, name, password },
+        {
+            headers: {
+                'Content-Type': 'raw',
             },
-            {
-                headers: {
-                    'Content-Type': 'raw',
-                },
-            }
-        )
-        if (res.status === 200 || res.status === 201) {
-            setUserName(res.data.user.name)
-            setToken(res.data.user.token)
         }
+    )
+    return res
+}
 
-        if (!res.status) {
-            throw new Error(`HTTP Error: ${res.status}`)
-        }
-        setIsAuth(true)
+// Action для React Router
+export async function registerAction({ request }) {
+    const formData = await request.formData()
+    const login = formData.get('login')
+    const name = formData.get('name')
+    const password = formData.get('password')
+    console.log(formData, login, password)
+    try {
+        const res = await registerUser(login, name, password)
+        return { res }
+    } catch (e) {
+        const errMsg = e?.response?.data?.error || e?.response?.data?.message || e?.message || 'Ошибка регистрации'
 
-        console.log(res.data.user.name)
-        return res.data
-    } catch (error) {
-        console.error('Ошибка:', error.response ? error.response.data : error.message)
-        throw error
-    } finally {
-        setIsLoading(false)
+        return { error: errMsg }
     }
 }

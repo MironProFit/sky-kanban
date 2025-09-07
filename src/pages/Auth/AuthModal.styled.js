@@ -121,7 +121,17 @@ export const TextInput = styled.input`
     }
 `
 export const ModalBtnEnter = styled(PrimaryButton)`
-    background-color: ${({ $isValid }) => !$isValid && linkColor};
+    margin-top: 20px;
+    margin-bottom: 20px;
+    &:disabled {
+        background-color: ${linkColor};
+        cursor: default;
+        pointer-events: none;
+        opacity: 0.7;
+    }
+`
+
+/* background-color: ${({ $isValid }) => !$isValid && linkColor};
     cursor: ${({ $isValid }) => !$isValid && 'default'};
     pointer-events: ${({ $isValid }) => !$isValid && 'none'};
     ${({ $isValid }) => {
@@ -135,7 +145,7 @@ export const ModalBtnEnter = styled(PrimaryButton)`
 
     margin-top: 20px;
     margin-bottom: 20px;
-`
+` */
 
 export const ModalFormGroup = styled.div`
     text-align: center;

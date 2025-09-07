@@ -8,8 +8,10 @@ import PrivateRoute from './PrivateRoute'
 import Layout from '../components/Layout/Layout'
 import ErrorBoundary from '../components/Layout/ErrorBoundary'
 import AuthModal from '../pages/Auth/AuthModal'
-import { loginAction, loginUser } from '../services/auth/login'
-import MainPage from '../pages/Main/MainPage'
+import { loginAction } from '../services/auth/login'
+import MainWithModal from '../components/Layout/MainWithModal'
+import { registerAction } from '../services/auth/register'
+
 function AppRoutes() {
     const router = createBrowserRouter([
         {
@@ -19,21 +21,27 @@ function AppRoutes() {
                 {
                     element: <PrivateRoute />,
                     children: [
-                        { index: true, element: <MainPage /> },
                         {
-                            path: 'card',
+                            path: '',
+                            element: <MainWithModal />,
                             children: [
-                                { path: 'create', element: <CardCreate /> },
-                                { path: ':id', element: <CardViewEdit /> },
-                                { path: ':id/edit', element: <CardViewEdit /> },
-                                { path: ':id/delete', element: <CardViewEdit /> },
+                                { index: true, element: null },
+                                {
+                                    path: 'card',
+                                    children: [
+                                        { path: 'create', element: <CardCreate /> },
+                                        { path: ':id', element: <CardViewEdit /> },
+                                        { path: ':id/edit', element: <CardViewEdit /> },
+                                        { path: ':id/delete', element: <CardViewEdit /> },
+                                    ],
+                                },
+                                { path: 'exit', element: <ConfirmExit /> },
                             ],
                         },
-                        { path: 'exit', element: <ConfirmExit /> },
                     ],
                 },
                 { path: 'login', element: <AuthModal />, action: loginAction, errorElement: <AuthModal /> },
-                { path: 'register', element: <AuthModal /> },
+                { path: 'register', element: <AuthModal />, action: registerAction, errorElement: <AuthModal /> },
             ],
         },
         { path: '*', element: <NotFound />, errorElement: <ErrorBoundary /> },
