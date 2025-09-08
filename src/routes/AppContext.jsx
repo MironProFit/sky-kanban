@@ -14,17 +14,21 @@ export const AppProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [userName, setUserName] = useState(() => localStorage.getItem('userName') || '')
     const [token, setToken] = useState(() => localStorage.getItem('token') || '')
-    const [userTasks, setUserTasks] = useState(() => {
-        const stored = localStorage.getItem('userTasks')
-        return stored ? JSON.parse(stored) : []
+    const [userData, setUserData] = useState(() => {
+        const stored = localStorage.getItem('userData')
+        return stored ? JSON.parse(stored) : { tasks: [] }
     })
+
+    useEffect(() => {
+        localStorage.setItem('userData', JSON.stringify(userData))
+    }, [userData])
 
     useEffect(() => {
         localStorage.setItem('isTheme', isTheme)
     }, [isTheme])
 
     useEffect(() => {
-        !isAuth && localStorage.removeItem('userTasks')
+        !isAuth && localStorage.removeItem('userData')
         localStorage.setItem('isAuth', isAuth)
         if (!isAuth) {
             setToken(''), setUserName('')
@@ -100,8 +104,8 @@ export const AppProvider = ({ children }) => {
                 handleTheme,
                 toggleUserMenu,
 
-                userTasks,
-                setUserTasks,
+                userData,
+                setUserData,
             }}
         >
             {children}

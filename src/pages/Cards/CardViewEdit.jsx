@@ -1,5 +1,5 @@
-import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
-import { statusList, cards } from '../../data/data'
+import { useLocation, useMatch, useNavigate, useParams, useRouteError } from 'react-router-dom'
+import { statusList } from '../../data/data'
 import { useEffect, useState } from 'react'
 import {
     PopBrowse,
@@ -27,55 +27,72 @@ import { StatusButton, StatusText, StatusTheme, StatusThemes, StatusTitle } from
 import formattedDate from '../../utils/dateFormat'
 import { useAppContext } from '../../routes/AppContext'
 
-export default function CardView() {
-    const { $isDark } = useAppContext()
-    const [currentStatus, setCurrentStatus] = useState(null)
+export default function CardViewEdit() {
+    const { isModal, setIsModal, isEditMode, $isDark, userData, setUserData, token, isMobile, colorTopicClass } = useAppContext()
     const navigate = useNavigate()
     const location = useLocation()
-    const { id } = useParams()
-    const editMath = useMatch('/card/:id/edit')
-    const isEditMode = Boolean(editMath)
-    const card = cards.find((c) => String(c.id) === String(id))
-    const { topic, title, date, status } = card || {}
-    const [taskState, setTaskState] = useState({ ...card, date, id: currentStatus, description: card?.description || '' })
-    const formattedTaskDate = formattedDate(date)
+    const { id, topic: initialTopic, title: initialTitle, date: initialDate, status: initialStatus, description: initialDescription } = location.state || {}
+    const [taskState, setTaskState] = useState({
+        topic: initialTopic || '',
+        title: initialTitle || '',
+        date: initialDate || '',
+        status: initialStatus || 'Без статуса',
+        description: initialDescription || '',
+    })
     const selectDate = taskState.date
 
-    const { isMobile, isModal, setIsModal, handleModalClose, isUserMenuOpen, toggleUserMenu } = useAppContext()
+    const [editTaskState, setEditTaskState] = useState(taskState)
 
-    const handleDateChange = (dateString) => {
-        setTaskState((prev) => ({
-            ...prev,
-            date: dateString,
-        }))
-    }
+    useEffect(() => {
+        setEditTaskState(taskState)
+    }, [taskState])
 
-    const colorTopicClass = getColorClass(topic)
+    const saveEditDate = async () => {
+        if (JSON.stringify(taskState) !== JSON.stringify(editTaskState)) {
+            try {
+                // Обновляем задачу на сервере
+                // const updatedTask = await updateTask(id, editTaskState, token)
 
-    function handleClose() {
+                // Обновляем задачу в локальном состоянии
+                if (userData && Array.isArray(userData)) {
+                    const updatedTasks = userData.map((task) => (task.id === id ? { ...task, ...editTaskState } : task))
+                    setUserData(updatedTasks)
+                }
+
+                setTaskState(editTaskState)
+            } catch (error) {
+                console.error('Ошибка при обновлении задачи:', error)
+            }
+        }
         navigate('/')
         setIsModal(false)
     }
-    const handleEditToggle = () => {
-        if (!isEditMode) {
-            navigate(`${location.pathname}/edit`, {
-                // state: { modalWindow: true },
-                replace: true,
-                $isDark: $isDark,
-            })
-        } else {
-            const basePath = location.pathname.replace(/\/edit$/, '')
-            navigate(basePath, { replace: true })
+
+    const handleDeleteTask = async () => {
+        try {
+            // Удаляем задачу на сервере
+            // await deleteTask(id, token)
+
+            // Удаляем задачу из локального состояния
+            if (userData && Array.isArray(userData)) {
+                const updatedTasks = userData.filter((task) => task.id !== id)
+                setUserData(updatedTasks)
+            }
+
+            navigate('/')
+            setIsModal(false)
+        } catch (error) {
+            console.error('Ошибка при удалении задачи:', error)
         }
     }
+    const formattedTaskDate = formattedDate(taskState.date)
 
-    useEffect(() => {
-        const found = statusList.find((item) => item.name === status)
-        setCurrentStatus(found.id)
-    }, [status])
-
-    const handleStatus = (id) => {
-        setCurrentStatus(id)
+    const handleChange = (field, value) => {
+        setEditTaskState((prev) => ({ ...prev, [field]: value }))
+    }
+    const handleClose = () => {
+        navigate('/')
+        setIsModal(false)
     }
 
     return (
@@ -88,10 +105,10 @@ export default function CardView() {
                 <PopBrowseBlock $isEditMode={isEditMode} $isDark={$isDark}>
                     <PopBrowseContent>
                         <TopicContainer>
-                            <PopBrowseTitle $isDark={$isDark}>{title}</PopBrowseTitle>
+                            <PopBrowseTitle $isDark={$isDark}>{taskState.title}</PopBrowseTitle>
                             {!isMobile ? (
                                 <Theme style={{ height: '30px' }} className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}>
-                                    <ThemeText>{topic}</ThemeText>
+                                    <ThemeText>{taskState.topic}</ThemeText>
                                 </Theme>
                             ) : (
                                 ''
@@ -104,15 +121,15 @@ export default function CardView() {
                                 {!isEditMode ? (
                                     <StatusTheme>
                                         <StatusText $active $isDark={$isDark}>
-                                            {status}
+                                            {taskState.status}
                                         </StatusText>
                                     </StatusTheme>
                                 ) : (
                                     <StatusThemes>
-                                        {statusList.map((status) => (
-                                            <StatusButton key={status.id} $active={status.id === currentStatus} onClick={() => handleStatus(status.id)}>
-                                                <StatusText $isDark={$isDark} $active={status.id === currentStatus}>
-                                                    {status.name}
+                                        {statusList.map((statusItem) => (
+                                            <StatusButton key={statusItem.id} $active={statusItem.name === editTaskState.status} onClick={() => handleChange('status', statusItem.name)}>
+                                                <StatusText $isDark={$isDark} $active={statusItem.name === editTaskState.status}>
+                                                    {statusItem.name}
                                                 </StatusText>
                                             </StatusButton>
                                         ))}
@@ -128,9 +145,8 @@ export default function CardView() {
                                         Описание задачи
                                     </label>
                                     <FormArea
-                                        onChange={(e) => {
-                                            getDesc(e.target.value)
-                                        }}
+                                        onChange={(e) => handleChange('description', e.target.value)}
+                                        value={isEditMode ? editTaskState.description || '' : taskState.description}
                                         $isDark={$isDark}
                                         selectedDate={selectDate}
                                         name="text"
@@ -144,17 +160,18 @@ export default function CardView() {
 
                             <CalendarAndDateContainer>
                                 <FormDateTitle>Даты</FormDateTitle>
-                                <CalendarComponent isEditMode={isEditMode} handleDateChange={handleDateChange} selectDate={selectDate} $isDark={$isDark} />
+                                <CalendarComponent isEditMode={isEditMode} handleChange={handleChange} selectDate={selectDate} $isDark={$isDark} />
                                 <FormDateControl>
                                     Срок исполнения: <span>{formattedTaskDate || ''}</span>
                                 </FormDateControl>
                             </CalendarAndDateContainer>
                         </FormWrap>
+
                         {isMobile ? (
                             <>
                                 <TextContainer $secondaryColor>Категория</TextContainer>
                                 <Theme style={{ height: '30px' }} className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}>
-                                    <ThemeText>{topic}</ThemeText>
+                                    <ThemeText>{taskState.topic}</ThemeText>
                                 </Theme>
                             </>
                         ) : (
@@ -165,10 +182,10 @@ export default function CardView() {
                             <>
                                 {!isEditMode ? (
                                     <ButtonControlsWrap $fixed>
-                                        <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleEditToggle}>
+                                        <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleChange}>
                                             Редактировать задачу
                                         </SecondaryButton>
-                                        <SecondaryButton $fixedBtn $isDark={$isDark}>
+                                        <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleDeleteTask}>
                                             Удалить задачу
                                         </SecondaryButton>
                                         {isMobile && (
@@ -179,7 +196,7 @@ export default function CardView() {
                                     </ButtonControlsWrap>
                                 ) : (
                                     <ButtonControlsWrap $fixed style={{ bottom: '180px' }}>
-                                        <SecondaryButton $fixedBtn $isDark={$isDark}>
+                                        <SecondaryButton onClick={saveEditDate} $fixedBtn $isDark={$isDark}>
                                             Сохранить
                                         </SecondaryButton>
                                         {isMobile && (
@@ -187,16 +204,16 @@ export default function CardView() {
                                                 Закрыть
                                             </PrimaryButton>
                                         )}
-                                        <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleModalClose}>
+                                        <SecondaryButton $fixedBtn $isDark={$isDark} onClick={cancelEdit}>
                                             Отменить
                                         </SecondaryButton>
-
-                                        <SecondaryButton $fixedBtn $isDark={$isDark} id="btnDelete">
+                                        <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleDeleteTask}>
                                             Удалить задачу
                                         </SecondaryButton>
                                     </ButtonControlsWrap>
                                 )}
                             </>
+
                             {!isMobile && (
                                 <PrimaryButton $fixedBtn $width="auto" $isDark={$isDark} onClick={handleClose}>
                                     Закрыть

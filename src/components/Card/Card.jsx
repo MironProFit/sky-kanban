@@ -5,7 +5,7 @@ import { useAppContext } from '../../routes/AppContext'
 
 export const getColorClass = (topic) => {
     switch (topic) {
-        case 'Web Design':
+        case 'Research':
             return '_orange'
         case 'UI/UX':
             return '_green'
@@ -17,8 +17,14 @@ export const getColorClass = (topic) => {
             return ''
     }
 }
-export default function Card({ id, topic, title, date, status }) {
+export default function Card({ id, topic, title, date, status, description }) {
+    console.log('Card props:', { id, topic, title, date, status, description }) // проверьте что _id существует
     const { setIsModal, $isDark } = useAppContext()
+
+    if (!id) {
+        console.error('Card: id is undefined!')
+        return null // или заглушку
+    }
     const handleWindowOpen = () => {
         setIsModal(true)
     }
@@ -27,7 +33,7 @@ export default function Card({ id, topic, title, date, status }) {
 
     return (
         <CardsContainer>
-            <Link to={`card/${id}`} onClick={handleWindowOpen} state={{ topic, title, date, status }}>
+            <Link to={`card/${id}`} onClick={handleWindowOpen} state={{ id, topic, title, date, status, description }}>
                 <CardItem key={id}>
                     <CardWrapper $isDark={$isDark}>
                         <CardGroup>
@@ -39,7 +45,7 @@ export default function Card({ id, topic, title, date, status }) {
                                     handleWindowOpen
                                 }}
                                 to={`card/${id}`}
-                                state={{ topic, title, date, status }}
+                                state={{ id, topic, title, date, status, description }}
                             >
                                 <DotContainer>
                                     <Dot />

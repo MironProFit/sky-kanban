@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import Card from '../Card/Card'
 import { CardsContainer, CardWrapper, ColumnTitle, MainColumn, TitleText } from './Column.styles'
+import { useAppContext } from '../../routes/AppContext'
 
 export default function Column({ title, cardsData, $isDark }) {
+    // const { userData } = useAppContext()
     const [visibleCards, setVisibleCards] = useState([])
     const [isVisible, setIsVisible] = useState(false)
 
@@ -20,15 +22,11 @@ export default function Column({ title, cardsData, $isDark }) {
                 <TitleText>{title}</TitleText>
             </ColumnTitle>
             <CardsContainer $isDark={$isDark}>
-                {visibleCards.length === 0 ? (
-                    <p>Загрузка данных...</p>
-                ) : (
-                    visibleCards.map((card) => (
-                        <CardWrapper key={card.id} className={`${isVisible ? 'visible' : ''}`}>
-                            <Card $isDark={$isDark} cardsData={cardsData} {...card} />
-                        </CardWrapper>
-                    ))
-                )}
+                {visibleCards.map((card) => (
+                    <CardWrapper key={card.id} className={`${isVisible ? 'visible' : ''}`}>
+                        <Card $isDark={$isDark} cardsData={cardsData} {...card} />
+                    </CardWrapper>
+                ))}
             </CardsContainer>
         </MainColumn>
     )

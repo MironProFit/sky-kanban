@@ -7,24 +7,36 @@ import { useAppContext } from '../../routes/AppContext'
 import Loading from '../Loading/LoadingModal'
 
 export default function MainPage() {
-    const { isModal, isMobile, isUserMenuOpen, toggleUserMenu, $isDark, isLoading, userTasks } = useAppContext()
+    const { isModal, isMobile, isUserMenuOpen, toggleUserMenu, $isDark, isLoading, userData } = useAppContext()
 
-    const [cardsData] = useState(cards)
-    console.log([cardsData])
-    console.log([userTasks])
+    const { transformedTasks, columns } = useMemo(() => {
+        const tasks = Array.isArray(userData) ? userData : []
+        const transformedTasks = tasks.map((task) => ({
+            id: task._id,
+            userId: task.userId,
+            title: task.title,
+            topic: task.topic,
+            date: task.date,
+            description: task.description,
+            status: task.status,
+        }))
+        console.log(transformedTasks)
 
- const columns = useMemo(() => {
-  // убедимся, что данные — это массив объектов
-  const data = Array.isArray(cardsData) && Array.isArray(cardsData[0]) ? cardsData[0] : cardsData;
+        const columns = {
+            'Без статуса': transformedTasks.filter((card) => card.status === 'Без статуса'),
+            'Нужно сделать': transformedTasks.filter((card) => card.status === 'Нужно сделать'),
+            'В работе': transformedTasks.filter((card) => card.status === 'В работе'),
+            Тестирование: transformedTasks.filter((card) => card.status === 'Тестирование'),
+            Готово: transformedTasks.filter((card) => card.status === 'Готово'),
+        }
+        console.log(columns)
 
-  return {
-    'Без статуса': data.filter((card) => card.status === 'Без статуса'),
-    'Нужно сделать': data.filter((card) => card.status === 'Нужно сделать'),
-    'В работе': data.filter((card) => card.status === 'В работе'),
-    'Тестирование': data.filter((card) => card.status === 'Тестирование'),
-    'Готово': data.filter((card) => card.status === 'Готово'),
-  };
-}, [cardsData]);
+        return { transformedTasks, columns }
+    }, [userData])
+
+    if (isLoading) {
+        return <Loading />
+    }
 
     return (
         <MainContainer
@@ -36,7 +48,6 @@ export default function MainPage() {
             $isDark={$isDark}
         >
             <Container>
-                {isLoading && <Loading />}
                 <MainBlock $isDark={$isDark}>
                     <MainContent>
                         {Object.keys(columns).map((status) => (
