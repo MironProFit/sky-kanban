@@ -17,7 +17,7 @@ export async function loginAction({ request }) {
     const formData = await request.formData()
     const login = formData.get('login')
     const password = formData.get('password')
-    console.log(formData, login, password)
+
     try {
         const res = await loginUser(login, password)
 

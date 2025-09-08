@@ -40,7 +40,12 @@ function AppRoutes() {
                         },
                     ],
                 },
-                { path: 'login', element: <AuthModal />, action: loginAction, errorElement: <AuthModal /> },
+                {
+                    path: 'login',
+                    element: <AuthModal />,
+                    //  action: loginAction,
+                    errorElement: <AuthModal />,
+                },
                 { path: 'register', element: <AuthModal />, action: registerAction, errorElement: <AuthModal /> },
             ],
         },

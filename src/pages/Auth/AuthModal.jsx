@@ -8,222 +8,298 @@ import { loginUser } from '../../services/auth/login'
 import { useAppContext } from '../../routes/AppContext'
 import Loading from '../Loading/LoadingModal'
 import { registerUser } from '../../services/auth/register'
-function AuthModal() {
-    const { setIsAuth, setIsLoading, $isDark, setUserName, setToken } = useAppContext()
+import { getAllTasks } from '../../services/tasks/getTasks'
+// function AuthModal() {
+//     const { setIsAuth, setIsLoading, $isDark, isAuth, userToken, setUserName, setToken, userTasks, setUserTasks, userName } = useAppContext()
 
-    const [isPage, setIsPage] = useState('login')
-    const location = useLocation()
-    const navigate = useNavigate()
-    const submit = useSubmit()
+//     const [isPage, setIsPage] = useState('login')
+//     const location = useLocation()
+//     const navigate = useNavigate()
+//     const submit = useSubmit()
 
-    // ----------------------------------------
-    // Формы
-    // ----------------------------------------
-    // Логин
-    const {
-        register: registerLogin,
-        handleSubmit: handleSubmitLogin,
-        reset: resetLogin,
-        formState: { errors: errorsLogin, isValid: isValidLogin },
-    } = useForm({ mode: 'onChange' })
+//     // ----------------------------------------
+//     // Формы
+//     // ----------------------------------------
+//     // Логин
+//     const {
+//         register: registerLogin,
+//         handleSubmit: handleSubmitLogin,
+//         reset: resetLogin,
+//         formState: { errors: errorsLogin, isValid: isValidLogin },
+//     } = useForm({ mode: 'onChange' })
 
-    // Регистрация
-    const {
-        register: registerSignUp,
-        handleSubmit: handleSubmitSignUp,
-        reset: resetSignUp,
-        formState: { errors: errorsSignUp, isValid: isValidSignUp },
-    } = useForm({ mode: 'onChange' })
+//     // Регистрация
+//     const {
+//         register: registerSignUp,
+//         handleSubmit: handleSubmitSignUp,
+//         reset: resetSignUp,
+//         formState: { errors: errorsSignUp, isValid: isValidSignUp },
+//     } = useForm({ mode: 'onChange' })
 
-    // ----------------------------------------
-    // Mode change: сброс форм
-    // ----------------------------------------
-    useEffect(() => {
-        if (location.pathname === '/register') {
-            setIsPage('register')
-            resetSignUp()
-        } else {
-            setIsPage('login')
-            resetLogin()
-        }
-    }, [location.pathname])
+//     // ----------------------------------------
+//     // Mode change: сброс форм
+//     // ----------------------------------------
+//     useEffect(() => {
+//         if (location.pathname === '/register') {
+//             setIsPage('register')
+//             resetSignUp()
+//         } else {
+//             setIsPage('login')
+//             resetLogin()
+//         }
+//     }, [location.pathname])
 
-    // Переключение
-    const togglePage = () => {
-        if (isPage === 'login') {
-            setIsPage('register')
-            navigate('/register')
-            resetSignUp()
-        } else {
-            setIsPage('login')
-            navigate('/login')
-            resetLogin()
-        }
-    }
+//     // Переключение
+//     const togglePage = () => {
+//         if (isPage === 'login') {
+//             setIsPage('register')
+//             navigate('/register')
+//             resetSignUp()
+//         } else {
+//             setIsPage('login')
+//             navigate('/login')
+//             resetLogin()
+//         }
+//     }
 
-    // ----------------------------------------
-    // Сабмитим через useSubmit!
-    // ----------------------------------------
+//     // ----------------------------------------
+//     // Сабмитим через useSubmit!
+//     // ----------------------------------------
 
-    // Логин
-    const onLogin = (data) => {
-        submit(data, { method: 'post', action: '/login' })
-    }
+//     // Логин
+//     const onLogin = (data) => {
+//         submit(data, { method: 'post', action: '/login' })
+//     }
 
-    // Регистрация
-    const onSignUp = (data) => {
-        submit(data, { method: 'post', action: '/register' })
-    }
+//     // Регистрация
+//     const onSignUp = (data) => {
+//         submit(data, { method: 'post', action: '/register' })
+//     }
+//     // ----------------------------------------
+//     // Обработка ответа action
+//     // ----------------------------------------
+//     const actionData = useActionData()
+//     const navigation = useNavigation()
+//     const isLoading = navigation.state === 'submitting'
 
-    // ----------------------------------------
-    // Обработка ответа action
-    // ----------------------------------------
-    const actionData = useActionData()
-    const navigation = useNavigation()
-    const isLoading = navigation.state === 'submitting'
+//     // Здесь вызываете логин/авторизацию, например по кнопке или сразу:
+//     useEffect(() => {
+//         async function initAuth() {
+//             try {
+//                 const userData = await loginUser() // замените на ваш реальный вызов авторизации
+//                 if (userData) {
+//                     setUserName(userData.name)
+//                     setToken(userData.token)
+//                 }
+//             } catch (error) {
+//                 console.error('Ошибка авторизации', error)
+//             }
+//         }
 
-    useEffect(() => {
-        if (actionData?.res?.data?.user) {
-            setUserName(actionData.res.data.user.name)
-            setToken(actionData.res.data.user.token)
-            setIsAuth(true)
-            navigate('/', { replace: true }) // или location.state?.from ?? '/'
-        }
-    }, [actionData])
+//         initAuth()
+//     }, [])
 
-    // ----------------------------------------
-    // Render
-    // ----------------------------------------
-    return (
-        <Wrapper $isDark={$isDark}>
-            <ContainerSignin $isLoading={isLoading} $isDark={$isDark}>
-                <>
-                    {isLoading && <Loading />}
+//     // После получения токена и имени, загружаем задачи
+//     useEffect(() => {
+//         async function fetchData() {
+//             if (userToken) {
+//                 try {
+//                     const tasks = await getAllTasks(userToken)
+//                     if (Array.isArray(tasks)) {
+//                         setUserTasks(tasks)
+//                         localStorage.setItem('userTasks', JSON.stringify(tasks))
+//                     } else {
+//                         console.log('Задачи отсутствуют или структура не соответствует', tasks)
+//                     }
+//                 } catch (error) {
+//                     console.error('Ошибка при получении задач:', error)
+//                 }
+//             }
+//         }
+//         fetchData()
+//     }, [userToken]) // запускать при изменении токена
 
-                    <ModalSignin>
-                        <ModalBlock $isDark={$isDark}>
-                            <ModalTitle>
-                                <Title $isDark={$isDark}>{isPage === 'login' ? 'Вход' : 'Регистрация'}</Title>
-                            </ModalTitle>
+//     // Навигация, когда есть все нужные данные
+//     useEffect(() => {
+//         if (userTasks.length > 0 && userToken && userName) {
+//             console.log('все 3 параметра загружено', { userTasks, userToken, userName })
+//             setIsAuth(true)
+//             // Здесь ваш вызов навигации - например, через react-router
+//             // navigate('/', { replace: true });
+//         }
+//     }, [userTasks, userToken, userName])
 
-                            {/* Ошибка от action */}
-                            {actionData?.error && <TextContainer style={{ color: 'red', marginBottom: 10 }}>{actionData?.error}</TextContainer>}
+//     console.log(userTasks, userToken, userName)
 
-                            {/* ---- LOGIN ---- */}
-                            {isPage === 'login' && (
-                                <ModalForm id="formLogIn" onSubmit={handleSubmitLogin(onLogin)}>
-                                    <TextInput
-                                        $isDark={$isDark}
-                                        type="text"
-                                        name="login"
-                                        id="formlogin"
-                                        placeholder="Логин или email"
-                                        autoComplete="username"
-                                        {...registerLogin('login', {
-                                            required: 'Поле обязательно.',
-                                            minLength: { value: 4, message: 'Минимум 3 символа.' },
-                                        })}
-                                    />
-                                    {errorsLogin.login && <TextContainer style={{ color: 'red', marginBottom: 10 }}>{errorsLogin.login.message}</TextContainer>}
+//     // useEffect(() => {
+//     //     async function fetchDataAndTasks() {
+//     //         try {
+//     //             setUserName(actionData.res.data.user.name)
+//     //             const userToken = actionData.res.data.user.token
+//     //             setToken(userToken)
 
-                                    <TextInput
-                                        $isDark={$isDark}
-                                        name="password"
-                                        id="formpassword"
-                                        placeholder="Пароль"
-                                        type="password"
-                                        autoComplete="current-password"
-                                        {...registerLogin('password', {
-                                            required: 'Пароль обязателен.',
-                                            minLength: { value: 4, message: 'Минимум 4 символа.' },
-                                        })}
-                                    />
-                                    {errorsLogin.password && <TextContainer style={{ color: 'red', marginBottom: 10 }}>{errorsLogin.password.message}</TextContainer>}
+//     //             const tasks = await getAllTasks(userToken)
 
-                                    <ModalBtnEnter type="submit" disabled={!isValidLogin}>
-                                        Войти
-                                    </ModalBtnEnter>
+//     //             if (Array.isArray(tasks)) {
+//     //                 setUserTasks(tasks)
+//     //                 localStorage.setItem('userTasks', JSON.stringify(tasks))
+//     //             } else {
+//     //                 console.log('Задачи отсутствуют или структура не соответствует', tasks)
+//     //             }
 
-                                    <ModalFormGroup>
-                                        <FGTitle>Нужно зарегистрироваться?</FGTitle>
-                                        <FGLink type="button" onClick={togglePage}>
-                                            Регистрируйтесь здесь
-                                        </FGLink>
-                                    </ModalFormGroup>
-                                </ModalForm>
-                            )}
+//     //             if (actionData?.res?.data?.user) {
+//     //             }
+//     //             if (userTasks && userToken && userName) {
+//     //                 console.log('все 3 параметра загружено', { userTasks, userToken, userName })
 
-                            {/* ---- REGISTER ---- */}
-                            {isPage === 'register' && (
-                                <ModalForm id="formLogUp" onSubmit={handleSubmitSignUp(onSignUp)}>
-                                    <TextInput
-                                        $isDark={$isDark}
-                                        type="text"
-                                        name="login"
-                                        id="text"
-                                        placeholder="Логин"
-                                        autoComplete="username"
-                                        {...registerSignUp('login', {
-                                            required: 'Логин обязателен.',
-                                            minLength: { value: 4, message: 'Логин слишком короткое.' },
-                                        })}
-                                    />
-                                    {errorsSignUp.text && <TextContainer style={{ color: 'red', marginBottom: 10 }}>{errorsSignUp.text.message}</TextContainer>}
+//     //                 navigate('/', { replace: true })
+//     //             }
+//     //         } catch (error) {
+//     //             console.error('Ошибка при получении задач:', error)
+//     //         }
+//     //     }
+//     //     fetchDataAndTasks()
+//     // }, [actionData])
 
-                                    <TextInput
-                                        $isDark={$isDark}
-                                        type="text"
-                                        name="name"
-                                        id="first-name"
-                                        placeholder="Имя"
-                                        {...registerSignUp('name', {
-                                            required: 'Имя обязательно.',
-                                            minLength: { value: 4, message: 'Имя слишком короткое.' },
-                                        })}
-                                    />
-                                    {errorsSignUp['first-name'] && <TextContainer style={{ color: 'red', marginBottom: 10 }}>{errorsSignUp['first-name'].message}</TextContainer>}
+//     // console.log(userTasks, userToken, userName)
 
-                                    <TextInput
-                                        $isDark={$isDark}
-                                        type="password"
-                                        name="password"
-                                        id="passwordFirst"
-                                        placeholder="Пароль"
-                                        autoComplete="new-password"
-                                        {...registerSignUp('password', {
-                                            required: 'Пароль обязателен.',
-                                            minLength: { value: 4, message: 'Минимум 4 символа.' },
-                                        })}
-                                    />
-                                    {errorsSignUp.password && <TextContainer style={{ color: 'red', marginBottom: 10 }}>{errorsSignUp.password.message}</TextContainer>}
+//     // useEffect(() => {
+//     //     if (userTasks && userToken && userName) {
+//     //         console.log('все 3 параметра загружено', { userTasks, userToken, userName })
+//     //         setIsAuth(true)
+//     //         navigate('/', { replace: true })
+//     //     }
+//     // }, [userTasks, userToken, userName, isAuth])
 
-                                    <ModalBtnEnter
-                                        type="submit"
-                                        disabled={!isValidSignUp}
-                                        
-                                    >
-                                        Зарегистрироваться
-                                    </ModalBtnEnter>
+//     // ----------------------------------------
+//     // Render
+//     // ----------------------------------------
+//     return (
+//         <Wrapper $isDark={$isDark}>
+//             <ContainerSignin $isLoading={isLoading} $isDark={$isDark}>
+//                 <>
+//                     {isLoading && <Loading />}
 
-                                    <ModalFormGroup>
-                                        <FGTitle>
-                                            Уже есть аккаунт?{' '}
-                                            <FGLink type="button" onClick={togglePage}>
-                                                Войдите здесь
-                                            </FGLink>
-                                        </FGTitle>
-                                    </ModalFormGroup>
-                                </ModalForm>
-                            )}
-                        </ModalBlock>
-                    </ModalSignin>
-                </>
-            </ContainerSignin>
-        </Wrapper>
-    )
-}
+//                     <ModalSignin>
+//                         <ModalBlock $isDark={$isDark}>
+//                             <ModalTitle>
+//                                 <Title $isDark={$isDark}>{isPage === 'login' ? 'Вход' : 'Регистрация'}</Title>
+//                             </ModalTitle>
 
-export default AuthModal
+//                             {/* Ошибка от action */}
+//                             {actionData?.error && <TextContainer style={{ color: 'red', marginBottom: 10 }}>{actionData?.error}</TextContainer>}
+
+//                             {/* ---- LOGIN ---- */}
+//                             {isPage === 'login' && (
+//                                 <ModalForm id="formLogIn" onSubmit={handleSubmitLogin(onLogin)}>
+//                                     <TextInput
+//                                         $isDark={$isDark}
+//                                         type="text"
+//                                         name="login"
+//                                         id="formlogin"
+//                                         placeholder="Логин или email"
+//                                         autoComplete="username"
+//                                         {...registerLogin('login', {
+//                                             required: 'Поле обязательно.',
+//                                             minLength: { value: 4, message: 'Минимум 3 символа.' },
+//                                         })}
+//                                     />
+//                                     {errorsLogin.login && <TextContainer style={{ color: 'red', marginBottom: 10 }}>{errorsLogin.login.message}</TextContainer>}
+
+//                                     <TextInput
+//                                         $isDark={$isDark}
+//                                         name="password"
+//                                         id="formpassword"
+//                                         placeholder="Пароль"
+//                                         type="password"
+//                                         autoComplete="current-password"
+//                                         {...registerLogin('password', {
+//                                             required: 'Пароль обязателен.',
+//                                             minLength: { value: 4, message: 'Минимум 4 символа.' },
+//                                         })}
+//                                     />
+//                                     {errorsLogin.password && <TextContainer style={{ color: 'red', marginBottom: 10 }}>{errorsLogin.password.message}</TextContainer>}
+
+//                                     <ModalBtnEnter type="submit" disabled={!isValidLogin}>
+//                                         Войти
+//                                     </ModalBtnEnter>
+
+//                                     <ModalFormGroup>
+//                                         <FGTitle>Нужно зарегистрироваться?</FGTitle>
+//                                         <FGLink type="button" onClick={togglePage}>
+//                                             Регистрируйтесь здесь
+//                                         </FGLink>
+//                                     </ModalFormGroup>
+//                                 </ModalForm>
+//                             )}
+
+//                             {/* ---- REGISTER ---- */}
+//                             {isPage === 'register' && (
+//                                 <ModalForm id="formLogUp" onSubmit={handleSubmitSignUp(onSignUp)}>
+//                                     <TextInput
+//                                         $isDark={$isDark}
+//                                         type="text"
+//                                         name="login"
+//                                         id="text"
+//                                         placeholder="Логин"
+//                                         autoComplete="username"
+//                                         {...registerSignUp('login', {
+//                                             required: 'Логин обязателен.',
+//                                             minLength: { value: 4, message: 'Логин слишком короткое.' },
+//                                         })}
+//                                     />
+//                                     {errorsSignUp.text && <TextContainer style={{ color: 'red', marginBottom: 10 }}>{errorsSignUp.text.message}</TextContainer>}
+
+//                                     <TextInput
+//                                         $isDark={$isDark}
+//                                         type="text"
+//                                         name="name"
+//                                         id="first-name"
+//                                         placeholder="Имя"
+//                                         {...registerSignUp('name', {
+//                                             required: 'Имя обязательно.',
+//                                             minLength: { value: 4, message: 'Имя слишком короткое.' },
+//                                         })}
+//                                     />
+//                                     {errorsSignUp['first-name'] && <TextContainer style={{ color: 'red', marginBottom: 10 }}>{errorsSignUp['first-name'].message}</TextContainer>}
+
+//                                     <TextInput
+//                                         $isDark={$isDark}
+//                                         type="password"
+//                                         name="password"
+//                                         id="passwordFirst"
+//                                         placeholder="Пароль"
+//                                         autoComplete="new-password"
+//                                         {...registerSignUp('password', {
+//                                             required: 'Пароль обязателен.',
+//                                             minLength: { value: 4, message: 'Минимум 4 символа.' },
+//                                         })}
+//                                     />
+//                                     {errorsSignUp.password && <TextContainer style={{ color: 'red', marginBottom: 10 }}>{errorsSignUp.password.message}</TextContainer>}
+
+//                                     <ModalBtnEnter type="submit" disabled={!isValidSignUp}>
+//                                         Зарегистрироваться
+//                                     </ModalBtnEnter>
+
+//                                     <ModalFormGroup>
+//                                         <FGTitle>
+//                                             Уже есть аккаунт?{' '}
+//                                             <FGLink type="button" onClick={togglePage}>
+//                                                 Войдите здесь
+//                                             </FGLink>
+//                                         </FGTitle>
+//                                     </ModalFormGroup>
+//                                 </ModalForm>
+//                             )}
+//                         </ModalBlock>
+//                     </ModalSignin>
+//                 </>
+//             </ContainerSignin>
+//         </Wrapper>
+//     )
+// }
+
+// export default AuthModal
 
 // function AuthModal() {
 //     const { setIsAuth, setIsLoading, $isDark, setUserName, setToken, token, isAuth } = useAppContext()
@@ -411,3 +487,197 @@ export default AuthModal
 // }
 
 // export default AuthModal
+
+// import { Form, useLocation, useNavigate } from 'react-router-dom'
+// import React, { useEffect, useState } from 'react'
+// import { useForm } from 'react-hook-form'
+// import { ContainerSignin, FGLink, FGTitle, ModalBlock, ModalBtnEnter, ModalForm, ModalFormGroup, ModalSignin, ModalTitle, TextContainer, TextInput, Title } from './AuthModal.styled'
+// import { Wrapper } from '../../components/Styles/GlobalStyle'
+// import { loginUser } from '../../services/auth/login'
+// import { useAppContext } from '../../routes/AppContext'
+// import Loading from '../Loading/LoadingModal'
+// import { registerUser } from '../../services/auth/register'
+// import { getAllTasks } from '../../services/tasks/getTasks'
+
+function AuthModal() {
+    const { setIsAuth, setIsLoading, $isDark, userToken, setUserTasks, setUserName, setToken } = useAppContext()
+
+    const [isPage, setIsPage] = useState('login')
+    const [loading, setLoading] = useState(false)
+    const location = useLocation()
+    const navigate = useNavigate()
+
+    // Настройка форм
+    const {
+        register: registerLogin,
+        handleSubmit: handleSubmitLogin,
+        reset: resetLogin,
+        formState: { errors: errorsLogin, isValid: isValidLogin },
+    } = useForm({ mode: 'onChange' })
+    const {
+        register: registerSignUp,
+        handleSubmit: handleSubmitSignUp,
+        reset: resetSignUp,
+        formState: { errors: errorsSignUp, isValid: isValidSignUp },
+    } = useForm({ mode: 'onChange' })
+
+    // Смена страницы и сброс форм
+    useEffect(() => {
+        if (location.pathname === '/register') {
+            setIsPage('register')
+            resetSignUp()
+        } else {
+            setIsPage('login')
+            resetLogin()
+        }
+    }, [location.pathname, resetLogin, resetSignUp])
+
+    // Обработчик логина
+    const onLogin = async (data) => {
+        setLoading(true)
+        try {
+            const response = await loginUser(data.login, data.password)
+            const userData = response.data
+            console.log(userData.user.name)
+            setUserName(userData.user.name)
+            setToken(userData.user.token)
+            // Получаем задачи после успешного логина
+            fetchTasks(userData.user.token)
+        } catch (error) {
+            console.error(error)
+            // Обработка ошибки (например, показать уведомление)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    // Обработчик регистрации
+    const onSignUp = async (data) => {
+        setLoading(true)
+        try {
+            const response = await registerUser(data)
+            const newUserData = response.data
+            console.log(newUserData)
+            // Можно выполнить логин, переадресовать или показать сообщение об успехе
+        } catch (error) {
+            console.error(error)
+            // Обработка ошибки (например, показать уведомление)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    // Вызываем получение задач после успешного логина
+    const fetchTasks = async (token) => {
+        if (token) {
+            setLoading(true)
+
+            try {
+                const tasks = await getAllTasks(token)
+                setUserTasks(tasks)
+                localStorage.setItem('userTasks', JSON.stringify(tasks))
+                setIsAuth(true)
+                navigate('/', { replace: true })
+            } catch (error) {
+                console.error('Ошибка при получении задач:', error)
+            }
+        }
+    }
+
+    return (
+        <Wrapper $isDark={$isDark}>
+            <ContainerSignin $isDark={$isDark}>
+                {loading && <Loading />}
+
+                <ModalSignin>
+                    <ModalBlock $isDark={$isDark}>
+                        <ModalTitle>
+                            <Title $isDark={$isDark}>{isPage === 'login' ? 'Вход' : 'Регистрация'}</Title>
+                        </ModalTitle>
+                        {/* ---- ФОРМА ЛОГИНА ---- */}
+                        {isPage === 'login' && (
+                            <ModalForm onSubmit={handleSubmitLogin(onLogin)}>
+                                <TextInput
+                                    $isDark={$isDark}
+                                    type="text"
+                                    name="login"
+                                    placeholder="Логин или email"
+                                    autoComplete="username"
+                                    {...registerLogin('login', { required: 'Поле обязательно.', minLength: { value: 4, message: 'Минимум 4 символа.' } })}
+                                />
+                                {errorsLogin.login && <TextContainer style={{ color: 'red' }}>{errorsLogin.login.message}</TextContainer>}
+
+                                <TextInput
+                                    $isDark={$isDark}
+                                    name="password"
+                                    placeholder="Пароль"
+                                    type="password"
+                                    autoComplete="current-password"
+                                    {...registerLogin('password', { required: 'Пароль обязателен.', minLength: { value: 4, message: 'Минимум 4 символа.' } })}
+                                />
+                                {errorsLogin.password && <TextContainer style={{ color: 'red' }}>{errorsLogin.password.message}</TextContainer>}
+
+                                <ModalBtnEnter type="submit" disabled={!isValidLogin}>
+                                    Войти
+                                </ModalBtnEnter>
+                                <ModalFormGroup>
+                                    <FGTitle>Нужно зарегистрироваться?</FGTitle>
+                                    <FGLink type="button" onClick={() => setIsPage('register')}>
+                                        Регистрируйтесь здесь
+                                    </FGLink>
+                                </ModalFormGroup>
+                            </ModalForm>
+                        )}
+                        {/* ---- ФОРМА РЕГИСТРАЦИИ ---- */}
+                        {isPage === 'register' && (
+                            <ModalForm onSubmit={handleSubmitSignUp(onSignUp)}>
+                                <TextInput
+                                    $isDark={$isDark}
+                                    type="text"
+                                    name="login"
+                                    placeholder="Логин"
+                                    autoComplete="username"
+                                    {...registerSignUp('login', { required: 'Логин обязателен.', minLength: { value: 4, message: 'Логин слишком короткое.' } })}
+                                />
+                                {errorsSignUp.login && <TextContainer style={{ color: 'red' }}>{errorsSignUp.login.message}</TextContainer>}
+
+                                <TextInput
+                                    $isDark={$isDark}
+                                    type="text"
+                                    name="name"
+                                    placeholder="Имя"
+                                    {...registerSignUp('name', { required: 'Имя обязательно.', minLength: { value: 4, message: 'Имя слишком короткое.' } })}
+                                />
+                                {errorsSignUp.name && <TextContainer style={{ color: 'red' }}>{errorsSignUp.name.message}</TextContainer>}
+
+                                <TextInput
+                                    $isDark={$isDark}
+                                    type="password"
+                                    name="password"
+                                    placeholder="Пароль"
+                                    autoComplete="new-password"
+                                    {...registerSignUp('password', { required: 'Пароль обязателен.', minLength: { value: 4, message: 'Минимум 4 символа.' } })}
+                                />
+                                {errorsSignUp.password && <TextContainer style={{ color: 'red' }}>{errorsSignUp.password.message}</TextContainer>}
+
+                                <ModalBtnEnter type="submit" disabled={!isValidSignUp}>
+                                    Зарегистрироваться
+                                </ModalBtnEnter>
+                                <ModalFormGroup>
+                                    <FGTitle>
+                                        Уже есть аккаунт?{' '}
+                                        <FGLink type="button" onClick={() => setIsPage('login')}>
+                                            Войдите здесь
+                                        </FGLink>
+                                    </FGTitle>
+                                </ModalFormGroup>
+                            </ModalForm>
+                        )}
+                    </ModalBlock>
+                </ModalSignin>
+            </ContainerSignin>
+        </Wrapper>
+    )
+}
+
+export default AuthModal

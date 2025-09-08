@@ -7,19 +7,25 @@ import { useAppContext } from '../../routes/AppContext'
 import Loading from '../Loading/LoadingModal'
 
 export default function MainPage() {
-    const { isModal, isMobile, isUserMenuOpen, toggleUserMenu, $isDark, isLoading } = useAppContext()
-    const [cardsData] = useState(cards)
+    const { isModal, isMobile, isUserMenuOpen, toggleUserMenu, $isDark, isLoading, userTasks } = useAppContext()
 
-    const columns = useMemo(
-        () => ({
-            'Без статуса': cardsData.filter((card) => card.status === 'Без статуса'),
-            'Нужно сделать': cardsData.filter((card) => card.status === 'Нужно сделать'),
-            'В работе': cardsData.filter((card) => card.status === 'В работе'),
-            Тестирование: cardsData.filter((card) => card.status === 'Тестирование'),
-            Готово: cardsData.filter((card) => card.status === 'Готово'),
-        }),
-        [cardsData]
-    )
+    const [cardsData] = useState(cards)
+    console.log([cardsData])
+    console.log([userTasks])
+
+ const columns = useMemo(() => {
+  // убедимся, что данные — это массив объектов
+  const data = Array.isArray(cardsData) && Array.isArray(cardsData[0]) ? cardsData[0] : cardsData;
+
+  return {
+    'Без статуса': data.filter((card) => card.status === 'Без статуса'),
+    'Нужно сделать': data.filter((card) => card.status === 'Нужно сделать'),
+    'В работе': data.filter((card) => card.status === 'В работе'),
+    'Тестирование': data.filter((card) => card.status === 'Тестирование'),
+    'Готово': data.filter((card) => card.status === 'Готово'),
+  };
+}, [cardsData]);
+
     return (
         <MainContainer
             onClick={() => {

@@ -31,7 +31,7 @@ export default function CardView() {
 
     const createMatch = useMatch('/create')
     const isEditMode = Boolean(createMatch)
-    console.log(isEditMode)
+    
 
     const [selectDate, setSelectDate] = useState('')
 
