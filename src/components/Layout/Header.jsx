@@ -28,7 +28,6 @@ export default function Header() {
     // useEffect(() => {
     //     console.log(location.pathname)
     // }, [location.pathname])
-
     return (
         <HeaderStyled $isDark={$isDark}>
             <Container>
@@ -41,11 +40,9 @@ export default function Header() {
                                 </Link>
                             </HeaderLogo>
 
-
                             {!isAuthPage && isAuth && (
                                 <>
                                     <HeaderNav>
-                                        {' '}
                                         {(!isMobile || (isMobile && location.pathname === '/')) && (
                                             <Link style={{ marginRight: '20px' }} to="card/create" state={{ createMode: true }}>
                                                 <PrimaryButton

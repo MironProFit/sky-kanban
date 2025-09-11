@@ -337,8 +337,7 @@ export const Tooltip = styled.div`
     bottom: 125%; /* Позиция подсказки относительно кнопки */
     left: 50%;
     transform: translateX(-50%); /* Центруем подсказку по горизонтали */
-    opacity: ${({ visible }) => (visible ? 1 : 0)};
-    transition: opacity 0.3s;
+    transition: opacity 1s;
 
     &::after {
         content: '';
@@ -350,4 +349,9 @@ export const Tooltip = styled.div`
         border-style: solid;
         border-color: #555 transparent transparent transparent; /* Цвет стрелки */
     }
+`
+
+export const TooltipWrapper = styled.div`
+    position: relative;
+    display: inline-block;
 `

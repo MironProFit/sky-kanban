@@ -17,7 +17,7 @@ import {
     TopicContainer,
 } from './CardViewEdit.styles'
 
-import { PrimaryButton, SecondaryButton, TextContainer, Tooltip, TopicButton } from '../../components/Styles/GlobalStyle'
+import { PrimaryButton, SecondaryButton, TextContainer, Tooltip, TooltipWrapper, TopicButton } from '../../components/Styles/GlobalStyle'
 import CalendarComponent from '../../components/Calendar/Calendar'
 import { CalendarAndDateContainer } from '../../components/Calendar/Calendar.styles'
 import { Theme } from '../../components/Card/Card.styles'
@@ -27,6 +27,9 @@ import { createTask } from '../../services/tasks/createTask'
 
 export default function CardView() {
     const { $isDark, token, setLoadingMessage, DEFAULT_MESSAGE_LOADING, isLoading, setIsLoading } = useAppContext()
+    const [tooltipVisible, setTooltipVisible] = useState(true)
+    const [tooltipOpacity, setTooltipOpacity] = useState(1) // Начальная opacity = 1
+
     const navigate = useNavigate()
     const [activeButton, setActiveButton] = useState(0)
     const [taskState, setTaskState] = useState({ title: '', description: '', date: '', topic: '' })
@@ -74,35 +77,49 @@ export default function CardView() {
             }))
         }
     }, [selectDate])
+
+    useEffect(() => {
+        if (isEditMode && isDisabled) {
+            if (isDisabled) {
+                setTooltipVisible(true)
+
+                setTooltipOpacity(0.8)
+
+                setTimeout(() => {
+                    setTooltipOpacity(0)
+                }, 10000)
+            }
+        }
+    }, [])
+
+    //Create task
     const handleCreateTasc = async () => {
         setLoadingMessage('Добавляем задачу')
         setIsLoading(true)
 
         try {
-            setTimeout(() => {
-                setLoadingMessage('Обновляем задачи')
-                console.log('привет')
-            }, 3000)
-
-            setTimeout(() => {
-                handleClose()
-                console.log('привет2')
-            }, 6000)
+            setLoadingMessage('Обновляем задачи')
+            const response = await createTask(token, taskState)
+            console.log(response)
+            handleClose()
 
             // console.log(taskState.title, taskState.topic, taskState.description, taskState.date)
             // const ucreatedTask = await createTask(token, taskState.title, taskState.topic, taskState.description, taskState.date)
         } catch (error) {
-            console.error('Ошибка при добавлении задачи на сервер:', error)
+            const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка создания задачи'
+            setErrorMessage(errMsg) // Устанавливаем сообщение об ошибке
+            console.error('Ошибка при добавлении задачи на сервер:', errMsg)
         } finally {
-            setTimeout(() => {
-                setLoadingMessage('Данные обновлены')
-                setIsLoading(false)
-                console.log('привет3')
-            }, 10000)
+            
+            setLoadingMessage('Данные обновлены')
+            setIsLoading(false)
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
         }
     }
 
+    useEffect(() => {
+        console.log(tooltipVisible, tooltipOpacity)
+    }, [tooltipVisible, tooltipOpacity])
     const handleActive = (i) => {
         setActiveButton(i)
     }
@@ -206,17 +223,19 @@ export default function CardView() {
                                 })}
                             </Theme>
                         </ButtonGroup>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <ButtonGroup>
                             <SecondaryButton $isDark={$isDark} onClick={handleClose}>
                                 Зыкрыть
                             </SecondaryButton>
-                            <div style={{ position: 'relative', display: 'inlineBlock' }}>
+                            <TooltipWrapper>
                                 <PrimaryButton disabled={isDisabled} onClick={handleCreateTasc} $mobileFixed $width="auto" $isDark={$isDark}>
                                     Создать задачу
                                 </PrimaryButton>
-                                <Tooltip visible={isDisabled}>Заполните все поля</Tooltip>
-                            </div>
-                        </div>
+                                <Tooltip visible={tooltipVisible} style={{ opacity: tooltipOpacity }}>
+                                    Заполните все поля
+                                </Tooltip>
+                            </TooltipWrapper>
+                        </ButtonGroup>
                     </PopBrowseContent>
                 </PopBrowseBlock>
             </PopBrowseContainer>

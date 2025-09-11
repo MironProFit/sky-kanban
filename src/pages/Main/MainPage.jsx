@@ -34,14 +34,7 @@ export default function MainPage() {
     }, [userData])
 
     return (
-        <MainContainer
-            onClick={() => {
-                isUserMenuOpen && toggleUserMenu()
-            }}
-            $isModal={isModal}
-            $isMobile={isMobile}
-            $isDark={$isDark}
-        >
+        <MainContainer $isModal={isModal} $isMobile={isMobile} $isDark={$isDark}>
             <Container>
                 <MainBlock $isDark={$isDark}>
                     <MainContent>

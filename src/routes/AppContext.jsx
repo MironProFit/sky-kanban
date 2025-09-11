@@ -5,6 +5,7 @@ const AppContext = createContext()
 export const AppProvider = ({ children }) => {
     const [isModal, setIsModal] = useState(false)
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+    
     const [isMobile, setISMobile] = useState(window.innerWidth <= 600)
 
     const [isTheme, setIsTheme] = useState(() => localStorage.getItem('isTheme') === 'true')

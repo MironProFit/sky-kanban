@@ -7,12 +7,14 @@ import { TextContainer, Wrapper } from '../../components/Styles/GlobalStyle'
 import { loginUser } from '../../services/auth/login'
 import { useAppContext } from '../../routes/AppContext'
 
-import { registerUser } from '../../services/auth/register'
+import { registerUser, registerAction } from '../../services/auth/register'
 import { getAllTasks } from '../../services/tasks/getTasks'
+import { fetchTasks } from '../../services/tasks/taskService'
 
 function AuthModal() {
-    const { setIsAuth, $isDark, setUserData, setUserName, setToken, loadingMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING } = useAppContext()
+    const { isAuth, setIsAuth, $isDark, setUserData, setUserName, setToken, loadingMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING } = useAppContext()
     const [isPage, setIsPage] = useState('login')
+    const [errorMessage, setErrorMessage] = useState()
     const location = useLocation()
     const navigate = useNavigate()
     // Настройка форм
@@ -41,63 +43,75 @@ function AuthModal() {
         }
     }, [location.pathname, resetLogin, resetSignUp])
 
-    // Функция для получения задач
-    const fetchTasks = async (token) => {
-        setIsLoading(true)
-        setLoadingMessage('Получаем данные')
+    // // Функция для получения задач
+    //  const fetchTasks = async (token) => {
+    //     setIsLoading(true)
+    //     setLoadingMessage('Получаем данные')
+    //     setErrorMessage('')
 
-        try {
-            const response = await getAllTasks(token)
+    //     try {
+    //         const response = await getAllTasks(token)
 
-            // Если сервер возвращает { tasks: [...] }
-            if (response && response.tasks) {
-                setUserData(response.tasks) // сохраняем массив tasks
-                localStorage.setItem('userData', JSON.stringify(response.tasks))
-            }
-            // Если сервер возвращает массив напрямую
-            else if (Array.isArray(response)) {
-                setUserData(response)
-                localStorage.setItem('userData', JSON.stringify(response))
-            }
-            // Если что-то пошло не так
-            else {
-                setUserData([])
-                localStorage.setItem('userData', JSON.stringify([]))
-            }
+    //         // Если сервер возвращает { tasks: [...] }
+    //         if (response && response.tasks) {
+    //             setUserData(response.tasks) // сохраняем массив tasks
+    //             localStorage.setItem('userData', JSON.stringify(response.tasks))
+    //         }
+    //         // Если сервер возвращает массив напрямую
+    //         else if (Array.isArray(response)) {
+    //             setUserData(response)
+    //             localStorage.setItem('userData', JSON.stringify(response))
+    //         }
+    //         // Если что-то пошло не так
+    //         else {
+    //             setUserData([])
+    //             localStorage.setItem('userData', JSON.stringify([]))
+    //         }
+    //         setIsAuth(true)
+    //     } catch (error) {
+    //         // setErrorMessage(error)
 
-            setIsAuth(true)
+    //         console.error('Ошибка при получении задач:', error)
+    //     } finally {
+    //         setIsLoading(false)
+    //         setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+    //     }
+    // }
+    useEffect(() => {
+        if (isAuth) {
             navigate('/', { replace: true })
-        } catch (error) {
-            console.error('Ошибка при получении задач:', error)
-        } finally {
-            setIsLoading(false)
-            setLoadingMessage(DEFAULT_MESSAGE_LOADING)
         }
-    }
-
+    }, [isAuth])
     // Обработчик логина
     const onLogin = async (data) => {
         setLoadingMessage('Авторизация пользователя')
         setIsLoading(true)
+        setErrorMessage('')
         try {
             const response = await loginUser(data.login, data.password)
             const userData = response.data
             setUserName(userData.user.name)
             setToken(userData.user.token)
             // Получаем задачи после успешного логина
-            await fetchTasks(userData.user.token)
+            await fetchTasks(userData.user.token, setUserData, setIsLoading, setLoadingMessage, setErrorMessage, setIsAuth)
         } catch (error) {
-            console.error('Ошибка входа:', error)
-            // Обработка ошибки
+            const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка входа'
+            setErrorMessage(errMsg) // Устанавливаем сообщение об ошибке
+            console.error('Ошибка входа:', errMsg)
         } finally {
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
             setIsLoading(false)
         }
     }
+    useEffect(() => {
+        console.log(errorMessage)
+    }, [errorMessage])
 
     // Обработчик регистрации
     const onSignUp = async (data) => {
+        setLoadingMessage('Регистрируем пользователя')
         setIsLoading(true)
+        setErrorMessage('')
         try {
             const response = await registerUser(data)
             const newUserData = response.data
@@ -107,12 +121,16 @@ function AuthModal() {
             setToken(newUserData.user.token)
             await fetchTasks(newUserData.user.token)
         } catch (error) {
-            console.error('Ошибка регистрации:', error)
+            const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка регистрация'
+            setErrorMessage(errMsg) // Устанавливаем сообщение об ошибке
+
+            console.error('Ошибка регистрация:', errMsg)
             // Обработка ошибки
         } finally {
             setIsLoading(false)
         }
     }
+
     return (
         <Wrapper $isDark={$isDark}>
             <ContainerSignin $isDark={$isDark}>
@@ -143,6 +161,8 @@ function AuthModal() {
                                     {...registerLogin('password', { required: 'Пароль обязателен.', minLength: { value: 4, message: 'Минимум 4 символа.' } })}
                                 />
                                 {errorsLogin.password && <TextContainer style={{ color: 'red' }}>{errorsLogin.password.message}</TextContainer>}
+
+                                <TextContainer style={{ color: 'red' }}>{errorMessage}</TextContainer>
 
                                 <ModalBtnEnter type="submit" disabled={!isValidLogin}>
                                     Войти
@@ -187,6 +207,7 @@ function AuthModal() {
                                 />
                                 {errorsSignUp.password && <TextContainer style={{ color: 'red' }}>{errorsSignUp.password.message}</TextContainer>}
 
+                                <TextContainer style={{ color: 'red' }}>{errorMessage}</TextContainer>
                                 <ModalBtnEnter type="submit" disabled={!isValidSignUp}>
                                     Зарегистрироваться
                                 </ModalBtnEnter>
