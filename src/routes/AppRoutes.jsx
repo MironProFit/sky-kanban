@@ -27,7 +27,6 @@ function AppRoutes() {
                             element: <MainWithModal />,
                             children: [
                                 { index: true, element: null },
-                                { path: '', element: <Loading /> },
                                 {
                                     path: 'card',
                                     children: [

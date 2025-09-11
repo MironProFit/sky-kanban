@@ -1,20 +1,24 @@
 import { useAppContext } from '../../routes/AppContext'
 import { SpinnerWrap, SpinnerText, DotsSpinner, Overlay } from './LoadingModal.styles'
 
-const Loading = ({ text = 'Загрузка данных...' }) => {
-    const { $isDark } = useAppContext()
+const Loading = () => {
+    const { $isDark, isLoading, loadingMessage = DEFAULT_MESSAGE_LOADING, DEFAULT_MESSAGE_LOADING } = useAppContext()
 
     return (
-        <Overlay>
-            <SpinnerWrap $isDark={$isDark}>
-                <DotsSpinner $isDark={$isDark}>
-                    <div />
-                    <div />
-                    <div />
-                </DotsSpinner>
-                <SpinnerText $isDark={$isDark}>{text}</SpinnerText>
-            </SpinnerWrap>
-        </Overlay>
+        <>
+            {isLoading && (
+                <Overlay>
+                    <SpinnerWrap $isDark={$isDark}>
+                        <DotsSpinner $isDark={$isDark}>
+                            <div />
+                            <div />
+                            <div />
+                        </DotsSpinner>
+                        <SpinnerText $isDark={$isDark}>{loadingMessage}</SpinnerText>
+                    </SpinnerWrap>
+                </Overlay>
+            )}
+        </>
     )
 }
 

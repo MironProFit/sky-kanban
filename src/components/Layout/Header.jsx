@@ -25,6 +25,9 @@ export default function Header() {
         setIsAuth(true)
         setIsUserMenuOpen(false)
     }
+    // useEffect(() => {
+    //     console.log(location.pathname)
+    // }, [location.pathname])
 
     return (
         <HeaderStyled $isDark={$isDark}>
@@ -38,22 +41,25 @@ export default function Header() {
                                 </Link>
                             </HeaderLogo>
 
+
                             {!isAuthPage && isAuth && (
                                 <>
                                     <HeaderNav>
-                                        <Link style={{ marginRight: '20px' }} to="card/create" state={{ createMode: true }}>
-                                            <PrimaryButton
-                                                style={{ whiteSpace: 'nowrap' }}
-                                                $fixed={isMobile && location.pathname === '/'}
-                                                onClick={handleModalOpen}
-                                                $isDark={$isDark}
-                                                id="btnMainNew"
-                                                type="button"
-                                            >
-                                                Создать новую задачу
-                                            </PrimaryButton>
-                                        </Link>
-
+                                        {' '}
+                                        {(!isMobile || (isMobile && location.pathname === '/')) && (
+                                            <Link style={{ marginRight: '20px' }} to="card/create" state={{ createMode: true }}>
+                                                <PrimaryButton
+                                                    style={{ whiteSpace: 'nowrap' }}
+                                                    $mobileFixed={isMobile && location.pathname === '/'}
+                                                    onClick={handleModalOpen}
+                                                    $isDark={$isDark}
+                                                    id="btnMainNew"
+                                                    type="button"
+                                                >
+                                                    Создать новую задачу
+                                                </PrimaryButton>
+                                            </Link>
+                                        )}
                                         <LinkButton style={{ whiteSpace: 'nowrap' }} $isDark={$isDark} $isOpen={isUserMenuOpen} onClick={toggleUserMenu}>
                                             {userName || 'Личный кабинет'}
                                         </LinkButton>

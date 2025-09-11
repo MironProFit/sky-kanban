@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components'
+import { linkColor } from '../../components/Styles/Mexins.style'
 
 const bounce = keyframes`
   0%, 80%, 100% {
@@ -13,7 +14,7 @@ const bounce = keyframes`
 
 export const Overlay = styled.div`
     position: fixed;
-    z-index: 1400;
+    z-index: 9999;
     inset: 0;
     display: flex;
     align-items: center;
@@ -22,7 +23,61 @@ export const Overlay = styled.div`
     backdrop-filter: blur(2px);
 `
 
+const pulseAnimationDark = keyframes`
+  0% {
+    box-shadow: 0 0 20px 0 rgba(86, 94, 239, 0.5);
+  }
+  14% {
+    box-shadow: 0 0 20px 0 rgba(86, 94, 239, 0.7);
+  }
+  28% {
+    box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.5);
+  }
+  42% {
+    box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.7);
+  }
+  57% {
+    box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.5);
+  }
+  71% {
+    box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.7);
+  }
+  85% {
+    box-shadow: 0 0 20px 0 rgba(86, 94, 239, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 20px 0 rgba(86, 94, 239, 0.5);
+  }
+`
+const pulseAnimationWhite = keyframes`
+  0% {
+    box-shadow: 0 0 20px 0 rgba(86, 94, 239, 0.5);
+  }
+  14% {
+    box-shadow: 0 0 20px 0 rgba(86, 94, 239, 0.7);
+  }
+  28% {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5); 
+  }
+  42% {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.7); 
+  }
+  57% {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5); 
+  }
+  71% {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.7); 
+  }
+  85% {
+    box-shadow: 0 0 20px 0 rgba(86, 94, 239, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 20px 0 rgba(86, 94, 239, 0.5);
+  }
+`
+
 export const SpinnerWrap = styled.div`
+    width: 300px;
     padding: 20px;
     background-color: ${({ $isDark }) => (!$isDark ? 'whitesmoke' : 'black')};
     opacity: 0.6;
@@ -30,6 +85,8 @@ export const SpinnerWrap = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* box-shadow: 0 0 20px 0 rgba(86, 94, 239, 0.2); */
+    animation: ${({ $isDark }) => ($isDark ? pulseAnimationDark : pulseAnimationWhite)} 5s infinite ease-in-out;
 `
 
 export const DotsSpinner = styled.div`

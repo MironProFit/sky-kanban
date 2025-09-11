@@ -1,6 +1,18 @@
 import { Link as RouterLink } from 'react-router-dom'
 import styled, { createGlobalStyle, css } from 'styled-components'
-import { accentPrimaryBackg, accentPrimaryColor, borderColor, hoverBorder, hoverCombination, linkColor, primaryHoverColor, reversePrimaryColor, secondaryColor, textColor } from './Mexins.style'
+import {
+    accentPrimaryBackg,
+    accentPrimaryColor,
+    borderColor,
+    gradientFrom,
+    hoverBorder,
+    hoverCombination,
+    linkColor,
+    primaryHoverColor,
+    reversePrimaryColor,
+    secondaryColor,
+    textColor,
+} from './Mexins.style'
 import '../../components/Styles/Mexins.style'
 
 export const GlobalStyle = createGlobalStyle`
@@ -36,9 +48,11 @@ export const StyledLink = styled(RouterLink)`
     }
 `
 import { accentButtonColor, hoverColor, setButtonsColor, white, wrapperColor } from './Mexins.style'
-export const RootApp = styled.div`height: 100vh;
-  display: flex;
-  flex-direction: column;`
+export const RootApp = styled.div`
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+`
 
 export const Wrapper = styled.div`
     ${wrapperColor()}
@@ -114,6 +128,15 @@ export const PrimaryButton = styled.button`
     transition: 0.3s;
     padding: 0 14px;
     margin-right: 8px;
+    &:disabled {
+        cursor: not-allowed;
+        background-color: ${linkColor};
+        color: #ffffff;
+        &:hover {
+            background-color: ${linkColor};
+            color: #ffffff;
+        }
+    }
 
     &:hover {
         background-color: ${primaryHoverColor};
@@ -121,38 +144,49 @@ export const PrimaryButton = styled.button`
     }
     @media (max-width: 600px) {
         height: 40px;
-        display: ${({ $display }) => $display || 'flex'};
+        display: ${({ $mobileFixed }) => ($mobileFixed ? 'none' : 'flex')};
+        /* display: flex; */
+
         width: 100%;
         margin: 0;
     }
 
-    ${({ $fixed }) =>
-        $fixed &&
-        css`
-            @media (max-width: 600px) {
-                width: unset;
-                height: 40px;
-                margin: 0 30px;
-                padding: 0;
-                position: fixed;
-                bottom: 30px;
-                left: 0;
-                right: 0;
-                z-index: 9999;
-            }
+    ${({ $mobileFixed }) =>
+        $mobileFixed
+            ? css`
+                  @media (max-width: 600px) {
+                      display: ${({ $mobileFixed }) => ($mobileFixed ? 'flex' : 'none')};
+                      position: fixed;
+                      /* ${({ $mobileFixed }) => ($mobileFixed ? 'fixed' : 'static')}; */
+                      width: unset;
+                      height: 40px;
+                      margin: 0 30px;
+                      padding: 0;
+                      position: fixed;
+                      bottom: 30px;
+                      left: 0;
+                      right: 0;
+                      z-index: 9999;
+                  }
 
-            @media screen and (max-width: 495px) {
-                width: unset;
-                height: 40px;
-                margin: 0 16px;
-                padding: 0;
-                position: fixed;
-                bottom: 30px;
-                left: 0;
-                right: 0;
-                z-index: 9999;
-            }
-        `}
+                  @media screen and (max-width: 495px) {
+                      display: ${({ $mobileFixed }) => ($mobileFixed ? 'flex' : 'none')};
+                      position: fixed;
+                      /* ${({ $mobileFixed }) => ($mobileFixed ? 'fixed' : 'static')}; */
+                      width: unset;
+                      height: 40px;
+                      margin: 0 16px;
+                      padding: 0;
+                      position: fixed;
+                      bottom: 30px;
+                      left: 0;
+                      right: 0;
+                      z-index: 9999;
+                  }
+              `
+            : css`
+                  display: flex;
+              `}
 `
 export const SecondaryButton = styled.button`
     width: ${({ $width }) => $width || 'auto'};
@@ -289,4 +323,31 @@ export const TextContainer = styled.p`
     font-weight: 400;
     font-size: 14px;
     ${({ $secondaryColor }) => ($secondaryColor ? secondaryColor : reversePrimaryColor)}
+`
+
+export const Tooltip = styled.div`
+    visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Позиция подсказки относительно кнопки */
+    left: 50%;
+    transform: translateX(-50%); /* Центруем подсказку по горизонтали */
+    opacity: ${({ visible }) => (visible ? 1 : 0)};
+    transition: opacity 0.3s;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 100%; /* Позиционирование стрелки на нижней части подсказки */
+        left: 50%;
+        margin-left: -5px; /* Сместить на половину ширины стрелки */
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent; /* Цвет стрелки */
+    }
 `

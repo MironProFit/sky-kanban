@@ -6,14 +6,13 @@ import { TextContainer, Wrapper } from '../../components/Styles/GlobalStyle'
 
 import { loginUser } from '../../services/auth/login'
 import { useAppContext } from '../../routes/AppContext'
-import Loading from '../Loading/LoadingModal'
+
 import { registerUser } from '../../services/auth/register'
 import { getAllTasks } from '../../services/tasks/getTasks'
 
 function AuthModal() {
-    const { setIsAuth, $isDark, setUserData, setUserName, setToken } = useAppContext()
+    const { setIsAuth, $isDark, setUserData, setUserName, setToken, loadingMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING } = useAppContext()
     const [isPage, setIsPage] = useState('login')
-    const [loading, setLoading] = useState(false)
     const location = useLocation()
     const navigate = useNavigate()
     // Настройка форм
@@ -44,6 +43,9 @@ function AuthModal() {
 
     // Функция для получения задач
     const fetchTasks = async (token) => {
+        setIsLoading(true)
+        setLoadingMessage('Получаем данные')
+
         try {
             const response = await getAllTasks(token)
 
@@ -67,12 +69,16 @@ function AuthModal() {
             navigate('/', { replace: true })
         } catch (error) {
             console.error('Ошибка при получении задач:', error)
+        } finally {
+            setIsLoading(false)
+            setLoadingMessage(DEFAULT_MESSAGE_LOADING)
         }
     }
 
     // Обработчик логина
     const onLogin = async (data) => {
-        setLoading(true)
+        setLoadingMessage('Авторизация пользователя')
+        setIsLoading(true)
         try {
             const response = await loginUser(data.login, data.password)
             const userData = response.data
@@ -84,13 +90,14 @@ function AuthModal() {
             console.error('Ошибка входа:', error)
             // Обработка ошибки
         } finally {
-            setLoading(false)
+            setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+            setIsLoading(false)
         }
     }
 
     // Обработчик регистрации
     const onSignUp = async (data) => {
-        setLoading(true)
+        setIsLoading(true)
         try {
             const response = await registerUser(data)
             const newUserData = response.data
@@ -103,14 +110,12 @@ function AuthModal() {
             console.error('Ошибка регистрации:', error)
             // Обработка ошибки
         } finally {
-            setLoading(false)
+            setIsLoading(false)
         }
     }
     return (
         <Wrapper $isDark={$isDark}>
             <ContainerSignin $isDark={$isDark}>
-                {loading && <Loading />}
-
                 <ModalSignin>
                     <ModalBlock $isDark={$isDark}>
                         <ModalTitle>

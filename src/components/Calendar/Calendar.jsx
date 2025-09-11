@@ -11,6 +11,7 @@ import {
     CalendarCell,
     CalendarBtn,
     CalendarBtnGroup,
+    CalendarP,
 } from './Calendar.styles.js'
 import formattedDate from '../../utils/dateFormat.js'
 
@@ -91,7 +92,6 @@ export default function CalendarComponent({ $isDark, handleDateChange, selectDat
     // const showPlannedDate = () => {
 
     // }
-
     return (
         <Calendar $isDark={$isDark}>
             <CalendarTitle>
@@ -103,7 +103,6 @@ export default function CalendarComponent({ $isDark, handleDateChange, selectDat
                     <CalendarBtn isLeft onClick={onPrevMonth} aria-label="Предыдущий месяц" />
                     <CalendarBtn onClick={onNextMonth} aria-label="Следующий месяц" />
                 </CalendarBtnGroup>
-                {/* <CalendarP>{`${today.getDate()} ${monthNames[today.getMonth()]}`}</CalendarP> */}
             </CalendarTitle>
             <CalendarBlock>
                 <CalendarContent>
@@ -119,12 +118,17 @@ export default function CalendarComponent({ $isDark, handleDateChange, selectDat
                                 onClick={
                                     isEditMode && !cell.past
                                         ? () => {
-                                              handleDateChange(formattedDate(cell.date))
+                                              handleDateChange(cell.date)
+                                            //   console.log(
+                                            //       `cell.date: ${(cell.date.toDateString(), typeof cell.date)} , selectDate: ${(selectDate, typeof selectDate)}, cell.date.getTime(): ${
+                                            //           (cell.date.toISOString(), typeof cell.date.getTime())
+                                            //       }`
+                                            //   )
                                           }
                                         : undefined
                                 }
                                 $isDark={$isDark}
-                                selected={formattedDate(cell.date) === selectDate}
+                                selected={selectDate && cell.date.getTime() === new Date(selectDate).getTime()}
                                 key={i}
                                 otherMonth={cell.otherMonth}
                                 cellDay={cell.cellDay}

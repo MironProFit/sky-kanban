@@ -1,5 +1,6 @@
 import { useLocation, useMatch, useNavigate, useParams, useRouteError } from 'react-router-dom'
 import { statusList } from '../../data/data'
+import _ from 'lodash'
 import { useEffect, useState } from 'react'
 import {
     PopBrowse,
@@ -28,44 +29,62 @@ import formattedDate from '../../utils/dateFormat'
 import { useAppContext } from '../../routes/AppContext'
 
 export default function CardViewEdit() {
-    const { isModal, setIsModal, isEditMode, $isDark, userData, setUserData, token, isMobile, colorTopicClass } = useAppContext()
+    const { isModal, setIsModal, $isDark, userData, setUserData, toggleUserMenu, isMobile, isUserMenuOpen } = useAppContext()
     const navigate = useNavigate()
     const location = useLocation()
-    const { id, topic: initialTopic, title: initialTitle, date: initialDate, status: initialStatus, description: initialDescription } = location.state || {}
+    const { id: initialId, topic: initialTopic, title: initialTitle, date: initialDate, status: initialStatus, description: initialDescription } = location.state || {}
+    const editMath = useMatch('/card/:id/edit')
+    const isEditMode = Boolean(editMath)
     const [taskState, setTaskState] = useState({
+        id: initialId || '',
         topic: initialTopic || '',
         title: initialTitle || '',
         date: initialDate || '',
         status: initialStatus || 'Без статуса',
         description: initialDescription || '',
     })
-    const selectDate = taskState.date
+
+    const { id } = useParams()
+    const card = userData.find((task) => task.id === id)
 
     const [editTaskState, setEditTaskState] = useState(taskState)
+    const selectDate = editTaskState.date
 
-    useEffect(() => {
-        setEditTaskState(taskState)
-    }, [taskState])
+    // useEffect(() => {
+    //     console.log(editTaskState.date)
+    // }, [editTaskState.date])
 
-    const saveEditDate = async () => {
-        if (JSON.stringify(taskState) !== JSON.stringify(editTaskState)) {
+    const saveEditData = () => {
+        // Если данные изменились, обновляем массив задач
+        if (!_.isEqual(taskState, editTaskState)) {
+            const updatedTasks = userData.map((task) => (task._id === id ? { ...task, ...editTaskState } : task))
+
+            // Сохраняем в нужное состояние (например, если userData – основное хранилище)
+            setUserData(updatedTasks)
+            console.log('Обновление выполнено в массиве задач')
+
             try {
-                // Обновляем задачу на сервере
+                // Если требуется обновление на сервере
                 // const updatedTask = await updateTask(id, editTaskState, token)
-
-                // Обновляем задачу в локальном состоянии
-                if (userData && Array.isArray(userData)) {
-                    const updatedTasks = userData.map((task) => (task.id === id ? { ...task, ...editTaskState } : task))
-                    setUserData(updatedTasks)
-                }
-
-                setTaskState(editTaskState)
             } catch (error) {
-                console.error('Ошибка при обновлении задачи:', error)
+                console.error('Ошибка при обновлении задачи на сервере:', error)
             }
         }
         navigate('/')
         setIsModal(false)
+    }
+
+    const handleEditToggle = () => {
+        if (!isEditMode) {
+            navigate(`${location.pathname}/edit`, {
+                // state: { modalWindow: true },
+                replace: true,
+                $isDark: $isDark,
+            })
+        } else {
+            const basePath = location.pathname.replace(/\/edit$/, '')
+            navigate(basePath, { replace: true })
+        }
     }
 
     const handleDeleteTask = async () => {
@@ -85,15 +104,45 @@ export default function CardViewEdit() {
             console.error('Ошибка при удалении задачи:', error)
         }
     }
-    const formattedTaskDate = formattedDate(taskState.date)
+    const formattedTaskDate = formattedDate(editTaskState.date)
+    // useEffect(() => {
+    //     console.log(typeof editTaskState.date)
+    // }, [editTaskState.date])
 
     const handleChange = (field, value) => {
         setEditTaskState((prev) => ({ ...prev, [field]: value }))
     }
+
+    // useEffect(() => {
+    //     console.log('editTaskState:', editTaskState, 'taskState:', taskState)
+    // }, [editTaskState, taskState])
+
     const handleClose = () => {
         navigate('/')
         setIsModal(false)
     }
+
+    const handleCancelChanges = () => {
+        setEditTaskState(taskState)
+
+        const basePath = location.pathname.replace(/\/edit$/, '')
+
+        navigate(basePath, { replace: true })
+    }
+    const handleDateChange = (dateString) => {
+        const dateFormated = new Date(dateString).toISOString()
+        setEditTaskState((prev) => ({
+            ...prev,
+            date: dateFormated,
+        }))
+    }
+    // useEffect(() => {
+    //     console.log(object)
+    // }, [])
+    const colorTopicClass = getColorClass(taskState.topic)
+    // const handleStatus = (id) => {
+    //     setCurrentStatus(id)
+    // }
 
     return (
         <PopBrowse style={{ display: isModal ? 'block' : 'none' }} id="popBrowse">
@@ -160,9 +209,9 @@ export default function CardViewEdit() {
 
                             <CalendarAndDateContainer>
                                 <FormDateTitle>Даты</FormDateTitle>
-                                <CalendarComponent isEditMode={isEditMode} handleChange={handleChange} selectDate={selectDate} $isDark={$isDark} />
+                                <CalendarComponent isEditMode={isEditMode} handleDateChange={handleDateChange} selectDate={editTaskState.date} $isDark={$isDark} />
                                 <FormDateControl>
-                                    Срок исполнения: <span>{formattedTaskDate || ''}</span>
+                                    Срок исполнения: <span>{formattedTaskDate}</span>
                                 </FormDateControl>
                             </CalendarAndDateContainer>
                         </FormWrap>
@@ -182,7 +231,7 @@ export default function CardViewEdit() {
                             <>
                                 {!isEditMode ? (
                                     <ButtonControlsWrap $fixed>
-                                        <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleChange}>
+                                        <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleEditToggle}>
                                             Редактировать задачу
                                         </SecondaryButton>
                                         <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleDeleteTask}>
@@ -196,7 +245,7 @@ export default function CardViewEdit() {
                                     </ButtonControlsWrap>
                                 ) : (
                                     <ButtonControlsWrap $fixed style={{ bottom: '180px' }}>
-                                        <SecondaryButton onClick={saveEditDate} $fixedBtn $isDark={$isDark}>
+                                        <SecondaryButton onClick={saveEditData} $fixedBtn $isDark={$isDark}>
                                             Сохранить
                                         </SecondaryButton>
                                         {isMobile && (
@@ -204,7 +253,7 @@ export default function CardViewEdit() {
                                                 Закрыть
                                             </PrimaryButton>
                                         )}
-                                        <SecondaryButton $fixedBtn $isDark={$isDark} onClick={cancelEdit}>
+                                        <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleCancelChanges}>
                                             Отменить
                                         </SecondaryButton>
                                         <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleDeleteTask}>

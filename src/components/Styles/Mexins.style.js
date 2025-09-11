@@ -66,6 +66,10 @@ export const primaryHoverColor = '#33399b'
 export const white = '#ffff'
 export const linkColor = '#94A6BE66'
 
+// Градиентные цвета для лоадера
+export const gradientFrom = '#4E5566'
+export const gradientTo = '#D4DBE5'
+
 // Ховеры
 export const hoverBackground = css`
     &:hover {

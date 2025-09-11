@@ -12,6 +12,11 @@ export const AppProvider = ({ children }) => {
     const [isAuth, setIsAuth] = useState(() => localStorage.getItem('isAuth') === 'true')
 
     const [isLoading, setIsLoading] = useState(false)
+    const DEFAULT_MESSAGE_LOADING = 'Загрузка данных...'
+    const [loadingMessage, setLoadingMessage] = useState(DEFAULT_MESSAGE_LOADING)
+
+    const [loadingCard, setLoadingCard] = useState(true)
+
     const [userName, setUserName] = useState(() => localStorage.getItem('userName') || '')
     const [token, setToken] = useState(() => localStorage.getItem('token') || '')
     const [userData, setUserData] = useState(() => {
@@ -96,9 +101,6 @@ export const AppProvider = ({ children }) => {
                 token,
                 setToken,
 
-                // userData,
-                // setUserData,
-
                 handleModalOpen,
                 handleModalClose,
                 handleTheme,
@@ -106,6 +108,15 @@ export const AppProvider = ({ children }) => {
 
                 userData,
                 setUserData,
+
+                loadingMessage,
+                setLoadingMessage,
+                
+
+                DEFAULT_MESSAGE_LOADING,
+
+                loadingCard,
+                setLoadingCard,
             }}
         >
             {children}

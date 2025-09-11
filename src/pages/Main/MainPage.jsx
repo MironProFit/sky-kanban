@@ -20,7 +20,7 @@ export default function MainPage() {
             description: task.description,
             status: task.status,
         }))
-        console.log(transformedTasks)
+        // console.log(transformedTasks)
 
         const columns = {
             'Без статуса': transformedTasks.filter((card) => card.status === 'Без статуса'),
@@ -29,14 +29,9 @@ export default function MainPage() {
             Тестирование: transformedTasks.filter((card) => card.status === 'Тестирование'),
             Готово: transformedTasks.filter((card) => card.status === 'Готово'),
         }
-        console.log(columns)
 
         return { transformedTasks, columns }
     }, [userData])
-
-    if (isLoading) {
-        return <Loading />
-    }
 
     return (
         <MainContainer
