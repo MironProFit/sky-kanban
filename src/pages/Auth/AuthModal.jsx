@@ -12,11 +12,11 @@ import { getAllTasks } from '../../services/tasks/getTasks'
 import { fetchTasks } from '../../services/tasks/taskService'
 
 function AuthModal() {
-    const { isAuth, setIsAuth, $isDark, setUserData, setUserName, setToken, loadingMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING } = useAppContext()
+    const { isAuth, setIsAuth, $isDark, setUserData, setUserName, setToken, errorMessage, setErrorMessage, loadingMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING } = useAppContext()
     const [isPage, setIsPage] = useState('login')
-    const [errorMessage, setErrorMessage] = useState()
     const location = useLocation()
     const navigate = useNavigate()
+
     // Настройка форм
     const {
         register: registerLogin,
@@ -43,45 +43,12 @@ function AuthModal() {
         }
     }, [location.pathname, resetLogin, resetSignUp])
 
-    // // Функция для получения задач
-    //  const fetchTasks = async (token) => {
-    //     setIsLoading(true)
-    //     setLoadingMessage('Получаем данные')
-    //     setErrorMessage('')
-
-    //     try {
-    //         const response = await getAllTasks(token)
-
-    //         // Если сервер возвращает { tasks: [...] }
-    //         if (response && response.tasks) {
-    //             setUserData(response.tasks) // сохраняем массив tasks
-    //             localStorage.setItem('userData', JSON.stringify(response.tasks))
-    //         }
-    //         // Если сервер возвращает массив напрямую
-    //         else if (Array.isArray(response)) {
-    //             setUserData(response)
-    //             localStorage.setItem('userData', JSON.stringify(response))
-    //         }
-    //         // Если что-то пошло не так
-    //         else {
-    //             setUserData([])
-    //             localStorage.setItem('userData', JSON.stringify([]))
-    //         }
-    //         setIsAuth(true)
-    //     } catch (error) {
-    //         // setErrorMessage(error)
-
-    //         console.error('Ошибка при получении задач:', error)
-    //     } finally {
-    //         setIsLoading(false)
-    //         setLoadingMessage(DEFAULT_MESSAGE_LOADING)
-    //     }
-    // }
     useEffect(() => {
         if (isAuth) {
             navigate('/', { replace: true })
         }
     }, [isAuth])
+
     // Обработчик логина
     const onLogin = async (data) => {
         setLoadingMessage('Авторизация пользователя')
@@ -93,7 +60,7 @@ function AuthModal() {
             setUserName(userData.user.name)
             setToken(userData.user.token)
             // Получаем задачи после успешного логина
-            await fetchTasks(userData.user.token, setUserData, setIsLoading, setLoadingMessage, setErrorMessage, setIsAuth)
+            await fetchTasks(userData.user.token, setUserData, setIsLoading, setLoadingMessage, setErrorMessage, setIsAuth, DEFAULT_MESSAGE_LOADING)
         } catch (error) {
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка входа'
             setErrorMessage(errMsg) // Устанавливаем сообщение об ошибке
@@ -103,9 +70,6 @@ function AuthModal() {
             setIsLoading(false)
         }
     }
-    useEffect(() => {
-        console.log(errorMessage)
-    }, [errorMessage])
 
     // Обработчик регистрации
     const onSignUp = async (data) => {

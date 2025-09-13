@@ -24,11 +24,12 @@ import { Theme } from '../../components/Card/Card.styles'
 import { useAppContext } from '../../routes/AppContext'
 import formattedDate from '../../utils/dateFormat'
 import { createTask } from '../../services/tasks/createTask'
+import { fetchTasks } from '../../services/tasks/taskService'
 
 export default function CardView() {
-    const { $isDark, token, setLoadingMessage, DEFAULT_MESSAGE_LOADING, isLoading, setIsLoading } = useAppContext()
+    const { $isDark, token, setLoadingMessage, DEFAULT_MESSAGE_LOADING, isLoading, setUserData, setIsLoading, setIsAuth, setErrorMessage } = useAppContext()
     const [tooltipVisible, setTooltipVisible] = useState(true)
-    const [tooltipOpacity, setTooltipOpacity] = useState(1) // Начальная opacity = 1
+    const [tooltipOpacity, setTooltipOpacity] = useState(0.8)
 
     const navigate = useNavigate()
     const [activeButton, setActiveButton] = useState(0)
@@ -55,12 +56,7 @@ export default function CardView() {
     }
     useEffect(() => {
         setIsDisabled(!validateTaskData(taskState))
-        console.log(taskState)
     }, [taskState])
-
-    useEffect(() => {
-        console.log(isDisabled)
-    }, [isDisabled])
 
     const handleDateChange = (dateString) => {
         const dateFormated = new Date(dateString).toISOString()
@@ -79,47 +75,39 @@ export default function CardView() {
     }, [selectDate])
 
     useEffect(() => {
-        if (isEditMode && isDisabled) {
-            if (isDisabled) {
-                setTooltipVisible(true)
-
-                setTooltipOpacity(0.8)
-
-                setTimeout(() => {
-                    setTooltipOpacity(0)
-                }, 10000)
-            }
+        if (!isDisabled) {
+            setTooltipOpacity(0)
         }
-    }, [])
-
-    //Create task
+    }, [isDisabled])
+    
+    //Создание задачи
     const handleCreateTasc = async () => {
+        setErrorMessage('')
         setLoadingMessage('Добавляем задачу')
         setIsLoading(true)
 
         try {
-            setLoadingMessage('Обновляем задачи')
-            const response = await createTask(token, taskState)
+            const response = await createTask(token, taskState.title, taskState.topic, taskState.description, taskState.date)
             console.log(response)
-            handleClose()
+            setLoadingMessage('Обновляем задачи')
+            console.log(Array.isArray(response))
+            if (Array.isArray(response)) {
+                setUserData(response)
+                localStorage.setItem('userData', JSON.stringify(response))
+            }
 
-            // console.log(taskState.title, taskState.topic, taskState.description, taskState.date)
-            // const ucreatedTask = await createTask(token, taskState.title, taskState.topic, taskState.description, taskState.date)
+            handleClose()
         } catch (error) {
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка создания задачи'
-            setErrorMessage(errMsg) // Устанавливаем сообщение об ошибке
-            console.error('Ошибка при добавлении задачи на сервер:', errMsg)
+            setErrorMessage(errMsg)
+            console.error('Ошибка при добавлении задачи на сервер:', error)
         } finally {
-            
             setLoadingMessage('Данные обновлены')
             setIsLoading(false)
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
         }
     }
 
-    useEffect(() => {
-        console.log(tooltipVisible, tooltipOpacity)
-    }, [tooltipVisible, tooltipOpacity])
     const handleActive = (i) => {
         setActiveButton(i)
     }

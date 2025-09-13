@@ -6,12 +6,11 @@ export const PopBrowse = styled.div`
     height: 100%;
     min-width: 375px;
     min-height: 100vh;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 7;
     @media (max-width: 600px) {
-        display: ${({ $isModal }) => ($isModal ? 'block' : 'none')};
         position: relative;
         background-color: inherit;
         min-width: auto;

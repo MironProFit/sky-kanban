@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { cards } from '../../data/data'
 import { MainContainer, MainBlock, MainContent } from './MainPage.styles'
 import Column from '../../components/Layout/Column'
@@ -8,30 +8,50 @@ import Loading from '../Loading/LoadingModal'
 
 export default function MainPage() {
     const { isModal, isMobile, isUserMenuOpen, toggleUserMenu, $isDark, isLoading, userData } = useAppContext()
+    const [transformedTasks, setTransformedTasks] = useState([])
+    const [columns, setColumns] = useState({
+        'Без статуса': [],
+        'Нужно сделать': [],
+        'В работе': [],
+        Тестирование: [],
+        Готово: [],
+    })
 
-    const { transformedTasks, columns } = useMemo(() => {
-        const tasks = Array.isArray(userData) ? userData : []
-        const transformedTasks = tasks.map((task) => ({
-            id: task._id,
-            userId: task.userId,
-            title: task.title,
-            topic: task.topic,
-            date: task.date,
-            description: task.description,
-            status: task.status,
-        }))
-        // console.log(transformedTasks)
+    useEffect(() => {
+        if (Array.isArray(userData)) {
+            const tasks = userData.map((task) => ({
+                id: task._id,
+                userId: task.userId,
+                title: task.title,
+                topic: task.topic,
+                date: task.date,
+                description: task.description,
+                status: task.status,
+            }))
+            setTransformedTasks(tasks)
+        } else {
+            setTransformedTasks([])
+        }
+    }, [userData])
 
-        const columns = {
+    useEffect(() => {
+        const updatedColumns = {
             'Без статуса': transformedTasks.filter((card) => card.status === 'Без статуса'),
             'Нужно сделать': transformedTasks.filter((card) => card.status === 'Нужно сделать'),
             'В работе': transformedTasks.filter((card) => card.status === 'В работе'),
             Тестирование: transformedTasks.filter((card) => card.status === 'Тестирование'),
             Готово: transformedTasks.filter((card) => card.status === 'Готово'),
         }
+        setColumns(updatedColumns)
+    }, [transformedTasks])
 
-        return { transformedTasks, columns }
-    }, [userData])
+    // const columns = {
+    //     'Без статуса': transformedTasks.filter((card) => card.status === 'Без статуса'),
+    //     'Нужно сделать': transformedTasks.filter((card) => card.status === 'Нужно сделать'),
+    //     'В работе': transformedTasks.filter((card) => card.status === 'В работе'),
+    //     Тестирование: transformedTasks.filter((card) => card.status === 'Тестирование'),
+    //     Готово: transformedTasks.filter((card) => card.status === 'Готово'),
+    // }
 
     return (
         <MainContainer $isModal={isModal} $isMobile={isMobile} $isDark={$isDark}>

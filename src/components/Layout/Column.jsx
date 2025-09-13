@@ -10,13 +10,18 @@ export default function Column({ title, cardsData, $isDark }) {
     const [isVisible, setIsVisible] = useState(false)
 
     useEffect(() => {
-        if (cardsData.length > 0) {
+        if (cardsData && cardsData.length > 0) {
             const uniqueCards = Array.from(new Map(cardsData.map((card) => [card.id, card])).values())
             setVisibleCards(uniqueCards)
             setIsVisible(true)
+        } else {
+            setVisibleCards([])
+            setIsVisible(false)
         }
         setLoadingCard(false)
-    }, [cardsData])
+    }, [cardsData, setLoadingCard])
+
+
 
     return (
         <MainColumn>

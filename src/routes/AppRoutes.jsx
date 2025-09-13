@@ -12,7 +12,7 @@ import { loginAction } from '../services/auth/login'
 import MainWithModal from '../components/Layout/MainWithModal'
 import { registerAction } from '../services/auth/register'
 import Loading from '../pages/Loading/LoadingModal'
-
+import ConfirmDelTask from '../pages/Confirmation/ConfirmDelTask/ConfirmDelTask'
 function AppRoutes() {
     const router = createBrowserRouter([
         {
@@ -31,9 +31,9 @@ function AppRoutes() {
                                     path: 'card',
                                     children: [
                                         { path: 'create', element: <CardCreate /> },
-                                        { path: ':id', element: <CardViewEdit />, errorElement: <CardViewEdit /> },
-                                        { path: ':id/edit', element: <CardViewEdit />, errorElement: <CardViewEdit /> },
-                                        { path: ':id/delete', element: <CardViewEdit /> },
+                                        { path: ':id', element: <CardViewEdit /> },
+                                        { path: ':id/edit', element: <CardViewEdit /> },
+                                        { path: ':id/delete', element: <ConfirmDelTask /> },
                                     ],
                                 },
                                 { path: 'exit', element: <ConfirmExit /> },

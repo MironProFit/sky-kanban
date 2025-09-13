@@ -5,7 +5,7 @@ const AppContext = createContext()
 export const AppProvider = ({ children }) => {
     const [isModal, setIsModal] = useState(false)
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
-    
+
     const [isMobile, setISMobile] = useState(window.innerWidth <= 600)
 
     const [isTheme, setIsTheme] = useState(() => localStorage.getItem('isTheme') === 'true')
@@ -16,11 +16,17 @@ export const AppProvider = ({ children }) => {
     const DEFAULT_MESSAGE_LOADING = 'Загрузка данных...'
     const [loadingMessage, setLoadingMessage] = useState(DEFAULT_MESSAGE_LOADING)
 
+    const [errorMessage, setErrorMessage] = useState()
+
     const [loadingCard, setLoadingCard] = useState(true)
 
     const [userName, setUserName] = useState(() => localStorage.getItem('userName') || '')
     const [token, setToken] = useState(() => localStorage.getItem('token') || '')
     const [userData, setUserData] = useState(() => {
+        const stored = localStorage.getItem('userData')
+        return stored ? JSON.parse(stored) : { tasks: [] }
+    })
+    const [reservUserData, seReservUserData] = useState(() => {
         const stored = localStorage.getItem('userData')
         return stored ? JSON.parse(stored) : { tasks: [] }
     })
@@ -112,12 +118,17 @@ export const AppProvider = ({ children }) => {
 
                 loadingMessage,
                 setLoadingMessage,
-                
 
                 DEFAULT_MESSAGE_LOADING,
 
                 loadingCard,
                 setLoadingCard,
+
+                errorMessage,
+                setErrorMessage,
+
+                reservUserData,
+                seReservUserData,
             }}
         >
             {children}

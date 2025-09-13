@@ -5,7 +5,7 @@ import { useAppContext } from '../../routes/AppContext'
 
 export const getColorClass = (topic) => {
     switch (topic) {
-        case 'Research':
+        case 'Web Design':
             return '_orange'
         case 'UI/UX':
             return '_green'

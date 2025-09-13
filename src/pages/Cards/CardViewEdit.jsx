@@ -1,4 +1,4 @@
-import { useLocation, useMatch, useNavigate, useParams, useRouteError } from 'react-router-dom'
+import { Link, useLocation, useMatch, useNavigate, useParams, useRouteError } from 'react-router-dom'
 import { statusList } from '../../data/data'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
@@ -27,9 +27,25 @@ import { Theme, ThemeText } from '../../components/Card/Card.styles'
 import { StatusButton, StatusText, StatusTheme, StatusThemes, StatusTitle } from './CardViewEdit.styles'
 import formattedDate from '../../utils/dateFormat'
 import { useAppContext } from '../../routes/AppContext'
-
+import { removeTask } from '../../services/tasks/removeTask'
+import { editTask } from '../../services/tasks/editTask'
 export default function CardViewEdit() {
-    const { isModal, setIsModal, $isDark, userData, setUserData, toggleUserMenu, isMobile, isUserMenuOpen } = useAppContext()
+    const {
+        isModal,
+        setIsModal,
+        $isDark,
+        userData,
+        setUserData,
+        toggleUserMenu,
+        isMobile,
+        isUserMenuOpen,
+        setErrorMessage,
+        setLoadingMessage,
+        setIsLoading,
+        token,
+        DEFAULT_MESSAGE_LOADING,
+        setIsUserMenuOpen,
+    } = useAppContext()
     const navigate = useNavigate()
     const location = useLocation()
     const { id: initialId, topic: initialTopic, title: initialTitle, date: initialDate, status: initialStatus, description: initialDescription } = location.state || {}
@@ -45,39 +61,50 @@ export default function CardViewEdit() {
     })
 
     const { id } = useParams()
-    const card = userData.find((task) => task.id === id)
 
     const [editTaskState, setEditTaskState] = useState(taskState)
     const selectDate = editTaskState.date
+    const formattedTaskDate = formattedDate(editTaskState.date)
+    const [isDisabled, setIsDisabled] = useState(true)
 
-    // useEffect(() => {
-    //     console.log(editTaskState.date)
-    // }, [editTaskState.date])
+    // Сохранение изсенений
+    const handleEditTask = async () => {
+        console.log('handleEditTask нажат')
+        setErrorMessage('')
+        setLoadingMessage('Редактируем задачу')
+        setIsLoading(true)
 
-    const saveEditData = () => {
-        // Если данные изменились, обновляем массив задач
-        if (!_.isEqual(taskState, editTaskState)) {
-            const updatedTasks = userData.map((task) => (task._id === id ? { ...task, ...editTaskState } : task))
+        // if (!_.isEqual(taskState, editTaskState)) {
+        try {
+            // Вызов editTask, если изменения есть
+            const response = await editTask(editTaskState.id, token, editTaskState.title, editTaskState.topic, editTaskState.status, editTaskState.description, editTaskState.date)
+            // Обновление данных только если response получен
+            // if (response && Array.isArray(response)) {
+            // }
+            await setUserData(response)
+            setLoadingMessage('Обновляем задачи')
+            localStorage.setItem('userData', JSON.stringify(response))
 
-            // Сохраняем в нужное состояние (например, если userData – основное хранилище)
-            setUserData(updatedTasks)
-            console.log('Обновление выполнено в массиве задач')
-
-            try {
-                // Если требуется обновление на сервере
-                // const updatedTask = await updateTask(id, editTaskState, token)
-            } catch (error) {
-                console.error('Ошибка при обновлении задачи на сервере:', error)
-            }
+            // Перенаправление после обновления
+            // navigate(`/card/${editTaskState.id}`) // Перейти на страницу задачи
+            navigate(-1)
+            setIsModal(false)
+        } catch (error) {
+            const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка редактирования задачи'
+            setErrorMessage(errMsg)
+            console.error('Ошибка редактирования задачи:', error)
+        } finally {
+            setLoadingMessage('Данные обновлены')
+            setIsLoading(false)
+            setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+            // }
         }
-        navigate('/')
-        setIsModal(false)
     }
 
+    //Переключение режима редактирования
     const handleEditToggle = () => {
         if (!isEditMode) {
             navigate(`${location.pathname}/edit`, {
-                // state: { modalWindow: true },
                 replace: true,
                 $isDark: $isDark,
             })
@@ -87,41 +114,26 @@ export default function CardViewEdit() {
         }
     }
 
-    const handleDeleteTask = async () => {
-        try {
-            // Удаляем задачу на сервере
-            // await deleteTask(id, token)
-
-            // Удаляем задачу из локального состояния
-            if (userData && Array.isArray(userData)) {
-                const updatedTasks = userData.filter((task) => task.id !== id)
-                setUserData(updatedTasks)
-            }
-
-            navigate('/')
-            setIsModal(false)
-        } catch (error) {
-            console.error('Ошибка при удалении задачи:', error)
-        }
+    //Удаление задачи
+    const handleDeleteTask = (e) => {
+        e.preventDefault()
+        navigate(`/card/${taskState.id}/delete`, {
+            state: {
+                taskId: taskState.id, // Передаем ID задачи
+                taskName: taskState.title, // Передаем название задачи
+            },
+        })
     }
-    const formattedTaskDate = formattedDate(editTaskState.date)
-    // useEffect(() => {
-    //     console.log(typeof editTaskState.date)
-    // }, [editTaskState.date])
-
     const handleChange = (field, value) => {
         setEditTaskState((prev) => ({ ...prev, [field]: value }))
     }
-
-    // useEffect(() => {
-    //     console.log('editTaskState:', editTaskState, 'taskState:', taskState)
-    // }, [editTaskState, taskState])
 
     const handleClose = () => {
         navigate('/')
         setIsModal(false)
     }
 
+    //Отмена изменений при редактировании
     const handleCancelChanges = () => {
         setEditTaskState(taskState)
 
@@ -136,13 +148,8 @@ export default function CardViewEdit() {
             date: dateFormated,
         }))
     }
-    // useEffect(() => {
-    //     console.log(object)
-    // }, [])
+
     const colorTopicClass = getColorClass(taskState.topic)
-    // const handleStatus = (id) => {
-    //     setCurrentStatus(id)
-    // }
 
     return (
         <PopBrowse style={{ display: isModal ? 'block' : 'none' }} id="popBrowse">
@@ -234,6 +241,7 @@ export default function CardViewEdit() {
                                         <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleEditToggle}>
                                             Редактировать задачу
                                         </SecondaryButton>
+                                        <Link></Link>
                                         <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleDeleteTask}>
                                             Удалить задачу
                                         </SecondaryButton>
@@ -244,10 +252,16 @@ export default function CardViewEdit() {
                                         )}
                                     </ButtonControlsWrap>
                                 ) : (
-                                    <ButtonControlsWrap $fixed style={{ bottom: '180px' }}>
-                                        <SecondaryButton onClick={saveEditData} $fixedBtn $isDark={$isDark}>
+                                    <ButtonControlsWrap $fixed style={{ bottom: '180px', display: 'flex' }}>
+                                        <PrimaryButton
+                                            // disabled={isDisabled}
+                                            onClick={handleEditTask}
+                                            $width="auto"
+                                            $fixedBtn
+                                            $isDark={$isDark}
+                                        >
                                             Сохранить
-                                        </SecondaryButton>
+                                        </PrimaryButton>
                                         {isMobile && (
                                             <PrimaryButton $fixedBtn $width="auto" $isDark={$isDark} onClick={handleClose}>
                                                 Закрыть
