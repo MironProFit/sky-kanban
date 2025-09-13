@@ -26,10 +26,13 @@ export const AppProvider = ({ children }) => {
         const stored = localStorage.getItem('userData')
         return stored ? JSON.parse(stored) : { tasks: [] }
     })
-    const [reservUserData, seReservUserData] = useState(() => {
-        const stored = localStorage.getItem('userData')
-        return stored ? JSON.parse(stored) : { tasks: [] }
-    })
+    useEffect(() => {
+        if (!isAuth) {
+            // Если пользователь не авторизован, очищаем userData
+            setUserData({ tasks: [] })
+            localStorage.removeItem('userData')
+        }
+    }, [isAuth])
 
     useEffect(() => {
         localStorage.setItem('userData', JSON.stringify(userData))
@@ -126,9 +129,6 @@ export const AppProvider = ({ children }) => {
 
                 errorMessage,
                 setErrorMessage,
-
-                reservUserData,
-                seReservUserData,
             }}
         >
             {children}

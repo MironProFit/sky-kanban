@@ -12,7 +12,8 @@ import { getAllTasks } from '../../services/tasks/getTasks'
 import { fetchTasks } from '../../services/tasks/taskService'
 
 function AuthModal() {
-    const { isAuth, setIsAuth, $isDark, setUserData, setUserName, setToken, errorMessage, setErrorMessage, loadingMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING } = useAppContext()
+    const { isAuth, setIsAuth, $isDark, setUserData, setUserName, setToken, errorMessage, setErrorMessage, loadingMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING, setLoadingCard } =
+        useAppContext()
     const [isPage, setIsPage] = useState('login')
     const location = useLocation()
     const navigate = useNavigate()
@@ -59,15 +60,18 @@ function AuthModal() {
             const userData = response.data
             setUserName(userData.user.name)
             setToken(userData.user.token)
+            // setIsLoading(false)
+
             // Получаем задачи после успешного логина
-            await fetchTasks(userData.user.token, setUserData, setIsLoading, setLoadingMessage, setErrorMessage, setIsAuth, DEFAULT_MESSAGE_LOADING)
+            setLoadingCard(true)
+            await fetchTasks(userData.user.token, setUserData, setIsLoading, setLoadingMessage, setErrorMessage, setIsAuth, DEFAULT_MESSAGE_LOADING, setLoadingCard)
         } catch (error) {
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка входа'
-            setErrorMessage(errMsg) // Устанавливаем сообщение об ошибке
+            setErrorMessage(errMsg)
             console.error('Ошибка входа:', errMsg)
         } finally {
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
-            setIsLoading(false)
+            setLoadingCard(false)
         }
     }
 

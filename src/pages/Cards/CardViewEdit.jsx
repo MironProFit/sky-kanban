@@ -67,23 +67,28 @@ export default function CardViewEdit() {
     const formattedTaskDate = formattedDate(editTaskState.date)
     const [isDisabled, setIsDisabled] = useState(true)
 
+    useEffect(() => {
+        setIsDisabled(_.isEqual(taskState, editTaskState))
+        console.log(isDisabled)
+    }, [taskState, editTaskState])
+
     // Сохранение изсенений
     const handleEditTask = async () => {
-        console.log('handleEditTask нажат')
         setErrorMessage('')
         setLoadingMessage('Редактируем задачу')
-        setIsLoading(true)
 
-        // if (!_.isEqual(taskState, editTaskState)) {
         try {
             // Вызов editTask, если изменения есть
-            const response = await editTask(editTaskState.id, token, editTaskState.title, editTaskState.topic, editTaskState.status, editTaskState.description, editTaskState.date)
+            if (!_.isEqual(taskState, editTaskState)) {
+                const response = await editTask(editTaskState.id, token, editTaskState.title, editTaskState.topic, editTaskState.status, editTaskState.description, editTaskState.date)
+                return response
+            }
             // Обновление данных только если response получен
-            // if (response && Array.isArray(response)) {
-            // }
-            await setUserData(response)
-            setLoadingMessage('Обновляем задачи')
-            localStorage.setItem('userData', JSON.stringify(response))
+            if (response && Array.isArray(response)) {
+                setLoadingMessage('Обновляем задачи')
+                await setUserData(response)
+                localStorage.setItem('userData', JSON.stringify(response))
+            }
 
             // Перенаправление после обновления
             // navigate(`/card/${editTaskState.id}`) // Перейти на страницу задачи
@@ -241,7 +246,7 @@ export default function CardViewEdit() {
                                         <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleEditToggle}>
                                             Редактировать задачу
                                         </SecondaryButton>
-                                        <Link></Link>
+
                                         <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleDeleteTask}>
                                             Удалить задачу
                                         </SecondaryButton>
@@ -253,13 +258,7 @@ export default function CardViewEdit() {
                                     </ButtonControlsWrap>
                                 ) : (
                                     <ButtonControlsWrap $fixed style={{ bottom: '180px', display: 'flex' }}>
-                                        <PrimaryButton
-                                            // disabled={isDisabled}
-                                            onClick={handleEditTask}
-                                            $width="auto"
-                                            $fixedBtn
-                                            $isDark={$isDark}
-                                        >
+                                        <PrimaryButton disabled={isDisabled} onClick={handleEditTask} $width="auto" $fixedBtn $isDark={$isDark}>
                                             Сохранить
                                         </PrimaryButton>
                                         {isMobile && (
