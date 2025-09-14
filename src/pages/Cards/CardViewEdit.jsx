@@ -42,6 +42,7 @@ export default function CardViewEdit() {
         setErrorMessage,
         setLoadingMessage,
         setIsLoading,
+        setLoadingCard,
         token,
         DEFAULT_MESSAGE_LOADING,
         setIsUserMenuOpen,
@@ -69,31 +70,41 @@ export default function CardViewEdit() {
 
     useEffect(() => {
         setIsDisabled(_.isEqual(taskState, editTaskState))
-        console.log(isDisabled)
     }, [taskState, editTaskState])
+
+    //Переход к главное после обновление на карте
+    useEffect(() => {
+        if (`${location.pathname}/edit` && !isModal) {
+            navigate('/')
+        }
+    }, [location.pathname])
 
     // Сохранение изсенений
     const handleEditTask = async () => {
         setErrorMessage('')
         setLoadingMessage('Редактируем задачу')
+        setIsLoading(true)
 
         try {
             // Вызов editTask, если изменения есть
-            if (!_.isEqual(taskState, editTaskState)) {
-                const response = await editTask(editTaskState.id, token, editTaskState.title, editTaskState.topic, editTaskState.status, editTaskState.description, editTaskState.date)
-                return response
-            }
-            // Обновление данных только если response получен
-            if (response && Array.isArray(response)) {
-                setLoadingMessage('Обновляем задачи')
-                await setUserData(response)
-                localStorage.setItem('userData', JSON.stringify(response))
-            }
 
-            // Перенаправление после обновления
-            // navigate(`/card/${editTaskState.id}`) // Перейти на страницу задачи
-            navigate(-1)
+            const response = await editTask(editTaskState.id, token, editTaskState.title, editTaskState.topic, editTaskState.status, editTaskState.description, editTaskState.date)
+
+            await setUserData(response)
+
+            localStorage.setItem('userData', JSON.stringify(response))
+
+            console.log(response)
+            setIsLoading(false)
+
+            // setLoadingCard(true)
             setIsModal(false)
+            console.log('код выполнился')
+
+            setLoadingCard(true)
+            navigate('/')
+       
+            setLoadingMessage('Обновляем задачи')
         } catch (error) {
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка редактирования задачи'
             setErrorMessage(errMsg)
@@ -102,7 +113,6 @@ export default function CardViewEdit() {
             setLoadingMessage('Данные обновлены')
             setIsLoading(false)
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
-            // }
         }
     }
 

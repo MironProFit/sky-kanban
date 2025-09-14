@@ -20,12 +20,14 @@ export const AppProvider = ({ children }) => {
 
     const [loadingCard, setLoadingCard] = useState(true)
 
+
     const [userName, setUserName] = useState(() => localStorage.getItem('userName') || '')
     const [token, setToken] = useState(() => localStorage.getItem('token') || '')
     const [userData, setUserData] = useState(() => {
         const stored = localStorage.getItem('userData')
         return stored ? JSON.parse(stored) : { tasks: [] }
     })
+   
     useEffect(() => {
         if (!isAuth) {
             // Если пользователь не авторизован, очищаем userData

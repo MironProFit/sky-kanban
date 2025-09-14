@@ -5,7 +5,7 @@ import { useAppContext } from '../../routes/AppContext'
 import CardStub from '../Card/CardStub'
 
 export default function Column({ title, cardsData, $isDark }) {
-    const { setLoadingCard } = useAppContext()
+    const { setLoadingCard, userData } = useAppContext()
     const [visibleCards, setVisibleCards] = useState([])
     const [isVisible, setIsVisible] = useState(false)
 
@@ -19,9 +19,10 @@ export default function Column({ title, cardsData, $isDark }) {
             setIsVisible(false)
         }
         setLoadingCard(false)
-    }, [cardsData, setLoadingCard])
-
-
+    }, [
+        cardsData,
+        //  setLoadingCard
+    ])
 
     return (
         <MainColumn>

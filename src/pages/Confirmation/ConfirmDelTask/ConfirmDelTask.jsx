@@ -15,6 +15,7 @@ export default function ConfirmDelTask() {
     }, [userData])
     const taskTitle = location.state?.taskName
     const taskId = location.state?.taskId
+    
     useEffect(() => {
         console.log(userData)
     }, [userData])
@@ -54,9 +55,9 @@ export default function ConfirmDelTask() {
         navigate('/')
     }
 
-    useEffect(() => {
-        console.log(_.isEqual(taskState, userData))
-    }, [taskState, userData])
+    // useEffect(() => {
+    //     console.log(_.isEqual(taskState, userData))
+    // }, [taskState, userData])
 
     return (
         <PopExit style={{ display: isModal ? 'block' : 'none' }} id="popExit" $isDark={$isDark}>

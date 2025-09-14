@@ -45,14 +45,6 @@ export default function MainPage() {
         setColumns(updatedColumns)
     }, [transformedTasks])
 
-    // const columns = {
-    //     'Без статуса': transformedTasks.filter((card) => card.status === 'Без статуса'),
-    //     'Нужно сделать': transformedTasks.filter((card) => card.status === 'Нужно сделать'),
-    //     'В работе': transformedTasks.filter((card) => card.status === 'В работе'),
-    //     Тестирование: transformedTasks.filter((card) => card.status === 'Тестирование'),
-    //     Готово: transformedTasks.filter((card) => card.status === 'Готово'),
-    // }
-
     return (
         <MainContainer $isModal={isModal} $isMobile={isMobile} $isDark={$isDark}>
             <Container>

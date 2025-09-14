@@ -6,7 +6,7 @@ import UserMenuModal from './UserMenuModal'
 import { useAppContext } from '../../routes/AppContext'
 
 export default function Header() {
-    const { isAuth, setIsAuth, isTheme, $isDark, isMobile, handleModalOpen, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu, userName } = useAppContext()
+    const { isAuth, setIsAuth, isTheme, $isDark, isMobile, handleModalOpen, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu, userName, errorMessage } = useAppContext()
 
     const [isAuthPage, setIsAuthPage] = useState(false)
     const location = useLocation()
@@ -39,6 +39,9 @@ export default function Header() {
                                     <img src={`../../../public/${isTheme ? 'logo_dark.png' : 'logo.png'}`} alt="logo"></img>
                                 </Link>
                             </HeaderLogo>
+                            <div>
+                                <p>{errorMessage}</p>
+                            </div>
 
                             {!isAuthPage && isAuth && (
                                 <>
