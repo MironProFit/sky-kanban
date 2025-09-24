@@ -3,10 +3,12 @@ import { getAllTasks } from './getTasks'
 
 // Функция для получения задач
 
-export const fetchTasks = async (token, setUserData, setIsLoading, setLoadingMessage, setErrorMessage, setIsAuth, DEFAULT_MESSAGE_LOADING) => {
+export const fetchTasks = async (token, setUserData, setIsLoading, setLoadingMessage, setErrorMessage, setIsAuth, DEFAULT_MESSAGE_LOADING, setLoadingCard) => {
     // setIsLoading(true)
     // setLoadingMessage('Получаем данные')
     setErrorMessage('')
+    setLoadingCard(true)
+    setIsAuth(true)
 
     try {
         const response = await getAllTasks(token)
@@ -26,7 +28,8 @@ export const fetchTasks = async (token, setUserData, setIsLoading, setLoadingMes
             setUserData([])
             localStorage.setItem('userData', JSON.stringify([]))
         }
-        setIsAuth(true)
+        setLoadingCard(false)
+        // setIsAuth(true)
     } catch (error) {
         const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка получения данных'
         setErrorMessage(errMsg)

@@ -27,7 +27,7 @@ import { createTask } from '../../services/tasks/createTask'
 import { fetchTasks } from '../../services/tasks/taskService'
 
 export default function CardView() {
-    const { $isDark, token, setLoadingMessage, DEFAULT_MESSAGE_LOADING, isLoading, setUserData, setIsLoading, setIsAuth, setErrorMessage } = useAppContext()
+    const { $isDark, token, setLoadingMessage, DEFAULT_MESSAGE_LOADING, isLoading, setUserData, setIsLoading, setIsAuth, setErrorMessage, setLoadingCard } = useAppContext()
     const [tooltipVisible, setTooltipVisible] = useState(true)
     const [tooltipOpacity, setTooltipOpacity] = useState(0.8)
 
@@ -79,24 +79,27 @@ export default function CardView() {
             setTooltipOpacity(0)
         }
     }, [isDisabled])
-    
+
     //Создание задачи
     const handleCreateTasc = async () => {
         setErrorMessage('')
         setLoadingMessage('Добавляем задачу')
         setIsLoading(true)
+        setLoadingCard(true)
 
         try {
             const response = await createTask(token, taskState.title, taskState.topic, taskState.description, taskState.date)
             console.log(response)
-            setLoadingMessage('Обновляем задачи')
+            // setLoadingMessage('Обновляем задачи')
             console.log(Array.isArray(response))
+            setIsLoading(false)
+
             if (Array.isArray(response)) {
+                handleClose()
                 setUserData(response)
                 localStorage.setItem('userData', JSON.stringify(response))
             }
-
-            handleClose()
+            setLoadingCard(false)
         } catch (error) {
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка создания задачи'
             setErrorMessage(errMsg)
@@ -151,7 +154,7 @@ export default function CardView() {
                                         $isEditMode={isEditMode}
                                         style={{ cursor: 'text' }}
                                         placeholder="Введите название задачи..."
-                                        autofocus
+                                        autoFocus
                                     />
                                 </FormBlock>
 

@@ -6,7 +6,7 @@ import { removeTask } from '../../../services/tasks/removeTask'
 import _ from 'lodash'
 
 export default function ConfirmDelTask() {
-    const { $isDark, isModal, setIsModal, token, DEFAULT_MESSAGE_LOADING, setLoadingMessage, iSloading, setIsLoading, setErrorMessage, setUserData, userData } = useAppContext()
+    const { $isDark, isModal, setIsModal, token, DEFAULT_MESSAGE_LOADING, setLoadingMessage, setIsLoading, setErrorMessage, setUserData, userData, setLoadingCard } = useAppContext()
     const location = useLocation()
     const navigate = useNavigate()
     const [taskState, setTaskStat] = useState([])
@@ -15,7 +15,7 @@ export default function ConfirmDelTask() {
     }, [userData])
     const taskTitle = location.state?.taskName
     const taskId = location.state?.taskId
-    
+
     useEffect(() => {
         console.log(userData)
     }, [userData])
@@ -24,8 +24,10 @@ export default function ConfirmDelTask() {
     const handleConfirmClick = async (e) => {
         e.preventDefault()
         setErrorMessage('')
+        setIsModal(false)
         setLoadingMessage('Удаление задачи...')
         setIsLoading(true)
+        setLoadingCard(true)
 
         try {
             console.log('Начинаем удаление задачи')
@@ -38,6 +40,7 @@ export default function ConfirmDelTask() {
             }
 
             setIsModal(false)
+
             navigate('/')
         } catch (error) {
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка удаления задачи'
@@ -45,6 +48,8 @@ export default function ConfirmDelTask() {
             setErrorMessage(errMsg)
         } finally {
             setIsLoading(false)
+            setLoadingCard(false)
+
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
         }
     }

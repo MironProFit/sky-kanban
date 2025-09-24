@@ -34,7 +34,6 @@ export default function CardViewEdit() {
         isModal,
         setIsModal,
         $isDark,
-        userData,
         setUserData,
         toggleUserMenu,
         isMobile,
@@ -45,14 +44,15 @@ export default function CardViewEdit() {
         setLoadingCard,
         token,
         DEFAULT_MESSAGE_LOADING,
-        setIsUserMenuOpen,
+        userData,
     } = useAppContext()
     const navigate = useNavigate()
     const location = useLocation()
     const { id: initialId, topic: initialTopic, title: initialTitle, date: initialDate, status: initialStatus, description: initialDescription } = location.state || {}
     const editMath = useMatch('/card/:id/edit')
     const isEditMode = Boolean(editMath)
-    const [taskState, setTaskState] = useState({
+
+    const [taskState] = useState({
         id: initialId || '',
         topic: initialTopic || '',
         title: initialTitle || '',
@@ -60,6 +60,10 @@ export default function CardViewEdit() {
         status: initialStatus || 'Без статуса',
         description: initialDescription || '',
     })
+    useEffect(() => {
+        console.log(taskState)
+        console.log(userData.find((card) => card._id === taskState.id))
+    }, [taskState, userData])
 
     const { id } = useParams()
 
@@ -83,7 +87,7 @@ export default function CardViewEdit() {
     const handleEditTask = async () => {
         setErrorMessage('')
         setLoadingMessage('Редактируем задачу')
-        setIsLoading(true)
+        // setIsLoading(true)
 
         try {
             // Вызов editTask, если изменения есть
@@ -101,9 +105,9 @@ export default function CardViewEdit() {
             setIsModal(false)
             console.log('код выполнился')
 
-            setLoadingCard(true)
+            // setLoadingCard(true)
             navigate('/')
-       
+
             setLoadingMessage('Обновляем задачи')
         } catch (error) {
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка редактирования задачи'
@@ -113,6 +117,7 @@ export default function CardViewEdit() {
             setLoadingMessage('Данные обновлены')
             setIsLoading(false)
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+            // setLoadingCard(true)
         }
     }
 
@@ -225,6 +230,7 @@ export default function CardViewEdit() {
                                         readOnly={!isEditMode}
                                         $isEditMode={isEditMode}
                                         placeholder="Введите описание задачи..."
+                                        autoFocus={isEditMode}
                                     />
                                 </FormBlock>
                             </Form>

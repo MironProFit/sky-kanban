@@ -60,10 +60,9 @@ function AuthModal() {
             const userData = response.data
             setUserName(userData.user.name)
             setToken(userData.user.token)
-            // setIsLoading(false)
+            setIsLoading(false)
 
             // Получаем задачи после успешного логина
-            setLoadingCard(true)
             await fetchTasks(userData.user.token, setUserData, setIsLoading, setLoadingMessage, setErrorMessage, setIsAuth, DEFAULT_MESSAGE_LOADING, setLoadingCard)
         } catch (error) {
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка входа'
@@ -71,7 +70,7 @@ function AuthModal() {
             console.error('Ошибка входа:', errMsg)
         } finally {
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
-            setLoadingCard(false)
+            // setLoadingCard(false)
         }
     }
 

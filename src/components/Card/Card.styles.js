@@ -1,24 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
-import { gradientFrom, gradientTo, linkColor, primaryBacground, reversePrimaryColor } from '../Styles/Mexins.style'
+import { accentPrimaryBackg, gradientFrom, gradientTo, linkColor, primaryBacground, reversePrimaryColor } from '../Styles/Mexins.style'
 import { Link } from 'react-router-dom'
-
-const gradientMove = keyframes`
-  0% {
-    background-position: 100% 100%;
-  }
-  25% {
-    background-position: 200% 100%;
-  }
-  50% {
-    background-position: 300% 100%;
-  }
-  75% {
-    background-position: 400% 100%;
-  }
-  100% {
-    background-position: 500% 100%;
-  }
-`
 
 export const CardsContainer = styled.div`
     width: 100%;
@@ -35,11 +17,13 @@ export const CardItem = styled.div`
         padding-bottom: 15px;
     }
 `
-
 export const CardWrapper = styled.div`
     width: 220px;
     height: 130px;
-    ${primaryBacground}
+
+    background: ${({ $loadingStyles, $isDark }) => ($loadingStyles ? `linear-gradient(180deg, ${$isDark ? accentPrimaryBackg : '#FFFFFF'}, transparent 50%)` : $isDark ? '#20202C' : '#FFFFFF')};
+    /* ${({ $loadingStyles }) => !$loadingStyles && { primaryBacground }} */
+
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -60,10 +44,12 @@ export const Theme = styled.div`
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    width: auto;
+    width: ${({ $loadingCard }) => (!$loadingCard ? 'auto' : '100px')};
+
     height: 20px;
     padding: 5px 14px;
     border-radius: 18px;
+    transition: width 0.3s ease, background-color 0.3s ease, color 0.3s ease; /* Добавили плавный переход */
 
     ${({ $loadingCard }) =>
         !$loadingCard
@@ -113,8 +99,30 @@ export const Theme = styled.div`
                   background-position: 200% 0%, 0% 0%;
               `}
 `
+
+const gradientMove = keyframes`
+
+  0% {
+    background-position: 100% 100%;
+  }
+  25% {
+    background-position: 200% 100%;
+
+  }
+  50% {
+    background-position: 300% 100%;
+  }
+  75% {
+    background-position: 400% 100%;
+  }
+  100% {
+    background-position: 500% 100%;
+  }
+`
+
 export const ThemeText = styled.p`
     color: ${({ $loadingCard }) => $loadingCard && 'transparent'};
+
     /* padding: 5px 10px 5px 10px; */
     border-radius: 18px;
     font-size: 10px;
@@ -151,11 +159,16 @@ export const CardContent = styled.div`
 `
 
 export const CardDate = styled.div`
-    display: flex;
+    width: ${({ $loadingCard }) => ($loadingCard ? '50px' : 'auto')};
+
+    display: ${({ $loadingStyles }) => ($loadingStyles ? 'none' : 'flex')};
     align-items: center;
     justify-content: flex-start;
     color: ${({ $loadingCard }) => $loadingCard && 'transparent'};
     border-radius: 15px;
+    & svg {
+        fill: transparent;
+    }
     &:svg {
         display: none;
     }

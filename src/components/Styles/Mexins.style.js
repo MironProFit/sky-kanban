@@ -31,6 +31,8 @@ export const reverseSecondaryColor = css`
 export const primaryBacground = css`
     background-color: ${({ $isDark }) => ($isDark ? '#20202C' : '#FFFFFF')};
 `
+
+
 export const selectedDate = css`
     background-color: ${({ $isDark }) => ($isDark ? '#151419' : '#EAEEF6')};
 `
