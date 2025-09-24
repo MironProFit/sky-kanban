@@ -212,7 +212,7 @@ export default function CardView() {
                             </Theme>
                         </ButtonGroup>
                         <ButtonGroup>
-                            <SecondaryButton $isDark={$isDark} onClick={handleClose}>
+                            <SecondaryButton $mobileFixed $isDark={$isDark} onClick={handleClose}>
                                 Зыкрыть
                             </SecondaryButton>
                             <TooltipWrapper>

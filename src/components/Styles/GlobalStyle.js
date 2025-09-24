@@ -1,6 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom'
 import styled, { createGlobalStyle, css } from 'styled-components'
-import { accentPrimaryBackg, borderColor, hoverBorder, linkColor, primaryHoverColor, reversePrimaryColor, secondaryColor, textColor } from './Mexins.style'
+import { accentPrimaryBackg, borderColor, hoverBorder, inputColor, linkColor, primaryHoverColor, reversePrimaryColor, secondaryColor, textColor } from './Mexins.style'
 import '../../components/Styles/Mexins.style'
 
 export const GlobalStyle = createGlobalStyle`
@@ -177,6 +177,10 @@ export const PrimaryButton = styled.button`
               `}
 `
 export const SecondaryButton = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     width: ${({ $width }) => $width || 'auto'};
     height: 30px;
     margin-bottom: 10px;
@@ -226,7 +230,37 @@ export const SecondaryButton = styled.button`
                 z-index: 9999;
             }
         `}
+    ${({ $mobileFixed }) =>
+        $mobileFixed
+            ? css`
+                  @media (max-width: 600px) {
+                      display: ${({ $mobileFixed }) => ($mobileFixed ? 'flex' : 'none')};
+                      position: fixed;
+                      /* ${({ $mobileFixed }) => ($mobileFixed ? 'fixed' : 'static')}; */
+                      width: unset;
+                      height: 40px;
+                      margin: 0 30px;
+                      padding: 0;
+                      position: fixed;
+                      bottom: 80px;
+                      left: 0;
+                      right: 0;
+                      z-index: 9999;
+                      justify-content: center;
+                      align-items: center;
+                      ${inputColor}
+                      opacity: 0.8;
+                  }
+
+                  @media screen and (max-width: 495px) {
+                      margin: 0 16px;
+                  }
+              `
+            : css`
+                  display: flex;
+              `}
 `
+
 export const TopicButton = styled.button`
     box-sizing: border-box;
     color: ${white};
@@ -336,6 +370,10 @@ export const Tooltip = styled.div`
         border-width: 5px;
         border-style: solid;
         border-color: #555 transparent transparent transparent; /* Цвет стрелки */
+    }
+
+    @media screen and (max-width: 600px) {
+        visibility: hidden;
     }
 `
 
