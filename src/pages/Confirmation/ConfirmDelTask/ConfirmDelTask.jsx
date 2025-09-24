@@ -16,10 +16,6 @@ export default function ConfirmDelTask() {
     const taskTitle = location.state?.taskName
     const taskId = location.state?.taskId
 
-    useEffect(() => {
-        console.log(userData)
-    }, [userData])
-
     // Удаление задачи
     const handleConfirmClick = async (e) => {
         e.preventDefault()
@@ -30,7 +26,6 @@ export default function ConfirmDelTask() {
         setLoadingCard(true)
 
         try {
-            console.log('Начинаем удаление задачи')
             const response = await removeTask(taskId, token)
 
             if (response && Array.isArray(response)) {
@@ -59,10 +54,6 @@ export default function ConfirmDelTask() {
         setIsModal(false)
         navigate('/')
     }
-
-    // useEffect(() => {
-    //     console.log(_.isEqual(taskState, userData))
-    // }, [taskState, userData])
 
     return (
         <PopExit style={{ display: isModal ? 'block' : 'none' }} id="popExit" $isDark={$isDark}>

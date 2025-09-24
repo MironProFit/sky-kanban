@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export async function createTask(token, title, topic, description, date) {
-    console.log(token, title, topic, description, date)
     const res = await axios.post(
         'https://wedev-api.sky.pro/api/kanban',
         {

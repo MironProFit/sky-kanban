@@ -8,10 +8,7 @@ import PrivateRoute from './PrivateRoute'
 import Layout from '../components/Layout/Layout'
 import ErrorBoundary from '../components/Layout/ErrorBoundary'
 import AuthModal from '../pages/Auth/AuthModal'
-import { loginAction } from '../services/auth/login'
 import MainWithModal from '../components/Layout/MainWithModal'
-import { registerAction } from '../services/auth/register'
-import Loading from '../pages/Loading/LoadingModal'
 import ConfirmDelTask from '../pages/Confirmation/ConfirmDelTask/ConfirmDelTask'
 function AppRoutes() {
     const router = createBrowserRouter([

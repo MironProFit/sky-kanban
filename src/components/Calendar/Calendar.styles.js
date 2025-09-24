@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { accentColor, accentPrimaryColor, hoverBackground, hoverColor, selectedDate } from '../Styles/Mexins.style'
+import { accentColor, hoverBackground, hoverColor, selectedDate } from '../Styles/Mexins.style'
 
 export const Calendar = styled.div`
     width: 182px;

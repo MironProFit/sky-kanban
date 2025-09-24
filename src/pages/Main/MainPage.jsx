@@ -1,10 +1,8 @@
-import { useEffect, useMemo, useState, useRef } from 'react'
-import { cards } from '../../data/data'
+import { useEffect, useState, useRef } from 'react'
 import { MainContainer, MainBlock, MainContent } from './MainPage.styles'
 import Column from '../../components/Layout/Column'
 import { Container } from '../../components/Styles/GlobalStyle'
 import { useAppContext } from '../../routes/AppContext'
-import Loading from '../Loading/LoadingModal'
 import { editTask } from '../../services/tasks/editTask'
 
 export default function MainPage() {
@@ -53,7 +51,6 @@ export default function MainPage() {
     }, [transformedTasks])
 
     //Интеграция DND
-    // setLoadingCard(false)
 
     const handleCardDrop = async (cardId, targetStatus) => {
         if (!loadingCard) {
@@ -75,18 +72,10 @@ export default function MainPage() {
                     [targetStatus]: updatedTargetColumn,
                 })
 
-                console.log(updatedSourceColumn, movedCard, updatedTargetColumn)
-                // setLoadingCard(true)
-
                 try {
-                    // setIsLoading(false)
                     const response = await editTask(movedCard.id, token, movedCard.title, movedCard.topic, targetStatus, movedCard.description, movedCard.date)
-
                     await setUserData(response)
-
                     localStorage.setItem('userData', JSON.stringify(response))
-
-                    console.log(response)
                 } catch (error) {
                     const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка редактирования задачи'
                     setErrorMessage(errMsg)

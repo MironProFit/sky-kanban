@@ -2,7 +2,6 @@ import axios from 'axios'
 
 // Функция для регистрации пользователя
 export async function registerUser({ login, name, password }) {
-    console.log(login)
     const res = await axios.post(
         'https://wedev-api.sky.pro/api/user',
         { login, name, password },
@@ -22,7 +21,6 @@ export async function registerAction({ request }) {
     const name = formData.get('name')
     const password = formData.get('password')
 
-    console.log(login, name, password, { request })
     try {
         const res = await registerUser(login, name, password)
         return { res }

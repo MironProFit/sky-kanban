@@ -26,10 +26,6 @@ export const ModalSignin = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    @media screen and (max-width: 375px) {
-        /* background-color: #ffffff; */
-    }
 `
 export const ModalBlock = styled.div`
     ${primaryBacground}
@@ -40,7 +36,6 @@ export const ModalBlock = styled.div`
     padding: 50px 60px;
     border-radius: 10px;
     border: 0.7px solid ${borderColor};
-    /* #4e5566; #D4DBE5  */
     box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
 
     @media screen and (max-width: 375px) {
@@ -56,9 +51,7 @@ export const ModalBlock = styled.div`
 export const ModalTitle = styled.div`
     text-align: center;
 `
-// export const ModalError = styled.div`
-//     text-align: center;
-// `
+
 export const Title = styled.h2`
     ${reversePrimaryColor}
     font-size: 20px;
@@ -130,22 +123,6 @@ export const ModalBtnEnter = styled(PrimaryButton)`
         opacity: 0.7;
     }
 `
-
-/* background-color: ${({ $isValid }) => !$isValid && linkColor};
-    cursor: ${({ $isValid }) => !$isValid && 'default'};
-    pointer-events: ${({ $isValid }) => !$isValid && 'none'};
-    ${({ $isValid }) => {
-        $isValid &&
-            css`
-                cursor: default;
-                background-color: ${linkColor};
-                pointer-events: none;
-            `
-    }}
-
-    margin-top: 20px;
-    margin-bottom: 20px;
-` */
 
 export const ModalFormGroup = styled.div`
     text-align: center;

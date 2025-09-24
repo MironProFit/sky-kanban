@@ -29,7 +29,6 @@ export const fetchTasks = async (token, setUserData, setIsLoading, setLoadingMes
             localStorage.setItem('userData', JSON.stringify([]))
         }
         setLoadingCard(false)
-        // setIsAuth(true)
     } catch (error) {
         const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка получения данных'
         setErrorMessage(errMsg)

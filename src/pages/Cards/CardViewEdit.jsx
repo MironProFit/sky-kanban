@@ -1,4 +1,4 @@
-import { Link, useLocation, useMatch, useNavigate, useParams, useRouteError } from 'react-router-dom'
+import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
 import { statusList } from '../../data/data'
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
@@ -27,25 +27,9 @@ import { Theme, ThemeText } from '../../components/Card/Card.styles'
 import { StatusButton, StatusText, StatusTheme, StatusThemes, StatusTitle } from './CardViewEdit.styles'
 import formattedDate from '../../utils/dateFormat'
 import { useAppContext } from '../../routes/AppContext'
-import { removeTask } from '../../services/tasks/removeTask'
 import { editTask } from '../../services/tasks/editTask'
 export default function CardViewEdit() {
-    const {
-        isModal,
-        setIsModal,
-        $isDark,
-        setUserData,
-        toggleUserMenu,
-        isMobile,
-        isUserMenuOpen,
-        setErrorMessage,
-        setLoadingMessage,
-        setIsLoading,
-        setLoadingCard,
-        token,
-        DEFAULT_MESSAGE_LOADING,
-        userData,
-    } = useAppContext()
+    const { isModal, setIsModal, $isDark, setUserData, toggleUserMenu, isMobile, isUserMenuOpen, setErrorMessage, setLoadingMessage, setIsLoading, token, DEFAULT_MESSAGE_LOADING } = useAppContext()
     const navigate = useNavigate()
     const location = useLocation()
     const { id: initialId, topic: initialTopic, title: initialTitle, date: initialDate, status: initialStatus, description: initialDescription } = location.state || {}
@@ -60,10 +44,6 @@ export default function CardViewEdit() {
         status: initialStatus || 'Без статуса',
         description: initialDescription || '',
     })
-    useEffect(() => {
-        console.log(taskState)
-        console.log(userData.find((card) => card._id === taskState.id))
-    }, [taskState, userData])
 
     const { id } = useParams()
 
@@ -87,7 +67,6 @@ export default function CardViewEdit() {
     const handleEditTask = async () => {
         setErrorMessage('')
         setLoadingMessage('Редактируем задачу')
-        // setIsLoading(true)
 
         try {
             // Вызов editTask, если изменения есть
@@ -98,14 +77,8 @@ export default function CardViewEdit() {
 
             localStorage.setItem('userData', JSON.stringify(response))
 
-            console.log(response)
             setIsLoading(false)
-
-            // setLoadingCard(true)
             setIsModal(false)
-            console.log('код выполнился')
-
-            // setLoadingCard(true)
             navigate('/')
 
             setLoadingMessage('Обновляем задачи')
@@ -117,7 +90,6 @@ export default function CardViewEdit() {
             setLoadingMessage('Данные обновлены')
             setIsLoading(false)
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
-            // setLoadingCard(true)
         }
     }
 

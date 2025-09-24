@@ -13,7 +13,6 @@ import {
     CalendarBtnGroup,
     CalendarP,
 } from './Calendar.styles.js'
-import formattedDate from '../../utils/dateFormat.js'
 
 const daysNames = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
 const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
@@ -119,11 +118,6 @@ export default function CalendarComponent({ $isDark, handleDateChange, selectDat
                                     isEditMode && !cell.past
                                         ? () => {
                                               handleDateChange(cell.date)
-                                            //   console.log(
-                                            //       `cell.date: ${(cell.date.toDateString(), typeof cell.date)} , selectDate: ${(selectDate, typeof selectDate)}, cell.date.getTime(): ${
-                                            //           (cell.date.toISOString(), typeof cell.date.getTime())
-                                            //       }`
-                                            //   )
                                           }
                                         : undefined
                                 }

@@ -1,4 +1,4 @@
-import { CardsContainer, CardItem, CardWrapper, CardGroup, Theme, ThemeText, CardContent, CardTitle, CardDate } from './Card.styles'
+import { CardsContainer, CardItem, CardWrapper } from './Card.styles'
 import { useAppContext } from '../../routes/AppContext'
 
 export default function CardStub() {

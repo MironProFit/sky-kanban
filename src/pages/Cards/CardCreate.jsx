@@ -24,10 +24,9 @@ import { Theme } from '../../components/Card/Card.styles'
 import { useAppContext } from '../../routes/AppContext'
 import formattedDate from '../../utils/dateFormat'
 import { createTask } from '../../services/tasks/createTask'
-import { fetchTasks } from '../../services/tasks/taskService'
 
 export default function CardView() {
-    const { $isDark, token, setLoadingMessage, DEFAULT_MESSAGE_LOADING, isLoading, setUserData, setIsLoading, setIsAuth, setErrorMessage, setLoadingCard } = useAppContext()
+    const { $isDark, token, setLoadingMessage, DEFAULT_MESSAGE_LOADING, setUserData, setIsLoading, setErrorMessage, setLoadingCard } = useAppContext()
     const [tooltipVisible, setTooltipVisible] = useState(true)
     const [tooltipOpacity, setTooltipOpacity] = useState(0.8)
 
@@ -89,9 +88,7 @@ export default function CardView() {
 
         try {
             const response = await createTask(token, taskState.title, taskState.topic, taskState.description, taskState.date)
-            console.log(response)
-            // setLoadingMessage('Обновляем задачи')
-            console.log(Array.isArray(response))
+
             setIsLoading(false)
 
             if (Array.isArray(response)) {

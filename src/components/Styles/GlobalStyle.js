@@ -1,18 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom'
 import styled, { createGlobalStyle, css } from 'styled-components'
-import {
-    accentPrimaryBackg,
-    accentPrimaryColor,
-    borderColor,
-    gradientFrom,
-    hoverBorder,
-    hoverCombination,
-    linkColor,
-    primaryHoverColor,
-    reversePrimaryColor,
-    secondaryColor,
-    textColor,
-} from './Mexins.style'
+import { accentPrimaryBackg, borderColor, hoverBorder, linkColor, primaryHoverColor, reversePrimaryColor, secondaryColor, textColor } from './Mexins.style'
 import '../../components/Styles/Mexins.style'
 
 export const GlobalStyle = createGlobalStyle`

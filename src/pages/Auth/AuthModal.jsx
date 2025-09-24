@@ -1,5 +1,5 @@
-import { Form, useActionData, useLoaderData, useLocation, useNavigate, useNavigation, useRouteError, useSubmit } from 'react-router-dom'
-import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ContainerSignin, FGLink, FGTitle, ModalBlock, ModalBtnEnter, ModalForm, ModalFormGroup, ModalSignin, ModalTitle, TextError, TextInput, Title } from './AuthModal.styled'
 import { TextContainer, Wrapper } from '../../components/Styles/GlobalStyle'
@@ -7,13 +7,11 @@ import { TextContainer, Wrapper } from '../../components/Styles/GlobalStyle'
 import { loginUser } from '../../services/auth/login'
 import { useAppContext } from '../../routes/AppContext'
 
-import { registerUser, registerAction } from '../../services/auth/register'
-import { getAllTasks } from '../../services/tasks/getTasks'
+import { registerUser } from '../../services/auth/register'
 import { fetchTasks } from '../../services/tasks/taskService'
 
 function AuthModal() {
-    const { isAuth, setIsAuth, $isDark, setUserData, setUserName, setToken, errorMessage, setErrorMessage, loadingMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING, setLoadingCard } =
-        useAppContext()
+    const { isAuth, setIsAuth, $isDark, setUserData, setUserName, setToken, errorMessage, setErrorMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING, setLoadingCard } = useAppContext()
     const [isPage, setIsPage] = useState('login')
     const location = useLocation()
     const navigate = useNavigate()
@@ -70,7 +68,6 @@ function AuthModal() {
             console.error('Ошибка входа:', errMsg)
         } finally {
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
-            // setLoadingCard(false)
         }
     }
 
@@ -86,7 +83,7 @@ function AuthModal() {
             // После регистрации можно автоматически войти
             setUserName(newUserData.user.name)
             setToken(newUserData.user.token)
-            await fetchTasks(newUserData.user.token)
+            await fetchTasks(newUserData.user.token, setUserData, setIsLoading, setLoadingMessage, setErrorMessage, setIsAuth, DEFAULT_MESSAGE_LOADING, setLoadingCard)
         } catch (error) {
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка регистрация'
             setErrorMessage(errMsg) // Устанавливаем сообщение об ошибке

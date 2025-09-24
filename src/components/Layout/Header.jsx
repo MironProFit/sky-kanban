@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Container, LinkButton, PrimaryButton, Wrapper } from '../Styles/GlobalStyle'
-import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav, HeaderNavBtn } from './Header.styles'
+import { Container, LinkButton, PrimaryButton } from '../Styles/GlobalStyle'
+import { HeaderStyled, HeaderLogo, HeaderBlock, HeaderNav } from './Header.styles'
 import UserMenuModal from './UserMenuModal'
 import { useAppContext } from '../../routes/AppContext'
 
@@ -25,9 +25,7 @@ export default function Header() {
         setIsAuth(true)
         setIsUserMenuOpen(false)
     }
-    // useEffect(() => {
-    //     console.log(location.pathname)
-    // }, [location.pathname])
+
     return (
         <HeaderStyled $isDark={$isDark}>
             <Container>
