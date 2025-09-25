@@ -11,7 +11,8 @@ import { registerUser } from '../../services/auth/register'
 import { fetchTasks } from '../../services/tasks/taskService'
 
 function AuthModal() {
-    const { isAuth, setIsAuth, $isDark, setUserData, setUserName, setToken, errorMessage, setErrorMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING, setLoadingCard } = useAppContext()
+    const { isAuth, setIsAuth, $isDark, setUserData, setUserName, setToken, errorMessage, setErrorMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING, setLoadingCard, setUserLogin } =
+        useAppContext()
     const [isPage, setIsPage] = useState('login')
     const location = useLocation()
     const navigate = useNavigate()
@@ -59,6 +60,7 @@ function AuthModal() {
             const response = await loginUser(data.login, data.password)
             const userData = response.data
             setUserName(userData.user.name)
+            setUserLogin(userData.user.login)
             setToken(userData.user.token)
             // Загрузка задач
             await fetchTasks({
@@ -78,6 +80,9 @@ function AuthModal() {
             setErrorMessage(errMsg)
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
             console.error('Ошибка входа:', errMsg)
+        } finally {
+            setIsLoading(false)
+            setLoadingCard(false)
         }
     }
 
@@ -92,6 +97,8 @@ function AuthModal() {
             const newUserData = response.data
             setUserName(newUserData.user.name)
             setToken(newUserData.user.token)
+            setUserLogin(newUserData.user.login)
+
             // Загрузка задач сразу после регистрации
             await fetchTasks({
                 token: newUserData.user.token,
@@ -110,6 +117,9 @@ function AuthModal() {
             setErrorMessage(errMsg)
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
             console.error('Ошибка регистрации:', errMsg)
+        } finally {
+            setIsLoading(false)
+            setLoadingCard(false)
         }
     }
 

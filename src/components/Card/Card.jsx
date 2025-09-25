@@ -53,13 +53,7 @@ export default function Card({ id, topic, title, date, status, description, $loa
                             <Theme $loadingCard={loadingCard} className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}>
                                 <ThemeText $loadingCard={loadingCard}>{topic}</ThemeText>
                             </Theme>
-                            <CardLink
-                                onClick={() => {
-                                    handleWindowOpen
-                                }}
-                                to={`card/${id}`}
-                                state={{ id, topic, title, date, status, description }}
-                            >
+                            <CardLink onClick={handleWindowOpen} to={`card/${id}`} state={{ id, topic, title, date, status, description }}>
                                 <DotContainer $loadingCard={loadingCard}>
                                     <Dot />
                                     <Dot />

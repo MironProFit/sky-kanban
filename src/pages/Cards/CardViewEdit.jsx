@@ -45,15 +45,13 @@ export default function CardViewEdit() {
         description: initialDescription || '',
     })
 
-    const { id } = useParams()
-
     const [editTaskState, setEditTaskState] = useState(taskState)
     const selectDate = editTaskState.date
     const formattedTaskDate = formattedDate(editTaskState.date)
-    const [isDisabled, setIsDisabled] = useState(true)
+    const [isDisabled, setIsDisabled] = useState(false)
 
     useEffect(() => {
-        setIsDisabled(_.isEqual(taskState, editTaskState))
+        setIsDisabled(_.isEqual(taskState, editTaskState) || editTaskState.description === '')
     }, [taskState, editTaskState])
 
     //Переход к главное после обновление на карте
@@ -61,12 +59,13 @@ export default function CardViewEdit() {
         if (`${location.pathname}/edit` && !isModal) {
             navigate('/')
         }
-    }, [location.pathname])
+    }, [location.pathname, isModal, navigate])
 
     // Сохранение изсенений
     const handleEditTask = async () => {
         setErrorMessage('')
         setLoadingMessage('Редактируем задачу')
+        setIsLoading(true)
 
         try {
             // Вызов editTask, если изменения есть
@@ -230,7 +229,7 @@ export default function CardViewEdit() {
                         <ButtonGroup $fixed>
                             <>
                                 {!isEditMode ? (
-                                    <ButtonControlsWrap $fixed >
+                                    <ButtonControlsWrap $fixed>
                                         <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleEditToggle}>
                                             Редактировать задачу
                                         </SecondaryButton>

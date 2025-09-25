@@ -20,6 +20,7 @@ export const AppProvider = ({ children }) => {
     const [loadingCard, setLoadingCard] = useState(false)
 
     const [userName, setUserName] = useState(() => localStorage.getItem('userName') || '')
+    const [userLogin, setUserLogin] = useState(() => localStorage.getItem('userLogin') || '')
     const [token, setToken] = useState(() => localStorage.getItem('token') || '')
     const [userData, setUserData] = useState(() => {
         const stored = localStorage.getItem('userData')
@@ -57,6 +58,10 @@ export const AppProvider = ({ children }) => {
     useEffect(() => {
         localStorage.setItem('userName', userName)
     }, [userName])
+
+    useEffect(() => {
+        localStorage.setItem('userLogin', userLogin)
+    }, [userLogin])
 
     useEffect(() => {
         const handleResize = () => {
@@ -129,6 +134,9 @@ export const AppProvider = ({ children }) => {
 
                 errorMessage,
                 setErrorMessage,
+
+                userLogin,
+                setUserLogin,
             }}
         >
             {children}

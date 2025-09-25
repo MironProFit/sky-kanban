@@ -34,7 +34,7 @@ export default function Header() {
                         <HeaderBlock>
                             <HeaderLogo>
                                 <Link to="/" target="_self">
-                                    <img src={`../../../public/${isTheme ? 'logo_dark.png' : 'logo.png'}`} alt="logo"></img>
+                                    <img src={`/${isTheme ? 'logo_dark.png' : 'logo.png'}`} alt="logo"></img>
                                 </Link>
                             </HeaderLogo>
                             <div>
