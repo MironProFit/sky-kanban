@@ -53,7 +53,7 @@ export const PopBrowseBlock = styled.div`
         border-radius: 0;
         border: none;
         padding: 0;
-        height: ${({ $isEditMode }) => ($isEditMode ? '135vh' : '120vh')};
+        height: ${({ $isEditMode }) => ($isEditMode ? '135vh' : '130vh')};
         flex-direction: column;
     }
 `

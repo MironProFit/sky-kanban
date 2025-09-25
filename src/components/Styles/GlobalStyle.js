@@ -248,8 +248,7 @@ export const SecondaryButton = styled.button`
                       z-index: 9999;
                       justify-content: center;
                       align-items: center;
-                      ${inputColor}
-                      opacity: 0.8;
+                      ${inputColor}/* opacity: 0.8; */
                   }
 
                   @media screen and (max-width: 495px) {

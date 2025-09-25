@@ -49,49 +49,67 @@ function AuthModal() {
     }, [isAuth])
 
     // Обработчик логина
+
     const onLogin = async (data) => {
         setLoadingMessage('Авторизация пользователя')
         setIsLoading(true)
         setErrorMessage('')
+        setLoadingCard(true)
         try {
             const response = await loginUser(data.login, data.password)
             const userData = response.data
             setUserName(userData.user.name)
             setToken(userData.user.token)
-            setIsLoading(false)
-
-            // Получаем задачи после успешного логина
-            await fetchTasks(userData.user.token, setUserData, setIsLoading, setLoadingMessage, setErrorMessage, setIsAuth, DEFAULT_MESSAGE_LOADING, setLoadingCard)
+            // Загрузка задач
+            await fetchTasks({
+                token: userData.user.token,
+                setUserData,
+                setIsLoading,
+                setLoadingMessage,
+                setErrorMessage,
+                DEFAULT_MESSAGE_LOADING,
+                setLoadingCard,
+            })
+            setIsAuth(true)
         } catch (error) {
+            setIsLoading(false)
+            setLoadingCard(false)
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка входа'
             setErrorMessage(errMsg)
-            console.error('Ошибка входа:', errMsg)
-        } finally {
             setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+            console.error('Ошибка входа:', errMsg)
         }
     }
 
-    // Обработчик регистрации
+    //Обработка регистрации
     const onSignUp = async (data) => {
         setLoadingMessage('Регистрируем пользователя')
         setIsLoading(true)
         setErrorMessage('')
+        setLoadingCard(true)
         try {
             const response = await registerUser(data)
             const newUserData = response.data
-            console.log('Регистрация успешна:', newUserData)
-            // После регистрации можно автоматически войти
             setUserName(newUserData.user.name)
             setToken(newUserData.user.token)
-            await fetchTasks(newUserData.user.token, setUserData, setIsLoading, setLoadingMessage, setErrorMessage, setIsAuth, DEFAULT_MESSAGE_LOADING, setLoadingCard)
+            // Загрузка задач сразу после регистрации
+            await fetchTasks({
+                token: newUserData.user.token,
+                setUserData,
+                setIsLoading,
+                setLoadingMessage,
+                setErrorMessage,
+                DEFAULT_MESSAGE_LOADING,
+                setLoadingCard,
+            })
+            setIsAuth(true)
         } catch (error) {
-            const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка регистрация'
-            setErrorMessage(errMsg) // Устанавливаем сообщение об ошибке
-
-            console.error('Ошибка регистрация:', errMsg)
-            // Обработка ошибки
-        } finally {
             setIsLoading(false)
+            setLoadingCard(false)
+            const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка регистрации'
+            setErrorMessage(errMsg)
+            setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+            console.error('Ошибка регистрации:', errMsg)
         }
     }
 
