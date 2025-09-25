@@ -1,7 +1,7 @@
 import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
 import { statusList } from '../../data/data'
 import _ from 'lodash'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
     PopBrowse,
     PopBrowseContainer,
@@ -28,6 +28,7 @@ import { StatusButton, StatusText, StatusTheme, StatusThemes, StatusTitle } from
 import formattedDate from '../../utils/dateFormat'
 import { useAppContext } from '../../routes/AppContext'
 import { editTask } from '../../services/tasks/editTask'
+import { getTaskById } from '../../services/tasks/getTaskById'
 export default function CardViewEdit() {
     const { isModal, setIsModal, $isDark, setUserData, toggleUserMenu, isMobile, isUserMenuOpen, setErrorMessage, setLoadingMessage, setIsLoading, token, DEFAULT_MESSAGE_LOADING } = useAppContext()
     const navigate = useNavigate()
@@ -35,8 +36,9 @@ export default function CardViewEdit() {
     const { id: initialId, topic: initialTopic, title: initialTitle, date: initialDate, status: initialStatus, description: initialDescription } = location.state || {}
     const editMath = useMatch('/card/:id/edit')
     const isEditMode = Boolean(editMath)
+    const { id } = useParams()
 
-    const [taskState] = useState({
+    const [taskState, setTaskState] = useState({
         id: initialId || '',
         topic: initialTopic || '',
         title: initialTitle || '',
@@ -50,16 +52,66 @@ export default function CardViewEdit() {
     const formattedTaskDate = formattedDate(editTaskState.date)
     const [isDisabled, setIsDisabled] = useState(false)
 
+    const hasFetchedData = useRef(false)
+
+    useEffect(() => {
+        setEditTaskState(taskState)
+    }, [taskState])
+
     useEffect(() => {
         setIsDisabled(_.isEqual(taskState, editTaskState) || editTaskState.description === '')
     }, [taskState, editTaskState])
 
-    //Переход к главное после обновление на карте
     useEffect(() => {
-        if (`${location.pathname}/edit` && !isModal) {
-            navigate('/')
+        console.log(taskState)
+    }, [taskState])
+
+    useEffect(() => {
+        const fetchTaskData = async () => {
+            setErrorMessage('')
+            setLoadingMessage('Загружаем задачу')
+            setIsLoading(true)
+            try {
+                const response = await getTaskById(token, id)
+                if (response) {
+                    console.log(response)
+                    setTaskState({
+                        id: response._id || '',
+                        title: response.title || '',
+                        topic: response.topic || '',
+                        date: response.date || '',
+                        description: response.description || '',
+                        status: response.status || 'Без статуса',
+                    })
+                }
+            } catch (error) {
+                const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка загрузки задачи'
+                setErrorMessage(errMsg)
+                console.error('Ошибка загрузки задачи:', error)
+            } finally {
+                setLoadingMessage('Данные обновлены')
+                setIsLoading(false)
+                setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+            }
         }
-    }, [location.pathname, isModal, navigate])
+
+        // Проверяем, нужно ли загружать данные
+        if (location.state === null && !hasFetchedData.current) {
+            setIsModal(true)
+            fetchTaskData() // Выполняем запрос данных
+            hasFetchedData.current = true // Обновляем реф, чтобы избежать повторных вызовов
+        } else if (location.state) {
+            // Если state не null, инициализируем состояние из этого объекта
+            setTaskState({
+                id: location.state.id || '',
+                title: location.state.title || '',
+                topic: location.state.topic || '',
+                date: location.state.date || '',
+                description: location.state.description || '',
+                status: location.state.status || 'Без статуса',
+            })
+        }
+    }, [id, location.state]) // Добавляем зависимости
 
     // Сохранение изсенений
     const handleEditTask = async () => {
