@@ -230,7 +230,7 @@ export default function CardViewEdit() {
                         <ButtonGroup $fixed>
                             <>
                                 {!isEditMode ? (
-                                    <ButtonControlsWrap $fixed>
+                                    <ButtonControlsWrap $fixed >
                                         <SecondaryButton $fixedBtn $isDark={$isDark} onClick={handleEditToggle}>
                                             Редактировать задачу
                                         </SecondaryButton>

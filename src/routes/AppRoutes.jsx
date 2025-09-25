@@ -41,18 +41,14 @@ function AppRoutes() {
                 {
                     path: 'login',
                     element: <AuthModal />,
-                    //  action: loginAction,
-                    errorElement: <AuthModal />,
                 },
                 {
                     path: 'register',
                     element: <AuthModal />,
-                    // action: registerAction,
-                    errorElement: <AuthModal />,
                 },
             ],
         },
-        { path: '*', element: <NotFound />, errorElement: <ErrorBoundary /> },
+        { path: '*', element: <NotFound /> },
     ])
     return <RouterProvider router={router} />
 }

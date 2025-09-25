@@ -254,6 +254,8 @@ export const ButtonGroup = styled.div`
     }
 `
 export const ButtonControlsWrap = styled.div`
+    display: flex;
+
     @media (max-width: 600px) {
         display: flex;
         justify-content: space-between;
