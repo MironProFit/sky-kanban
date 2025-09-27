@@ -98,10 +98,9 @@ export default function CardViewEdit() {
         // Проверяем, нужно ли загружать данные
         if (location.state === null && !hasFetchedData.current) {
             setIsModal(true)
-            fetchTaskData() // Выполняем запрос данных
-            hasFetchedData.current = true // Обновляем реф, чтобы избежать повторных вызовов
+            fetchTaskData()
+            hasFetchedData.current = true
         } else if (location.state) {
-            // Если state не null, инициализируем состояние из этого объекта
             setTaskState({
                 id: location.state.id || '',
                 title: location.state.title || '',
@@ -111,7 +110,7 @@ export default function CardViewEdit() {
                 status: location.state.status || 'Без статуса',
             })
         }
-    }, [id, location.state]) // Добавляем зависимости
+    }, [id, location.state])
 
     // Сохранение изсенений
     const handleEditTask = async () => {
