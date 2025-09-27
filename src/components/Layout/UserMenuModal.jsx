@@ -1,16 +1,14 @@
-import { Link } from 'react-router-dom'
 import { ButtonContainer, CheckBoxTheme, Container, ThemeContainer, ThemeTitle, TilteMail, TilteName } from './UserMenuModal.styles'
 import { SecondaryButton } from '../Styles/GlobalStyle'
 import { useAppContext } from '../../routes/AppContext'
-import { useEffect, useRef } from 'react'
 
-function UserMenuModal({ isTheme, handleTheme, handleAuth, $isDark }) {
-    const { isMobile } = useAppContext()
+function UserMenuModal({ handleAuth }) {
+    const { isMobile, isTheme, handleTheme, $isDark, userName, userLogin } = useAppContext()
 
     return (
         <Container $isDark={$isDark} id="user-set-target">
-            <TilteName $isDark={$isDark}>Ivan Ivanov</TilteName>
-            <TilteMail>ivan.ivanov@gmail.com</TilteMail>
+            <TilteName $isDark={$isDark}>{userName || 'Личный кабинет'}</TilteName>
+            <TilteMail>{userLogin}</TilteMail>
             <ThemeContainer>
                 <ThemeTitle $isDark={$isDark}>{isTheme ? 'Темная тема' : 'Светлая тема '}</ThemeTitle>
                 <CheckBoxTheme checked={isTheme} onChange={handleTheme} type="checkbox" className="checkbox" name="checkbox"></CheckBoxTheme>

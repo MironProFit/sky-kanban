@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { accentColor, accentPrimaryColor, hoverBackground, hoverColor, selectedDate } from '../Styles/Mexins.style'
+import { accentColor, hoverBackground, hoverColor, selectedDate } from '../Styles/Mexins.style'
 
 export const Calendar = styled.div`
     width: 182px;
@@ -65,7 +65,7 @@ export const CalendarBtn = styled.button`
     background-position: center;
     border: none;
     cursor: pointer;
-    background-image: ${(props) => (props.isLeft ? "url('../../../public/prev.svg')" : "url('../../../public/next.svg')")};
+    background-image: ${(props) => (props.isLeft ? "url('/prev.svg')" : "url('/next.svg')")};
 
     margin-right: ${(props) => (props.isLeft ? '10px' : '0')};
     margin-left: ${(props) => (props.isLeft ? '0' : '10px')};

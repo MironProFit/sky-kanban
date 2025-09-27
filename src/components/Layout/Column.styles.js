@@ -17,6 +17,7 @@ export const ColumnTitle = styled.div`
 `
 
 export const TitleText = styled.p`
+    white-space: nowrap;
     color: #94a6be;
     font-size: 14px;
     font-weight: 600;
@@ -30,7 +31,7 @@ export const CardsContainer = styled.div`
     overflow-x: scroll;
     white-space: nowrap;
     flex-direction: column;
-    cursor: w-resize;
+    /* cursor: w-resize; */
 
     &::-webkit-scrollbar {
         height: 8px;

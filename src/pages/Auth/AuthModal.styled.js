@@ -1,12 +1,21 @@
-import styled from 'styled-components'
-import { borderColor, primaryBacground, reversePrimaryColor } from '../../components/Styles/Mexins.style'
+import styled, { css } from 'styled-components'
+import { borderColor, linkColor, primaryBacground, reversePrimaryColor, textColor } from '../../components/Styles/Mexins.style'
 import { PrimaryButton, StyledLink } from '../../components/Styles/GlobalStyle'
+import { Form } from 'react-router-dom'
 
 export const ContainerSignin = styled.div`
     display: block;
     width: 100vw;
     min-height: 100vh;
     margin: 0 auto;
+    ${({ $isLoading }) =>
+        $isLoading &&
+        css`
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        `}
 `
 export const ModalSignin = styled.div`
     width: 100%;
@@ -17,10 +26,6 @@ export const ModalSignin = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    @media screen and (max-width: 375px) {
-        /* background-color: #ffffff; */
-    }
 `
 export const ModalBlock = styled.div`
     ${primaryBacground}
@@ -31,7 +36,6 @@ export const ModalBlock = styled.div`
     padding: 50px 60px;
     border-radius: 10px;
     border: 0.7px solid ${borderColor};
-    /* #4e5566; #D4DBE5  */
     box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
 
     @media screen and (max-width: 375px) {
@@ -47,6 +51,7 @@ export const ModalBlock = styled.div`
 export const ModalTitle = styled.div`
     text-align: center;
 `
+
 export const Title = styled.h2`
     ${reversePrimaryColor}
     font-size: 20px;
@@ -56,7 +61,7 @@ export const Title = styled.h2`
     margin-bottom: 20px;
 `
 
-export const ModalForm = styled.form`
+export const ModalForm = styled(Form)`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -67,7 +72,17 @@ export const ModalForm = styled.form`
         margin-bottom: 7px;
     }
 `
+export const TextError = styled.p`
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 14px;
+    ${textColor}
+`
+
 export const TextInput = styled.input`
+    color: red;
     width: 100%;
     min-width: 100%;
     border-radius: 8px;
@@ -75,6 +90,8 @@ export const TextInput = styled.input`
     outline: none;
     padding: 10px 8px;
     background-color: inherit;
+    color: #94a6be;
+    transition: 0.3s;
 
     &::-moz-placeholder {
         font-family: 'Roboto', sans-serif;
@@ -92,11 +109,19 @@ export const TextInput = styled.input`
         letter-spacing: -0.28px;
         color: #94a6be;
     }
+    &:focus {
+        border: 1px solid #94a6be;
+    }
 `
-
 export const ModalBtnEnter = styled(PrimaryButton)`
     margin-top: 20px;
     margin-bottom: 20px;
+    &:disabled {
+        background-color: ${linkColor};
+        cursor: default;
+        pointer-events: none;
+        opacity: 0.7;
+    }
 `
 
 export const ModalFormGroup = styled.div`

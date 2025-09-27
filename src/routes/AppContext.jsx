@@ -4,7 +4,64 @@ const AppContext = createContext()
 export const AppProvider = ({ children }) => {
     const [isModal, setIsModal] = useState(false)
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+
     const [isMobile, setISMobile] = useState(window.innerWidth <= 600)
+
+    const [isTheme, setIsTheme] = useState(() => localStorage.getItem('isTheme') === 'true')
+
+    const [isAuth, setIsAuth] = useState(() => localStorage.getItem('isAuth') === 'true')
+
+    const [isLoading, setIsLoading] = useState(false)
+    const DEFAULT_MESSAGE_LOADING = 'Загрузка данных...'
+    const [loadingMessage, setLoadingMessage] = useState(DEFAULT_MESSAGE_LOADING)
+
+    const [errorMessage, setErrorMessage] = useState()
+
+    const [loadingCard, setLoadingCard] = useState(false)
+
+    const [userName, setUserName] = useState(() => localStorage.getItem('userName') || '')
+    const [userLogin, setUserLogin] = useState(() => localStorage.getItem('userLogin') || '')
+    const [token, setToken] = useState(() => localStorage.getItem('token') || '')
+    const [userData, setUserData] = useState(() => {
+        const stored = localStorage.getItem('userData')
+        return stored ? JSON.parse(stored) : { tasks: [] }
+    })
+
+    useEffect(() => {
+        if (!isAuth) {
+            // Если пользователь не авторизован, очищаем userData
+            setUserData({ tasks: [] })
+            localStorage.removeItem('userData')
+        }
+    }, [isAuth])
+
+    useEffect(() => {
+        localStorage.setItem('userData', JSON.stringify(userData))
+    }, [userData])
+
+    useEffect(() => {
+        localStorage.setItem('isTheme', isTheme)
+    }, [isTheme])
+
+    useEffect(() => {
+        !isAuth && localStorage.removeItem('userData')
+        localStorage.setItem('isAuth', isAuth)
+        if (!isAuth) {
+            setToken(''), setUserName('')
+        }
+    }, [isAuth])
+
+    useEffect(() => {
+        localStorage.setItem('token', token)
+    }, [token])
+
+    useEffect(() => {
+        localStorage.setItem('userName', userName)
+    }, [userName])
+
+    useEffect(() => {
+        localStorage.setItem('userLogin', userLogin)
+    }, [userLogin])
 
     useEffect(() => {
         const handleResize = () => {
@@ -16,6 +73,7 @@ export const AppProvider = ({ children }) => {
             window.removeEventListener('resize', handleResize)
         }
     }, [])
+
     const handleModalOpen = () => {
         setIsModal(true)
     }
@@ -26,9 +84,61 @@ export const AppProvider = ({ children }) => {
     const toggleUserMenu = () => {
         setIsUserMenuOpen((prev) => !prev)
     }
+    const handleTheme = () => {
+        setIsTheme((prev) => !prev)
+    }
 
     return (
-        <AppContext.Provider value={{ isModal, setIsModal, isMobile, setISMobile, handleModalOpen, handleModalClose, isUserMenuOpen, setIsUserMenuOpen, toggleUserMenu }}>
+        <AppContext.Provider
+            value={{
+                isModal,
+                setIsModal,
+
+                isMobile,
+                setISMobile,
+
+                isUserMenuOpen,
+                setIsUserMenuOpen,
+
+                isAuth,
+                setIsAuth,
+
+                isTheme,
+                setIsTheme,
+                $isDark: isTheme,
+
+                isLoading,
+                setIsLoading,
+
+                userName,
+                setUserName,
+
+                token,
+                setToken,
+
+                handleModalOpen,
+                handleModalClose,
+                handleTheme,
+                toggleUserMenu,
+
+                userData,
+                setUserData,
+
+                loadingMessage,
+                setLoadingMessage,
+
+                DEFAULT_MESSAGE_LOADING,
+
+                loadingCard,
+                setLoadingCard,
+
+                errorMessage,
+                setErrorMessage,
+
+                userLogin,
+                setUserLogin,
+            }}
+        >
             {children}
         </AppContext.Provider>
     )

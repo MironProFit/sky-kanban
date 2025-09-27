@@ -1,6 +1,6 @@
-import { useLocation, useMatch, useNavigate } from 'react-router-dom'
+import { useMatch, useNavigate } from 'react-router-dom'
 import { topicsList } from '../../data/data'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
     PopBrowse,
     PopBrowseContainer,
@@ -16,31 +16,96 @@ import {
     FormDateTitle,
     TopicContainer,
 } from './CardViewEdit.styles'
-import { PrimaryButton, TextContainer, TopicButton } from '../../components/Styles/GlobalStyle'
+
+import { PrimaryButton, SecondaryButton, TextContainer, Tooltip, TooltipWrapper, TopicButton } from '../../components/Styles/GlobalStyle'
 import CalendarComponent from '../../components/Calendar/Calendar'
 import { CalendarAndDateContainer } from '../../components/Calendar/Calendar.styles'
 import { Theme } from '../../components/Card/Card.styles'
 import { useAppContext } from '../../routes/AppContext'
+import formattedDate from '../../utils/dateFormat'
+import { createTask } from '../../services/tasks/createTask'
 
-export default function CardView({ $isDark }) {
+export default function CardView() {
+    const { $isDark, token, setLoadingMessage, DEFAULT_MESSAGE_LOADING, setUserData, setIsLoading, setErrorMessage, setLoadingCard } = useAppContext()
+    const [tooltipVisible, setTooltipVisible] = useState(true)
+    const [tooltipOpacity, setTooltipOpacity] = useState(0.8)
+
     const navigate = useNavigate()
-    const location = useLocation()
-    const [activeButton, setActiveButton] = useState(null)
-    const [taskState, setTaskState] = useState([])
+    const [activeButton, setActiveButton] = useState(0)
+    const [taskState, setTaskState] = useState({ title: '', description: '', date: '', topic: '' })
+    const [isDisabled, setIsDisabled] = useState(true)
 
-    const createMatch = useMatch('/createcard/')
+    const createMatch = useMatch('/card/create')
     const isEditMode = Boolean(createMatch)
-
-    const [selectDate, setSelectDate] = useState('')
 
     const { isModal, setIsModal } = useAppContext()
 
+    const [editTaskState, setEditTaskState] = useState(taskState)
+    const selectDate = editTaskState.date
+
+    useEffect(() => {
+        if (activeButton !== null) {
+            const topicName = topicsList[activeButton].name
+            setTaskState((prev) => ({ ...prev, topic: topicName }))
+        }
+    }, [activeButton])
+
+    const validateTaskData = (taskData) => {
+        return taskData.title !== '' && taskData.description !== '' && taskData.date !== '' && taskData.topic !== ''
+    }
+    useEffect(() => {
+        setIsDisabled(!validateTaskData(taskState))
+    }, [taskState])
+
     const handleDateChange = (dateString) => {
-        setTaskState((prev) => ({
+        const dateFormated = new Date(dateString).toISOString()
+        setEditTaskState((prev) => ({
             ...prev,
-            date: dateString,
+            date: dateFormated,
         }))
-        setSelectDate(dateString)
+    }
+    useEffect(() => {
+        if (selectDate) {
+            setTaskState((prev) => ({
+                ...prev,
+                date: selectDate,
+            }))
+        }
+    }, [selectDate])
+
+    useEffect(() => {
+        if (!isDisabled) {
+            setTooltipOpacity(0)
+        }
+    }, [isDisabled])
+
+    //Создание задачи
+    const handleCreateTasc = async () => {
+        setErrorMessage('')
+        setLoadingMessage('Добавляем задачу')
+        setIsLoading(true)
+        setLoadingCard(true)
+
+        try {
+            const response = await createTask(token, taskState.title, taskState.topic, taskState.description, taskState.date)
+
+            setIsLoading(false)
+
+            if (Array.isArray(response)) {
+                handleClose()
+                setUserData(response)
+                localStorage.setItem('userData', JSON.stringify(response))
+            }
+            setLoadingCard(false)
+        } catch (error) {
+            const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка создания задачи'
+            setErrorMessage(errMsg)
+            console.error('Ошибка при добавлении задачи на сервер:', error)
+        } finally {
+            setLoadingMessage('Данные обновлены')
+            setIsLoading(false)
+            setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+        }
     }
 
     const handleActive = (i) => {
@@ -56,7 +121,7 @@ export default function CardView({ $isDark }) {
         setTaskState((prev) => ({ ...prev, description: value }))
     }
     const getTaskName = (value) => {
-        setTaskState((prev) => ({ ...prev, topic: value }))
+        setTaskState((prev) => ({ ...prev, title: value }))
     }
     return (
         <PopBrowse $isModal={isModal} id="popBrowse">
@@ -83,10 +148,10 @@ export default function CardView({ $isDark }) {
                                         selectedDate={selectDate}
                                         name="text"
                                         id="formTitle"
-                                        readOnly={!isEditMode}
                                         $isEditMode={isEditMode}
+                                        style={{ cursor: 'text' }}
                                         placeholder="Введите название задачи..."
-                                        autofocus
+                                        autoFocus
                                     />
                                 </FormBlock>
 
@@ -102,8 +167,9 @@ export default function CardView({ $isDark }) {
                                         selectedDate={selectDate}
                                         name="text"
                                         id="textArea01"
-                                        readOnly={!isEditMode}
+                                        // readOnly={!isEditMode}
                                         $isEditMode={isEditMode}
+                                        style={{ cursor: 'text' }}
                                         placeholder="Введите описание задачи..."
                                     />
                                 </FormBlock>
@@ -117,7 +183,7 @@ export default function CardView({ $isDark }) {
                                         'Выберите срок исполнения.'
                                     ) : (
                                         <p>
-                                            Cрок исполнения: <span>{selectDate}</span>
+                                            Cрок исполнения: <span>{formattedDate(selectDate)}</span>
                                         </p>
                                     )}
                                 </FormDateControl>
@@ -145,11 +211,19 @@ export default function CardView({ $isDark }) {
                                 })}
                             </Theme>
                         </ButtonGroup>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <PrimaryButton $fixed $width="auto" $isDark={$isDark} onClick={handleClose}>
-                                Создать задачу
-                            </PrimaryButton>
-                        </div>
+                        <ButtonGroup>
+                            <SecondaryButton $mobileFixed $isDark={$isDark} onClick={handleClose}>
+                                Закрыть
+                            </SecondaryButton>
+                            <TooltipWrapper>
+                                <PrimaryButton disabled={isDisabled} onClick={handleCreateTasc} $mobileFixed $width="auto" $isDark={$isDark}>
+                                    Создать задачу
+                                </PrimaryButton>
+                                <Tooltip visible={tooltipVisible} style={{ opacity: tooltipOpacity }}>
+                                    Заполните все поля
+                                </Tooltip>
+                            </TooltipWrapper>
+                        </ButtonGroup>
                     </PopBrowseContent>
                 </PopBrowseBlock>
             </PopBrowseContainer>

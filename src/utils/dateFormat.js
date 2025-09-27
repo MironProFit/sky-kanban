@@ -3,7 +3,7 @@ import { ru } from 'date-fns/locale'
 
 const formattedDate = (date) => {
     if (!date) {
-        return 'Даты не доступна'
+        return 'Дата не доступна'
     }
     const parsedDate = new Date(date)
     if (isNaN(parsedDate)) {

@@ -1,17 +1,16 @@
 import styled, { css } from 'styled-components'
-import { textColor, primaryBacground, primaryColor, accentColor, mainBacground, reversePrimaryColor, white } from '../../components/Styles/Mexins.style'
+import { textColor, primaryBacground, primaryColor, accentColor, mainBacground, reversePrimaryColor, white, gradientTo } from '../../components/Styles/Mexins.style'
 
 export const PopBrowse = styled.div`
     width: 100%;
     height: 100%;
     min-width: 375px;
     min-height: 100vh;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 7;
     @media (max-width: 600px) {
-        display: ${({ $isModal }) => ($isModal ? 'block' : 'none')};
         position: relative;
         background-color: inherit;
         min-width: auto;
@@ -54,7 +53,7 @@ export const PopBrowseBlock = styled.div`
         border-radius: 0;
         border: none;
         padding: 0;
-        height: ${({ $isEditMode }) => ($isEditMode ? '135vh' : '120vh')};
+        height: ${({ $isEditMode }) => ($isEditMode ? '135vh' : '130vh')};
         flex-direction: column;
     }
 `
@@ -146,6 +145,7 @@ export const FormArea = styled.textarea`
     letter-spacing: -0.14px;
     margin-top: 14px;
     height: ${({ $maxHeight }) => $maxHeight || '236px'};
+    transition: 0.3s;
     @media (max-width: 600px) {
         overflow: hidden;
         background-color: transparent;
@@ -166,8 +166,14 @@ export const FormArea = styled.textarea`
         color: ${accentColor};
         letter-spacing: -0.14px;
     }
+    ${({ $isEditMode }) =>
+        $isEditMode &&
+        css`
+            &:focus {
+                border: 1px solid ${gradientTo};
+            }
+        `}
 `
-
 export const FormDateControl = styled.p`
     color: ${accentColor};
     font-size: 12px;
@@ -248,6 +254,8 @@ export const ButtonGroup = styled.div`
     }
 `
 export const ButtonControlsWrap = styled.div`
+    display: flex;
+
     @media (max-width: 600px) {
         display: flex;
         justify-content: space-between;

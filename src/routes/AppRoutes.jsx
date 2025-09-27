@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { useState } from 'react'
 
 import ConfirmExit from '../pages/Confirmation/ConfirmExit/ConfirmExit'
 import NotFound from '../pages/Main/NotFound'
@@ -7,28 +6,49 @@ import CardCreate from '../pages/Cards/CardCreate'
 import CardViewEdit from '../pages/Cards/CardViewEdit'
 import PrivateRoute from './PrivateRoute'
 import Layout from '../components/Layout/Layout'
-
-function AppRoutes({ isTheme, setIsTheme }) {
-    const [isAuth, setIsAuth] = useState(false)
-
+import ErrorBoundary from '../components/Layout/ErrorBoundary'
+import AuthModal from '../pages/Auth/AuthModal'
+import MainWithModal from '../components/Layout/MainWithModal'
+import ConfirmDelTask from '../pages/Confirmation/ConfirmDelTask/ConfirmDelTask'
+function AppRoutes() {
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <Layout isAuth={isAuth} setIsAuth={setIsAuth} isTheme={isTheme} $isDark={isTheme} setIsTheme={setIsTheme} />,
+            element: <Layout />,
             children: [
                 {
-                    element: <PrivateRoute isAuth={isAuth} setIsAuth={setIsAuth} />,
+                    element: <PrivateRoute />,
                     children: [
-                        { path: 'exit', element: <ConfirmExit isAuth={isAuth} setIsAuth={setIsAuth} $isDark={isTheme} /> },
-                        { path: 'createcard', element: <CardCreate $isDark={isTheme} /> },
-                        { path: 'cardview/:id', element: <CardViewEdit $isDark={isTheme} /> },
-                        { path: 'cardview/:id/edit', element: <CardViewEdit $isDark={isTheme} /> },
-                        { path: 'cardview/:id/delete', element: <CardViewEdit $isDark={isTheme} /> },
+                        {
+                            path: '',
+                            element: <MainWithModal />,
+                            children: [
+                                { index: true, element: null },
+                                {
+                                    path: 'card',
+                                    children: [
+                                        { path: 'create', element: <CardCreate /> },
+                                        { path: ':id', element: <CardViewEdit /> },
+                                        { path: ':id/edit', element: <CardViewEdit /> },
+                                        { path: ':id/delete', element: <ConfirmDelTask /> },
+                                    ],
+                                },
+                                { path: 'exit', element: <ConfirmExit /> },
+                            ],
+                        },
                     ],
                 },
-                { path: '*', element: <NotFound /> },
+                {
+                    path: 'login',
+                    element: <AuthModal />,
+                },
+                {
+                    path: 'register',
+                    element: <AuthModal />,
+                },
             ],
         },
+        { path: '*', element: <NotFound /> },
     ])
     return <RouterProvider router={router} />
 }
