@@ -91,11 +91,11 @@ export default function CardView() {
 
             setIsLoading(false)
 
-            if (Array.isArray(response)) {
-                handleClose()
-                setUserData(response)
-                localStorage.setItem('userData', JSON.stringify(response))
-            }
+            // if (Array.isArray(response)) {
+            handleClose()
+            setUserData(response)
+            localStorage.setItem('userData', JSON.stringify(response))
+            // }
             setLoadingCard(false)
         } catch (error) {
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка создания задачи'

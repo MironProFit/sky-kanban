@@ -8,14 +8,13 @@ export const getColorClass = (topic) => {
     switch (topic) {
         case 'Web Design':
             return '_orange'
-        case 'UI/UX':
+        case 'Research':
             return '_green'
-        case 'Проблемы и ошибки':
+        case 'Copywriting':
             return '_purple'
-        case 'Web Development':
-            return '_gray'
+        
         default:
-            return ''
+            return '_gray'
     }
 }
 export default function Card({ id, topic, title, date, status, description, $loadingStyles }) {
