@@ -1,5 +1,3 @@
-
-
 export const topicsList = [
     { name: 'Web Design', color: '_orange' },
     { name: 'Research', color: '_green' },
