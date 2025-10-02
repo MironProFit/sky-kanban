@@ -17,6 +17,9 @@ export const AppProvider = ({ children }) => {
     const [loadingMessage, setLoadingMessage] = useState(DEFAULT_MESSAGE_LOADING)
 
     const [errorMessage, setErrorMessage] = useState()
+    useEffect(() => {
+        setToastNotification(errorMessage, 'error')
+    }, [errorMessage])
 
     const [loadingCard, setLoadingCard] = useState(false)
 
@@ -40,6 +43,9 @@ export const AppProvider = ({ children }) => {
                 break
             case 'warning':
                 toast.warn(message)
+                break
+            case 'info':
+                toast.info('Что-то пошло не так')
                 break
 
             default:

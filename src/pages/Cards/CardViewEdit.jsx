@@ -30,7 +30,8 @@ import { useAppContext } from '../../routes/AppContext'
 import { editTask } from '../../services/tasks/editTask'
 import { getTaskById } from '../../services/tasks/getTaskById'
 export default function CardViewEdit() {
-    const { isModal, setIsModal, $isDark, setUserData, toggleUserMenu, isMobile, isUserMenuOpen, setErrorMessage, setLoadingMessage, setIsLoading, token, DEFAULT_MESSAGE_LOADING } = useAppContext()
+    const { isModal, setIsModal, $isDark, setUserData, toggleUserMenu, isMobile, isUserMenuOpen, setErrorMessage, setLoadingMessage, setIsLoading, token, DEFAULT_MESSAGE_LOADING, showToast } =
+        useAppContext()
     const navigate = useNavigate()
     const location = useLocation()
     const { id: initialId, topic: initialTopic, title: initialTitle, date: initialDate, status: initialStatus, description: initialDescription } = location.state || {}
@@ -84,6 +85,7 @@ export default function CardViewEdit() {
                         status: response.status || 'Без статуса',
                     })
                 }
+                // showToast('Задача загружена', 'success')
             } catch (error) {
                 const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка загрузки задачи'
                 setErrorMessage(errMsg)
@@ -132,6 +134,7 @@ export default function CardViewEdit() {
             navigate('/')
 
             setLoadingMessage('Обновляем задачи')
+            showToast('Задача успешно обновлена', 'success')
         } catch (error) {
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка редактирования задачи'
             setErrorMessage(errMsg)
@@ -182,6 +185,8 @@ export default function CardViewEdit() {
         const basePath = location.pathname.replace(/\/edit$/, '')
 
         navigate(basePath, { replace: true })
+        showToast('Изменения отменены', 'warning')
+
     }
     const handleDateChange = (dateString) => {
         const dateFormated = new Date(dateString).toISOString()

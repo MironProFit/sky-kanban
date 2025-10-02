@@ -26,7 +26,7 @@ import formattedDate from '../../utils/dateFormat'
 import { createTask } from '../../services/tasks/createTask'
 
 export default function CardView() {
-    const { $isDark, token, setLoadingMessage, DEFAULT_MESSAGE_LOADING, setUserData, setIsLoading, setErrorMessage, setLoadingCard } = useAppContext()
+    const { $isDark, token, setLoadingMessage, DEFAULT_MESSAGE_LOADING, setUserData, setIsLoading, setErrorMessage, setLoadingCard, showToast } = useAppContext()
     const [tooltipVisible, setTooltipVisible] = useState(true)
     const [tooltipOpacity, setTooltipOpacity] = useState(0.8)
 
@@ -97,6 +97,7 @@ export default function CardView() {
             localStorage.setItem('userData', JSON.stringify(response))
             // }
             setLoadingCard(false)
+            showToast('Задача добавлена', 'success')
         } catch (error) {
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка создания задачи'
             setErrorMessage(errMsg)

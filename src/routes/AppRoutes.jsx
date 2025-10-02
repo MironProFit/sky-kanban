@@ -9,7 +9,7 @@ import Layout from '../components/Layout/Layout'
 import AuthModal from '../pages/Auth/AuthModal'
 import MainWithModal from '../components/Layout/MainWithModal'
 import ConfirmDelTask from '../pages/Confirmation/ConfirmDelTask/ConfirmDelTask'
-import Toastify from '../components/Toastify'
+import Toastify from '../components/Layout/Toastify'
 
 function AppRoutes() {
     const router = createBrowserRouter([

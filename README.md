@@ -1,12 +1,41 @@
-# React + Vite
+### Описание приложения Канбан
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#### 1. Основной функционал
 
-Currently, two official plugins are available:
+-   **Создание задач:**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+    -   Пользователи могут создавать карты задач, включающие:
+        -   Название задачи.
+        -   Описание.
+        -   Тематику задачи (топик).
+        -   Дату, где доступны только актуальные даты (предыдущие дни недоступны для выбора).
 
-## Expanding the ESLint configuration
+-   **Управление задачами:**
+    -   Возможность редактирования уже созданных карт задач.
+    -   Функция удаления задач по желанию пользователя.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+#### 2. Перетаскивание задач (Drag and Drop)
+
+-   Реализован функционал, позволяющий перетаскивать задачи из одной колонки в другую, что облегчает процесс управления задачами и их состояниями.
+
+#### 3. Авторизация и регистрация
+
+-   Интеграция логики авторизации и регистрации через API сервер, обеспечивающая безопасный доступ к приложению.
+-   Изменения (удаление, редактирование, перетаскивание задач) фиксируются на сервере для синхронизации данных.
+
+#### 4. Настройки интерфейса
+
+-   Возможность переключения между светлой и темной темами интерфейса для увеличения удобства использования.
+
+#### 5. Информационные сообщения
+
+-   Реализованы всплывающие сообщения, информирующие пользователей о процессах, происходящих в приложении (например, успешное удаление или редактирование задач).
+
+#### 6. Отображение процессов API
+
+-   Весь процесс выполнения запросов к API отображается в отдельных окнах, что позволяет пользователю быть в курсе текущих операций и статуса запросов.
+
+### Дополнительные возможности
+
+-   Интуитивно понятный пользовательский интерфейс, адаптированный для работы на различных устройствах.
+-   Поддержка различных сценариев использования, обеспечивающая удобство и эффективность работы с задачами.

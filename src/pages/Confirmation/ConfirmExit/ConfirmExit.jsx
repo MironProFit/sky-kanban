@@ -4,7 +4,7 @@ import { useAppContext } from '../../../routes/AppContext'
 import { useState } from 'react'
 
 export default function ConfirmExit() {
-    const { $isDark, isMobile, setIsAuth } = useAppContext()
+    const { $isDark, isMobile, setIsAuth, showToast } = useAppContext()
 
     const location = useLocation()
     const navigate = useNavigate()
@@ -21,6 +21,7 @@ export default function ConfirmExit() {
         e.preventDefault()
         setIsAuth(false)
         navigate('/')
+        showToast('Вышли из аккаунта', 'warning')
     }
 
     return (

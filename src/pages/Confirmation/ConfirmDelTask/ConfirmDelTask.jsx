@@ -6,7 +6,7 @@ import { removeTask } from '../../../services/tasks/removeTask'
 import _ from 'lodash'
 
 export default function ConfirmDelTask() {
-    const { $isDark, isModal, setIsModal, token, DEFAULT_MESSAGE_LOADING, setLoadingMessage, setIsLoading, setErrorMessage, setUserData, userData, setLoadingCard } = useAppContext()
+    const { $isDark, isModal, setIsModal, token, DEFAULT_MESSAGE_LOADING, setLoadingMessage, setIsLoading, setErrorMessage, setUserData, userData, setLoadingCard, showToast } = useAppContext()
     const location = useLocation()
     const navigate = useNavigate()
     const [taskState, setTaskStat] = useState([])
@@ -35,6 +35,7 @@ export default function ConfirmDelTask() {
             }
 
             setIsModal(false)
+            showToast('Задача успешно удалена', 'warning')
 
             navigate('/')
         } catch (error) {

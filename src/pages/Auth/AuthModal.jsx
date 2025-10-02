@@ -11,8 +11,22 @@ import { registerUser } from '../../services/auth/register'
 import { fetchTasks } from '../../services/tasks/taskService'
 
 function AuthModal() {
-    const { isAuth, setIsAuth, $isDark, setUserData, setUserName, setToken, errorMessage, setErrorMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING, setLoadingCard, setUserLogin } =
-        useAppContext()
+    const {
+        isAuth,
+        setIsAuth,
+        $isDark,
+        setUserData,
+        setUserName,
+        setToken,
+        errorMessage,
+        setErrorMessage,
+        setLoadingMessage,
+        setIsLoading,
+        DEFAULT_MESSAGE_LOADING,
+        setLoadingCard,
+        setUserLogin,
+        showToast,
+    } = useAppContext()
     const [isPage, setIsPage] = useState('login')
     const location = useLocation()
     const navigate = useNavigate()
@@ -54,6 +68,7 @@ function AuthModal() {
     const onLogin = async (data) => {
         setLoadingMessage('Авторизация пользователя')
         setIsLoading(true)
+
         setErrorMessage('')
         setLoadingCard(true)
         try {
@@ -62,6 +77,7 @@ function AuthModal() {
             setUserName(userData.user.name)
             setUserLogin(userData.user.login)
             setToken(userData.user.token)
+
             // Загрузка задач
             await fetchTasks({
                 token: userData.user.token,
@@ -73,6 +89,7 @@ function AuthModal() {
                 setLoadingCard,
             })
             setIsAuth(true)
+            showToast('Авторизация успешна', 'success')
         } catch (error) {
             setIsLoading(false)
             setLoadingCard(false)
@@ -110,6 +127,7 @@ function AuthModal() {
                 setLoadingCard,
             })
             setIsAuth(true)
+            showToast('Регистрация успешна', 'success')
         } catch (error) {
             setIsLoading(false)
             setLoadingCard(false)
