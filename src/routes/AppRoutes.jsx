@@ -9,6 +9,8 @@ import Layout from '../components/Layout/Layout'
 import AuthModal from '../pages/Auth/AuthModal'
 import MainWithModal from '../components/Layout/MainWithModal'
 import ConfirmDelTask from '../pages/Confirmation/ConfirmDelTask/ConfirmDelTask'
+import Toastify from '../components/Toastify'
+
 function AppRoutes() {
     const router = createBrowserRouter([
         {
@@ -49,7 +51,12 @@ function AppRoutes() {
         },
         { path: '*', element: <NotFound /> },
     ])
-    return <RouterProvider router={router} />
+    return (
+        <>
+            <RouterProvider router={router} />
+            <Toastify />
+        </>
+    )
 }
 
 export default AppRoutes

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 const AppContext = createContext()
 
 export const AppProvider = ({ children }) => {
@@ -26,6 +27,25 @@ export const AppProvider = ({ children }) => {
         const stored = localStorage.getItem('userData')
         return stored ? JSON.parse(stored) : { tasks: [] }
     })
+
+    const [toastNotification, setToastNotification] = useState(null)
+
+    const showToast = (message, type = 'info') => {
+        switch (type) {
+            case 'success':
+                toast.success(message)
+                break
+            case 'error':
+                toast.error(message)
+                break
+            case 'warning':
+                toast.warn(message)
+                break
+
+            default:
+                toast(message)
+        }
+    }
 
     useEffect(() => {
         if (!isAuth) {
@@ -136,7 +156,11 @@ export const AppProvider = ({ children }) => {
                 setErrorMessage,
 
                 userLogin,
+
                 setUserLogin,
+                toastNotification,
+                setToastNotification,
+                showToast,
             }}
         >
             {children}
