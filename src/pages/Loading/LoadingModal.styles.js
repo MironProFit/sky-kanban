@@ -13,14 +13,14 @@ const bounce = keyframes`
 `
 
 export const Overlay = styled.div`
-    position: fixed;
-    z-index: 9999;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(2px);
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
 `
 
 const pulseAnimationDark = keyframes`
@@ -77,45 +77,47 @@ const pulseAnimationWhite = keyframes`
 `
 
 export const SpinnerWrap = styled.div`
-    width: 300px;
-    padding: 20px;
-    background-color: ${({ $isDark }) => (!$isDark ? 'whitesmoke' : 'black')};
-    opacity: 0.6;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* box-shadow: 0 0 20px 0 rgba(86, 94, 239, 0.2); */
-    animation: ${({ $isDark }) => ($isDark ? pulseAnimationDark : pulseAnimationWhite)} 5s infinite ease-in-out;
+  width: 300px;
+  padding: 20px;
+  background-color: ${({ $isDark }) => (!$isDark ? 'whitesmoke' : 'black')};
+  opacity: 0.6;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* box-shadow: 0 0 20px 0 rgba(86, 94, 239, 0.2); */
+  animation: ${({ $isDark }) =>
+      $isDark ? pulseAnimationDark : pulseAnimationWhite}
+    5s infinite ease-in-out;
 `
 
 export const DotsSpinner = styled.div`
-    display: flex;
-    gap: 10px;
-    margin-bottom: 14px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
 
-    div {
-        width: 13px;
-        height: 13px;
-        border-radius: 50%;
-        background: ${({ $isDark }) => ($isDark ? 'whitesmoke' : 'black')};
-        opacity: 0.25;
-        animation: ${bounce} 1.15s infinite;
-    }
-    div:nth-child(2) {
-        animation-delay: 0.19s;
-    }
-    div:nth-child(3) {
-        animation-delay: 0.38s;
-    }
+  div {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: ${({ $isDark }) => ($isDark ? 'whitesmoke' : 'black')};
+    opacity: 0.25;
+    animation: ${bounce} 1.15s infinite;
+  }
+  div:nth-child(2) {
+    animation-delay: 0.19s;
+  }
+  div:nth-child(3) {
+    animation-delay: 0.38s;
+  }
 `
 
 export const SpinnerText = styled.div`
-    font-size: 1.03rem;
-    color: ${({ $isDark }) => ($isDark ? 'whitesmoke' : 'black')};
-    opacity: 0.8;
-    font-family: inherit;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    user-select: none;
+  font-size: 1.03rem;
+  color: ${({ $isDark }) => ($isDark ? 'whitesmoke' : 'black')};
+  opacity: 0.8;
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  user-select: none;
 `

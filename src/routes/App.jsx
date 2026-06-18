@@ -4,21 +4,22 @@ import { GlobalStyle, Wrapper } from '../components/Styles/GlobalStyle.js'
 import { AppProvider, useAppContext } from './AppContext.jsx'
 
 function App() {
-    const { isTheme, setIsTheme, isUserMenuOpen, toggleUserMenu } = useAppContext()
+  const { isTheme, setIsTheme, isUserMenuOpen, toggleUserMenu } =
+    useAppContext()
 
-    return (
-        <>
-            <GlobalStyle $isDark={isTheme} />
-            <Wrapper
-                onClick={() => {
-                    isUserMenuOpen && toggleUserMenu()
-                }}
-                $isDark={isTheme}
-            >
-                <AppRoutes isTheme={isTheme} setIsTheme={setIsTheme} />
-            </Wrapper>
-        </>
-    )
+  return (
+    <>
+      <GlobalStyle $isDark={isTheme} />
+      <Wrapper
+        onClick={() => {
+          isUserMenuOpen && toggleUserMenu()
+        }}
+        $isDark={isTheme}
+      >
+        <AppRoutes isTheme={isTheme} setIsTheme={setIsTheme} />
+      </Wrapper>
+    </>
+  )
 }
 
 export default App
