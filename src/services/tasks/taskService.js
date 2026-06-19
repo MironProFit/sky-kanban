@@ -1,38 +1,42 @@
 import { getAllTasks } from './getTasks'
 
-export const fetchTasks = async ({ token, setUserData, setIsLoading, setLoadingMessage, setErrorMessage, DEFAULT_MESSAGE_LOADING, setLoadingCard }) => {
-    setIsLoading(true)
-    setLoadingMessage('Загрузка задач...')
-    setErrorMessage('')
-    setLoadingCard(true)
+export const fetchTasks = async ({
+  token,
+  setUserData,
+  setIsLoading,
+  setLoadingMessage,
+  setErrorMessage,
+  DEFAULT_MESSAGE_LOADING,
+  setLoadingCard,
+}) => {
+  setIsLoading(true)
+  setLoadingMessage('Загрузка задач...')
+  setErrorMessage('')
+  setLoadingCard(true)
 
-    try {
-        const response = await getAllTasks(token)
+  try {
+    const response = await getAllTasks(token)
 
-        // Если сервер возвращает { tasks: [...] }
-        if (response && response.tasks) {
-            setUserData(response.tasks)
-            localStorage.setItem('userData', JSON.stringify(response.tasks))
-        }
-        // Если массив напрямую
-        else if (Array.isArray(response)) {
-            setUserData(response)
-            localStorage.setItem('userData', JSON.stringify(response))
-        }
-        // Если что-то пошло не так
-        else {
-            setUserData([])
-            localStorage.setItem('userData', JSON.stringify([]))
-        }
-        setLoadingMessage(DEFAULT_MESSAGE_LOADING)
-    } catch (error) {
-        const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка получения задач'
-        setErrorMessage(errMsg)
-        setLoadingMessage(DEFAULT_MESSAGE_LOADING)
-        console.error('Ошибка получения данных:', errMsg)
-        setUserData([]) // "очищаем" задачи при ошибке
-    } finally {
-        setIsLoading(false)
-        setLoadingCard(false)
+    if (response && response.tasks) {
+      setUserData(response.tasks)
+    } else if (Array.isArray(response)) {
+      setUserData(response)
+    } else {
+      setUserData([])
     }
+    setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+  } catch (error) {
+    const errMsg =
+      error?.response?.data?.error ||
+      error?.response?.data?.message ||
+      error?.message ||
+      'Ошибка получения задач'
+    setErrorMessage(errMsg)
+    setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+    console.error('Ошибка получения данных:', errMsg)
+    setUserData([])
+  } finally {
+    setIsLoading(false)
+    setLoadingCard(false)
+  }
 }

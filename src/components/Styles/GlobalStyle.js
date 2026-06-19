@@ -347,7 +347,7 @@ export const TextContainer = styled.p`
 `
 
 export const Tooltip = styled.div`
-    visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
+    visibility: ${({ $visible }) => ($visible ? 'visible' : 'hidden')};
     background-color: #555;
     color: #fff;
     text-align: center;
@@ -355,20 +355,20 @@ export const Tooltip = styled.div`
     padding: 8px;
     position: absolute;
     z-index: 1;
-    bottom: 125%; /* Позиция подсказки относительно кнопки */
+    bottom: 125%;
     left: 50%;
-    transform: translateX(-50%); /* Центруем подсказку по горизонтали */
+    transform: translateX(-50%);
     transition: opacity 1s;
 
     &::after {
         content: '';
         position: absolute;
-        top: 100%; /* Позиционирование стрелки на нижней части подсказки */
+        top: 100%;
         left: 50%;
-        margin-left: -5px; /* Сместить на половину ширины стрелки */
+        margin-left: -5px;
         border-width: 5px;
         border-style: solid;
-        border-color: #555 transparent transparent transparent; /* Цвет стрелки */
+        border-color: #555 transparent transparent transparent;
     }
 
     @media screen and (max-width: 600px) {

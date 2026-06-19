@@ -8,16 +8,14 @@ import { loginUser } from '../../services/auth/login'
 import { useAppContext } from '../../routes/AppContext'
 
 import { registerUser } from '../../services/auth/register'
-import { fetchTasks } from '../../services/tasks/taskService'
 
 function AuthModal() {
-    const { isAuth, setIsAuth, $isDark, setUserData, setUserName, setToken, errorMessage, setErrorMessage, setLoadingMessage, setIsLoading, DEFAULT_MESSAGE_LOADING, setLoadingCard, setUserLogin } =
+    const { isAuth, setIsAuth, $isDark, setUserName, setToken, errorMessage, setErrorMessage, setLoadingMessage, setIsLoading, setUserLogin } =
         useAppContext()
     const [isPage, setIsPage] = useState('login')
     const location = useLocation()
     const navigate = useNavigate()
 
-    // Настройка форм
     const {
         register: registerLogin,
         handleSubmit: handleSubmitLogin,
@@ -32,7 +30,6 @@ function AuthModal() {
         formState: { errors: errorsSignUp, isValid: isValidSignUp },
     } = useForm({ mode: 'onChange' })
 
-    // Смена страницы и сброс форм
     useEffect(() => {
         if (location.pathname === '/register') {
             setIsPage('register')
@@ -49,77 +46,47 @@ function AuthModal() {
         }
     }, [isAuth])
 
-    // Обработчик логина
-
     const onLogin = async (data) => {
         setLoadingMessage('Авторизация пользователя')
         setIsLoading(true)
         setErrorMessage('')
-        setLoadingCard(true)
         try {
             const response = await loginUser(data.login, data.password)
             const userData = response.data
             setUserName(userData.user.name)
             setUserLogin(userData.user.login)
             setToken(userData.user.token)
-            // Загрузка задач
-            await fetchTasks({
-                token: userData.user.token,
-                setUserData,
-                setIsLoading,
-                setLoadingMessage,
-                setErrorMessage,
-                DEFAULT_MESSAGE_LOADING,
-                setLoadingCard,
-            })
             setIsAuth(true)
         } catch (error) {
             setIsLoading(false)
-            setLoadingCard(false)
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка входа'
             setErrorMessage(errMsg)
-            setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+            setLoadingMessage('Загрузка данных...')
             console.error('Ошибка входа:', errMsg)
         } finally {
             setIsLoading(false)
-            setLoadingCard(false)
         }
     }
 
-    //Обработка регистрации
     const onSignUp = async (data) => {
         setLoadingMessage('Регистрируем пользователя')
         setIsLoading(true)
         setErrorMessage('')
-        setLoadingCard(true)
         try {
             const response = await registerUser(data)
             const newUserData = response.data
             setUserName(newUserData.user.name)
             setToken(newUserData.user.token)
             setUserLogin(newUserData.user.login)
-
-            // Загрузка задач сразу после регистрации
-            await fetchTasks({
-                token: newUserData.user.token,
-                setUserData,
-                setIsLoading,
-                setLoadingMessage,
-                setErrorMessage,
-                DEFAULT_MESSAGE_LOADING,
-                setLoadingCard,
-            })
             setIsAuth(true)
         } catch (error) {
             setIsLoading(false)
-            setLoadingCard(false)
             const errMsg = error?.response?.data?.error || error?.response?.data?.message || error?.message || 'Ошибка регистрации'
             setErrorMessage(errMsg)
-            setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+            setLoadingMessage('Загрузка данных...')
             console.error('Ошибка регистрации:', errMsg)
         } finally {
             setIsLoading(false)
-            setLoadingCard(false)
         }
     }
 
@@ -131,7 +98,6 @@ function AuthModal() {
                         <ModalTitle>
                             <Title $isDark={$isDark}>{isPage === 'login' ? 'Вход' : 'Регистрация'}</Title>
                         </ModalTitle>
-                        {/* ---- ФОРМА ЛОГИНА ---- */}
                         {isPage === 'login' && (
                             <ModalForm onSubmit={handleSubmitLogin(onLogin)}>
                                 <TextInput
@@ -167,7 +133,6 @@ function AuthModal() {
                                 </ModalFormGroup>
                             </ModalForm>
                         )}
-                        {/* ---- ФОРМА РЕГИСТРАЦИИ ---- */}
                         {isPage === 'register' && (
                             <ModalForm onSubmit={handleSubmitSignUp(onSignUp)}>
                                 <TextInput
