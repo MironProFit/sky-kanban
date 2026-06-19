@@ -1,4 +1,4 @@
-import { useMatch, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { topicsList } from '../../data/data'
 import { useEffect, useState } from 'react'
 import {
@@ -16,7 +16,6 @@ import {
   FormDateTitle,
   TopicContainer,
 } from './CardViewEdit.styles'
-
 import {
   PrimaryButton,
   SecondaryButton,
@@ -31,19 +30,10 @@ import { Theme } from '../../components/Card/Card.styles'
 import { useAuthContext } from '../../context/AuthContext'
 import { useTasksContext } from '../../context/TasksContext'
 import formattedDate from '../../utils/dateFormat'
-import { createTask } from '../../services/tasks/createTask'
 
-export default function CardView() {
-  const {
-    $isDark,
-    token,
-    setLoadingMessage,
-    DEFAULT_MESSAGE_LOADING,
-    setIsLoading,
-    setErrorMessage,
-    setLoadingCard,
-  } = useAuthContext()
-  const { setUserData, isModal, setIsModal } = useTasksContext()
+export default function CardCreate() {
+  const { $isDark, token } = useAuthContext()
+  const { createTask } = useTasksContext()
   const [tooltipVisible] = useState(true)
   const [tooltipOpacity, setTooltipOpacity] = useState(0.8)
 
@@ -56,9 +46,6 @@ export default function CardView() {
     topic: '',
   })
   const [isDisabled, setIsDisabled] = useState(true)
-
-  const createMatch = useMatch('/card/create')
-  const isEditMode = Boolean(createMatch)
 
   const [editTaskState, setEditTaskState] = useState(taskState)
   const selectDate = editTaskState.date
@@ -104,38 +91,18 @@ export default function CardView() {
     }
   }, [isDisabled])
 
-  const handleCreateTasc = async () => {
-    setErrorMessage('')
-    setLoadingMessage('Добавляем задачу')
-    setIsLoading(true)
-    setLoadingCard(true)
-
+  const handleCreateTask = async () => {
     try {
-      const response = await createTask(
+      await createTask(
         token,
         taskState.title,
         taskState.topic,
         taskState.description,
         taskState.date,
       )
-
-      setIsLoading(false)
-
-      handleClose()
-      setUserData(response)
-      setLoadingCard(false)
+      navigate('/')
     } catch (error) {
-      const errMsg =
-        error?.response?.data?.error ||
-        error?.response?.data?.message ||
-        error?.message ||
-        'Ошибка создания задачи'
-      setErrorMessage(errMsg)
       console.error('Ошибка при добавлении задачи на сервер:', error)
-    } finally {
-      setLoadingMessage('Данные обновлены')
-      setIsLoading(false)
-      setLoadingMessage(DEFAULT_MESSAGE_LOADING)
     }
   }
 
@@ -145,7 +112,6 @@ export default function CardView() {
 
   function handleClose() {
     navigate(-1)
-    setIsModal(false)
   }
 
   const getDescription = (value) => {
@@ -154,16 +120,14 @@ export default function CardView() {
   const getTaskName = (value) => {
     setTaskState((prev) => ({ ...prev, title: value }))
   }
+
   return (
-    <PopBrowse $isModal={isModal} id="popBrowse">
+    <PopBrowse style={{ display: 'block' }} id="popBrowse">
       <PopBrowseContainer>
         <PopBrowseBlock $isDark={$isDark}>
           <PopBrowseContent>
             <TopicContainer>
-              <PopBrowseTitle $isDark={$isDark}>
-                {' '}
-                Создание задачи
-              </PopBrowseTitle>
+              <PopBrowseTitle $isDark={$isDark}>Создание задачи</PopBrowseTitle>
             </TopicContainer>
 
             <FormWrap $isDark={$isDark}>
@@ -172,7 +136,6 @@ export default function CardView() {
                   <label htmlFor="formTitle" className="subttl">
                     Название задачи
                   </label>
-
                   <FormArea
                     $maxHeight={'50px'}
                     onChange={(e) => {
@@ -182,7 +145,7 @@ export default function CardView() {
                     $selectedDate={selectDate}
                     name="text"
                     id="formTitle"
-                    $isEditMode={isEditMode}
+                    $isEditMode={true}
                     style={{ cursor: 'text' }}
                     placeholder="Введите название задачи..."
                     autoFocus
@@ -205,7 +168,7 @@ export default function CardView() {
                     $selectedDate={selectDate}
                     name="text"
                     id="textArea01"
-                    $isEditMode={isEditMode}
+                    $isEditMode={true}
                     style={{ cursor: 'text' }}
                     placeholder="Введите описание задачи..."
                   />
@@ -215,11 +178,11 @@ export default function CardView() {
               <CalendarAndDateContainer>
                 <FormDateTitle>Даты</FormDateTitle>
                 <CalendarComponent
-  canEdit={true}
-  handleDateChange={handleDateChange}
-  selectDate={selectDate}
-  $isDark={$isDark}
-/>
+                  canEdit={true}
+                  handleDateChange={handleDateChange}
+                  selectDate={selectDate}
+                  $isDark={$isDark}
+                />
                 <FormDateControl>
                   {!selectDate ? (
                     'Выберите срок исполнения.'
@@ -249,7 +212,6 @@ export default function CardView() {
                       key={topic.name}
                       className={`${topic.color} ${i === activeButton ? 'active' : ''}`}
                       $isDark={$isDark}
-                      $
                     >
                       {topic.name}
                     </TopicButton>
@@ -268,7 +230,7 @@ export default function CardView() {
               <TooltipWrapper>
                 <PrimaryButton
                   disabled={isDisabled}
-                  onClick={handleCreateTasc}
+                  onClick={handleCreateTask}
                   $mobileFixed
                   $width="auto"
                   $isDark={$isDark}

@@ -10,19 +10,10 @@ import {
 } from '../ConfirmExit/ConfirmExit.styles'
 import { useAuthContext } from '../../../context/AuthContext'
 import { useTasksContext } from '../../../context/TasksContext'
-import { removeTask } from '../../../services/tasks/removeTask'
 
 export default function ConfirmDelTask() {
-  const {
-    $isDark,
-    token,
-    DEFAULT_MESSAGE_LOADING,
-    setLoadingMessage,
-    setIsLoading,
-    setErrorMessage,
-    setLoadingCard,
-  } = useAuthContext()
-  const { isModal, setIsModal, setUserData } = useTasksContext()
+  const { $isDark, token } = useAuthContext()
+  const { removeTask } = useTasksContext()
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -31,51 +22,21 @@ export default function ConfirmDelTask() {
 
   const handleConfirmClick = async (e) => {
     e.preventDefault()
-    setErrorMessage('')
-    setIsModal(false)
-    setLoadingMessage('Удаление задачи...')
-    setIsLoading(true)
-    setLoadingCard(true)
-
     try {
-      const response = await removeTask(taskId, token)
-
-      if (response && Array.isArray(response)) {
-        await setUserData(response)
-        setLoadingMessage('Задача успешно удалена')
-      }
-
-      setIsModal(false)
-
+      await removeTask(token, taskId)
       navigate('/')
     } catch (error) {
-      const errMsg =
-        error?.response?.data?.error ||
-        error?.response?.data?.message ||
-        error?.message ||
-        'Ошибка удаления задачи'
-      console.error('Ошибка удаления задачи:', errMsg)
-      setErrorMessage(errMsg)
-    } finally {
-      setIsLoading(false)
-      setLoadingCard(false)
-
-      setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+      console.error('Ошибка удаления задачи:', error)
     }
   }
 
   const handleCancelClick = (e) => {
     e.preventDefault()
-    setIsModal(false)
     navigate('/')
   }
 
   return (
-    <PopExit
-      style={{ display: isModal ? 'block' : 'none' }}
-      id="popExit"
-      $isDark={$isDark}
-    >
+    <PopExit style={{ display: 'block' }} id="popExit" $isDark={$isDark}>
       <PopExitContainer>
         <PopExitBlock $isDark={$isDark}>
           <PopExitTitle

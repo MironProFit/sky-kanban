@@ -36,6 +36,7 @@ export default function CalendarComponent({
   canEdit,
 }) {
   const today = new Date()
+  today.setHours(0, 0, 0, 0)
   const [displayedDate, setDisplayedDate] = useState(new Date())
 
   const year = displayedDate.getFullYear()
@@ -57,7 +58,7 @@ export default function CalendarComponent({
       date,
       $otherMonth: true,
       $weekend: calendarMap.length % 7 >= 5,
-      $past: date < today,
+      $past: date.getTime() < today.getTime(),
     })
   }
   for (let i = 1; i <= daysInMonth; i++) {
@@ -75,7 +76,7 @@ export default function CalendarComponent({
       $cellDay: true,
       $weekend,
       $isToday,
-      $past: date < today,
+      $past: date.getTime() < today.getTime(),
     })
   }
   while (calendarMap.length % 7 !== 0) {
