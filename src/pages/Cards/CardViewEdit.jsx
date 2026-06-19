@@ -40,6 +40,7 @@ import { useAuthContext } from '../../context/AuthContext'
 import { useTasksContext } from '../../context/TasksContext'
 import { editTask } from '../../services/tasks/editTask'
 import { getTaskById } from '../../services/tasks/getTaskById'
+
 export default function CardViewEdit() {
   const {
     $isDark,
@@ -94,10 +95,6 @@ export default function CardViewEdit() {
   }, [taskState, editTaskState])
 
   useEffect(() => {
-    console.log(taskState)
-  }, [taskState])
-
-  useEffect(() => {
     const fetchTaskData = async () => {
       setErrorMessage('')
       setLoadingMessage('Загружаем задачу')
@@ -105,7 +102,6 @@ export default function CardViewEdit() {
       try {
         const response = await getTaskById(token, id)
         if (response) {
-          console.log(response)
           setTaskState({
             id: response._id || '',
             title: response.title || '',
@@ -130,11 +126,9 @@ export default function CardViewEdit() {
       }
     }
 
-    if (location.state === null && !hasFetchedData.current) {
-      setIsModal(true)
-      fetchTaskData()
-      hasFetchedData.current = true
-    } else if (location.state) {
+    setIsModal(true)
+
+    if (location.state) {
       setTaskState({
         id: location.state.id || '',
         title: location.state.title || '',
@@ -143,6 +137,9 @@ export default function CardViewEdit() {
         description: location.state.description || '',
         status: location.state.status || 'Без статуса',
       })
+    } else if (!hasFetchedData.current) {
+      fetchTaskData()
+      hasFetchedData.current = true
     }
   }, [
     id,
@@ -197,7 +194,6 @@ export default function CardViewEdit() {
     if (!isEditMode) {
       navigate(`${location.pathname}/edit`, {
         replace: true,
-        $isDark: $isDark,
       })
     } else {
       const basePath = location.pathname.replace(/\/edit$/, '')
@@ -214,6 +210,7 @@ export default function CardViewEdit() {
       },
     })
   }
+
   const handleChange = (field, value) => {
     setEditTaskState((prev) => ({ ...prev, [field]: value }))
   }
@@ -230,6 +227,7 @@ export default function CardViewEdit() {
 
     navigate(basePath, { replace: true })
   }
+
   const handleDateChange = (dateString) => {
     const dateFormated = new Date(dateString).toISOString()
     setEditTaskState((prev) => ({
@@ -325,7 +323,7 @@ export default function CardViewEdit() {
               <CalendarAndDateContainer>
                 <FormDateTitle>Даты</FormDateTitle>
                 <CalendarComponent
-                  isEditMode={isEditMode}
+                  canEdit={isEditMode}
                   handleDateChange={handleDateChange}
                   selectDate={editTaskState.date}
                   $isDark={$isDark}

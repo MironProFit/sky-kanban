@@ -33,7 +33,7 @@ export default function CalendarComponent({
   $isDark,
   handleDateChange,
   selectDate,
-  isEditMode,
+  canEdit,
 }) {
   const today = new Date()
   const [displayedDate, setDisplayedDate] = useState(new Date())
@@ -133,9 +133,9 @@ export default function CalendarComponent({
           <CalendarCells>
             {calendarMap.map((cell, i) => (
               <CalendarCell
-                $isEditMode={isEditMode}
+                $isEditMode={canEdit}
                 onClick={
-                  isEditMode && !cell.$past
+                  canEdit && !cell.$past
                     ? () => {
                         handleDateChange(cell.date)
                       }

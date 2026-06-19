@@ -215,11 +215,11 @@ export default function CardView() {
               <CalendarAndDateContainer>
                 <FormDateTitle>Даты</FormDateTitle>
                 <CalendarComponent
-                  isEditMode={isEditMode}
-                  handleDateChange={handleDateChange}
-                  selectDate={selectDate}
-                  $isDark={$isDark}
-                />
+  canEdit={true}
+  handleDateChange={handleDateChange}
+  selectDate={selectDate}
+  $isDark={$isDark}
+/>
                 <FormDateControl>
                   {!selectDate ? (
                     'Выберите срок исполнения.'
