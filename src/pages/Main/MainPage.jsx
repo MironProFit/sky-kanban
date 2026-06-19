@@ -2,17 +2,15 @@ import { useEffect, useState, useRef } from 'react'
 import { MainContainer, MainBlock, MainContent } from './MainPage.styles'
 import Column from '../../components/Layout/Column'
 import { Container } from '../../components/Styles/GlobalStyle'
-import { useAppContext } from '../../routes/AppContext'
+import { useAuthContext } from '../../context/AuthContext'
+import { useTasksContext } from '../../context/TasksContext'
 import { editTask } from '../../services/tasks/editTask'
 import { fetchTasks } from '../../services/tasks/taskService'
 
 export default function MainPage() {
   const {
-    isModal,
     isMobile,
     $isDark,
-    userData,
-    setUserData,
     token,
     setErrorMessage,
     setLoadingMessage,
@@ -20,7 +18,8 @@ export default function MainPage() {
     DEFAULT_MESSAGE_LOADING,
     setLoadingCard,
     loadingCard,
-  } = useAppContext()
+  } = useAuthContext()
+  const { isModal, userData, setUserData } = useTasksContext()
   const [transformedTasks, setTransformedTasks] = useState([])
   const [columns, setColumns] = useState({
     'Без статуса': [],
@@ -47,7 +46,15 @@ export default function MainPage() {
         setLoadingCard,
       })
     }
-  }, [token])
+  }, [
+    token,
+    setUserData,
+    setIsLoading,
+    setLoadingMessage,
+    setErrorMessage,
+    DEFAULT_MESSAGE_LOADING,
+    setLoadingCard,
+  ])
 
   useEffect(() => {
     if (Array.isArray(userData)) {

@@ -36,15 +36,13 @@ import {
   StatusTitle,
 } from './CardViewEdit.styles'
 import formattedDate from '../../utils/dateFormat'
-import { useAppContext } from '../../routes/AppContext'
+import { useAuthContext } from '../../context/AuthContext'
+import { useTasksContext } from '../../context/TasksContext'
 import { editTask } from '../../services/tasks/editTask'
 import { getTaskById } from '../../services/tasks/getTaskById'
 export default function CardViewEdit() {
   const {
-    isModal,
-    setIsModal,
     $isDark,
-    setUserData,
     toggleUserMenu,
     isMobile,
     isUserMenuOpen,
@@ -53,7 +51,8 @@ export default function CardViewEdit() {
     setIsLoading,
     token,
     DEFAULT_MESSAGE_LOADING,
-  } = useAppContext()
+  } = useAuthContext()
+  const { isModal, setIsModal, setUserData } = useTasksContext()
   const navigate = useNavigate()
   const location = useLocation()
   const {
@@ -145,7 +144,16 @@ export default function CardViewEdit() {
         status: location.state.status || 'Без статуса',
       })
     }
-     }, [id, location.state, DEFAULT_MESSAGE_LOADING, setErrorMessage, setIsLoading, setIsModal, setLoadingMessage, token])
+  }, [
+    id,
+    location.state,
+    DEFAULT_MESSAGE_LOADING,
+    setErrorMessage,
+    setIsLoading,
+    setIsModal,
+    setLoadingMessage,
+    token,
+  ])
 
   const handleEditTask = async () => {
     setErrorMessage('')

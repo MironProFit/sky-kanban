@@ -1,13 +1,13 @@
 import { CardsContainer, CardItem, CardWrapper } from './Card.styles'
-import { useAppContext } from '../../routes/AppContext'
+import { useAuthContext } from '../../context/AuthContext'
 
 export default function CardStub() {
-    const { $isDark } = useAppContext()
-    return (
-        <CardsContainer>
-            <CardItem>
-                <CardWrapper $isDark={$isDark} style={{ opacity: 0.8 }} />
-            </CardItem>
-        </CardsContainer>
-    )
+  const { $isDark } = useAuthContext()
+  return (
+    <CardsContainer>
+      <CardItem>
+        <CardWrapper $isDark={$isDark} style={{ opacity: 0.8 }} />
+      </CardItem>
+    </CardsContainer>
+  )
 }

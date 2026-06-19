@@ -14,7 +14,8 @@ import {
   Theme,
   ThemeText,
 } from './Card.styles'
-import { useAppContext } from '../../routes/AppContext'
+import { useAuthContext } from '../../context/AuthContext'
+import { useTasksContext } from '../../context/TasksContext'
 import { useDrag } from 'react-dnd'
 
 export const getColorClass = (topic) => {
@@ -50,7 +51,8 @@ export default function Card({
     [id],
   )
 
-  const { loadingCard, setIsModal, $isDark } = useAppContext()
+  const { loadingCard, $isDark } = useAuthContext()
+  const { setIsModal } = useTasksContext()
 
   if (!id) {
     console.error('Card: id не найдена!')

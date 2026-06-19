@@ -28,7 +28,8 @@ import {
 import CalendarComponent from '../../components/Calendar/Calendar'
 import { CalendarAndDateContainer } from '../../components/Calendar/Calendar.styles'
 import { Theme } from '../../components/Card/Card.styles'
-import { useAppContext } from '../../routes/AppContext'
+import { useAuthContext } from '../../context/AuthContext'
+import { useTasksContext } from '../../context/TasksContext'
 import formattedDate from '../../utils/dateFormat'
 import { createTask } from '../../services/tasks/createTask'
 
@@ -38,11 +39,11 @@ export default function CardView() {
     token,
     setLoadingMessage,
     DEFAULT_MESSAGE_LOADING,
-    setUserData,
     setIsLoading,
     setErrorMessage,
     setLoadingCard,
-  } = useAppContext()
+  } = useAuthContext()
+  const { setUserData, isModal, setIsModal } = useTasksContext()
   const [tooltipVisible] = useState(true)
   const [tooltipOpacity, setTooltipOpacity] = useState(0.8)
 
@@ -58,8 +59,6 @@ export default function CardView() {
 
   const createMatch = useMatch('/card/create')
   const isEditMode = Boolean(createMatch)
-
-  const { isModal, setIsModal } = useAppContext()
 
   const [editTaskState, setEditTaskState] = useState(taskState)
   const selectDate = editTaskState.date

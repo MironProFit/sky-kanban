@@ -8,22 +8,21 @@ import {
   PopExitButtonNo,
   PopExitFormGroup,
 } from '../ConfirmExit/ConfirmExit.styles'
-import { useAppContext } from '../../../routes/AppContext'
+import { useAuthContext } from '../../../context/AuthContext'
+import { useTasksContext } from '../../../context/TasksContext'
 import { removeTask } from '../../../services/tasks/removeTask'
 
 export default function ConfirmDelTask() {
   const {
     $isDark,
-    isModal,
-    setIsModal,
     token,
     DEFAULT_MESSAGE_LOADING,
     setLoadingMessage,
     setIsLoading,
     setErrorMessage,
-    setUserData,
     setLoadingCard,
-  } = useAppContext()
+  } = useAuthContext()
+  const { isModal, setIsModal, setUserData } = useTasksContext()
   const location = useLocation()
   const navigate = useNavigate()
 
