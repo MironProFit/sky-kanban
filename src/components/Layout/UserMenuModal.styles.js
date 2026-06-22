@@ -35,6 +35,7 @@ export const ThemeContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     margin-bottom: 30px;
+    gap: 12px;
 `
 export const ThemeTitle = styled.p`
     ${reverseSecondaryColor}

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import formattedDate from '../../utils/dateFormat'
 import {
   CardContent,
@@ -6,16 +6,14 @@ import {
   CardDateText,
   CardGroup,
   CardItem,
+  CardTitle,
   CardWrapper,
   Dot,
   DotContainer,
   Theme,
   ThemeText,
-  CardLink,
-  CardTitle,
 } from './Card.styles'
 import { useAuthContext } from '../../context/AuthContext'
-import { useTasksContext } from '../../context/TasksContext'
 import { useDrag } from 'react-dnd'
 
 export const getColorClass = (topic) => {
@@ -31,17 +29,9 @@ export const getColorClass = (topic) => {
   }
 }
 
-export default function Card({
-  id,
-  topic,
-  title,
-  date,
-  status,
-  description,
-  $loadingStyles,
-}) {
+export default function Card({ id, topic, title, date, status, description }) {
   const { $isDark } = useAuthContext()
-  const { setIsModal } = useTasksContext()
+  const navigate = useNavigate()
 
   const [{ isDragging }, drag] = useDrag(
     () => ({
@@ -59,39 +49,35 @@ export default function Card({
     return null
   }
 
-  const handleWindowOpen = () => {
-    setIsModal(true)
-  }
-
   const colorTopicClass = getColorClass(topic)
+
+  const handleMenuClick = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    navigate(`card/${id}/edit`, {
+      state: { id, topic, title, date, status, description },
+    })
+  }
 
   return (
     <CardItem>
-      <CardWrapper $isDark={$isDark} ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
+      <CardWrapper
+        $isDark={$isDark}
+        ref={drag}
+        style={{ opacity: isDragging ? 0.5 : 1 }}
+      >
         <CardGroup>
-          <Theme
-            className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}
-          >
+          <Theme className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}>
             <ThemeText>{topic}</ThemeText>
           </Theme>
-          <CardLink
-            to={`card/${id}`}
-            onClick={(e) => {
-              e.preventDefault()
-              handleWindowOpen()
-            }}
-            state={{ id, topic, title, date, status, description }}
-          >
-            <DotContainer>
-              <Dot />
-              <Dot />
-              <Dot />
-            </DotContainer>
-          </CardLink>
+          <DotContainer onClick={handleMenuClick} style={{ cursor: 'pointer' }}>
+            <Dot />
+            <Dot />
+            <Dot />
+          </DotContainer>
         </CardGroup>
         <Link
           to={`card/${id}`}
-          onClick={handleWindowOpen}
           state={{ id, topic, title, date, status, description }}
           style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
         >

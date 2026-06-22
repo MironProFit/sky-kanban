@@ -98,23 +98,6 @@ export const Theme = styled.div`
   }
 `
 
-const gradientMove = keyframes`
-  0% {
-    background-position: 100% 100%;
-  }
-  25% {
-    background-position: 200% 100%;
-  }
-  50% {
-    background-position: 300% 100%;
-  }
-  75% {
-    background-position: 400% 100%;
-  }
-  100% {
-    background-position: 500% 100%;
-  }
-`
 
 export const ThemeText = styled.p`
   border-radius: 18px;

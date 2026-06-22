@@ -72,23 +72,23 @@ export default function Header() {
                         </PrimaryButton>
                       </Link>
                     )}
-                    <LinkButton
-                      style={{ whiteSpace: 'nowrap' }}
-                      $isDark={$isDark}
-                      $isOpen={isUserMenuOpen}
-                      onClick={toggleUserMenu}
-                    >
-                      {userName || 'Личный кабинет'}
-                    </LinkButton>
-                    {isUserMenuOpen && (
-                      <UserMenuModal
-                        toggleUserMenu={toggleUserMenu}
-                        isAuth={isAuth}
-                        handleAuth={handleAuth}
-                        isTheme={isTheme}
+                      <LinkButton
+                        style={{ whiteSpace: 'nowrap' }}
                         $isDark={$isDark}
-                      />
-                    )}
+                        $isOpen={isUserMenuOpen}
+                        onClick={toggleUserMenu}
+                      >
+                        {userName || 'Личный кабинет'}
+                      </LinkButton>
+                      {isUserMenuOpen && (
+                        <UserMenuModal
+                          toggleUserMenu={toggleUserMenu}
+                          isAuth={isAuth}
+                          handleAuth={handleAuth}
+                          isTheme={isTheme}
+                          $isDark={$isDark}
+                        />
+                      )}
                   </HeaderNav>
                 </>
               )}

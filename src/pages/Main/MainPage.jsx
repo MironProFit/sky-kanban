@@ -8,6 +8,7 @@ import { useTasksContext } from '../../context/TasksContext'
 export default function MainPage() {
   const { isMobile, $isDark, token } = useAuthContext()
   const { tasks, fetchTasks, editTask } = useTasksContext()
+  const [isLoading, setIsLoading] = useState(true)
   const [columns, setColumns] = useState({
     'Без статуса': [],
     'Нужно сделать': [],
@@ -23,13 +24,14 @@ export default function MainPage() {
 
   useEffect(() => {
     if (token) {
-      console.log('🔄 Загрузка задач, token:', token)
-      fetchTasks(token)
+      setIsLoading(true)
+      fetchTasks(token).finally(() => {
+        setIsLoading(false)
+      })
     }
   }, [token, fetchTasks])
 
   useEffect(() => {
-    console.log('📦 tasks изменился:', tasks)
     if (Array.isArray(tasks)) {
       const updatedColumns = {
         'Без статуса': tasks.filter((card) => card.status === 'Без статуса'),
@@ -40,7 +42,6 @@ export default function MainPage() {
         Тестирование: tasks.filter((card) => card.status === 'Тестирование'),
         Готово: tasks.filter((card) => card.status === 'Готово'),
       }
-      console.log('📊 columns:', updatedColumns)
       setColumns(updatedColumns)
     }
   }, [tasks])
@@ -56,6 +57,7 @@ export default function MainPage() {
       )
 
       try {
+        setIsLoading(true)
         await editTask(
           token,
           movedCard._id,
@@ -67,6 +69,8 @@ export default function MainPage() {
         )
       } catch (error) {
         console.error('Ошибка редактирования задачи:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
   }
@@ -83,6 +87,7 @@ export default function MainPage() {
                 title={status}
                 cardsData={columns[status]}
                 onCardDrop={handleCardDrop}
+                isLoading={isLoading}
               />
             ))}
           </MainContent>
