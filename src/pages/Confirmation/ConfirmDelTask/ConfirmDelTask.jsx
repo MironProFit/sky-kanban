@@ -12,7 +12,7 @@ import { useAuthContext } from '../../../context/AuthContext'
 import { useTasksContext } from '../../../context/TasksContext'
 
 export default function ConfirmDelTask() {
-  const { $isDark, token } = useAuthContext()
+  const { $isDark, token, setIsLoading, setLoadingMessage } = useAuthContext()
   const { removeTask } = useTasksContext()
   const location = useLocation()
   const navigate = useNavigate()
@@ -22,11 +22,16 @@ export default function ConfirmDelTask() {
 
   const handleConfirmClick = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
+    setLoadingMessage('Удаляем задачу...')
     try {
       await removeTask(token, taskId)
       navigate('/')
     } catch (error) {
       console.error('Ошибка удаления задачи:', error)
+    } finally {
+      setIsLoading(false)
+      setLoadingMessage('Загрузка данных...')
     }
   }
 

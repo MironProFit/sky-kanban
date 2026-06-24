@@ -12,9 +12,10 @@ import { useAuthContext } from '../../context/AuthContext'
 import { useTasksContext } from '../../context/TasksContext'
 
 export default function MainPage() {
-  const { isMobile, $isDark, token } = useAuthContext()
+  const { isMobile, $isDark, token, setIsLoading, setLoadingMessage } =
+    useAuthContext()
   const { tasks, fetchTasks, editTask } = useTasksContext()
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingLocal, setIsLoadingLocal] = useState(true)
   const [columns, setColumns] = useState({
     'Без статуса': [],
     'Нужно сделать': [],
@@ -30,9 +31,9 @@ export default function MainPage() {
 
   useEffect(() => {
     if (token) {
-      setIsLoading(true)
+      setIsLoadingLocal(true)
       fetchTasks(token).finally(() => {
-        setIsLoading(false)
+        setIsLoadingLocal(false)
       })
     }
   }, [token, fetchTasks])
@@ -62,8 +63,9 @@ export default function MainPage() {
         (card) => card._id === cardId,
       )
 
+      setIsLoading(true)
+      setLoadingMessage('Перемещаем задачу...')
       try {
-        setIsLoading(true)
         await editTask(
           token,
           movedCard._id,
@@ -77,18 +79,18 @@ export default function MainPage() {
         console.error('Ошибка редактирования задачи:', error)
       } finally {
         setIsLoading(false)
+        setLoadingMessage('Загрузка данных...')
       }
     }
   }
 
-  // Проверяем, есть ли задачи вообще
   const hasTasks = tasks && tasks.length > 0
 
   return (
     <MainContainer $isMobile={isMobile} $isDark={$isDark}>
       <Container>
         <MainBlock $isDark={$isDark}>
-          {!hasTasks && !isLoading ? (
+          {!hasTasks && !isLoadingLocal ? (
             <NoTasksContainer $isDark={$isDark}>
               <NoTasksText $isDark={$isDark}>Нет задач</NoTasksText>
             </NoTasksContainer>
@@ -101,7 +103,7 @@ export default function MainPage() {
                   title={status}
                   cardsData={columns[status]}
                   onCardDrop={handleCardDrop}
-                  isLoading={isLoading}
+                  isLoading={isLoadingLocal}
                 />
               ))}
             </MainContent>

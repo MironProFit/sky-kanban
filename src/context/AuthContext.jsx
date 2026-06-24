@@ -14,6 +14,8 @@ export const AuthProvider = ({ children }) => {
     () => localStorage.getItem('isTheme') === 'true',
   )
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [loadingMessage, setLoadingMessage] = useState('Загрузка данных...')
 
   useEffect(() => {
     localStorage.setItem('token', token)
@@ -52,6 +54,10 @@ export const AuthProvider = ({ children }) => {
         isUserMenuOpen,
         setIsUserMenuOpen,
         toggleUserMenu,
+        isLoading,
+        setIsLoading,
+        loadingMessage,
+        setLoadingMessage,
       }}
     >
       {children}

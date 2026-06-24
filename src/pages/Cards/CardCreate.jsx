@@ -32,7 +32,7 @@ import { useTasksContext } from '../../context/TasksContext'
 import formattedDate from '../../utils/dateFormat'
 
 export default function CardCreate() {
-  const { $isDark, token } = useAuthContext()
+  const { $isDark, token, setIsLoading, setLoadingMessage } = useAuthContext()
   const { createTask } = useTasksContext()
   const [tooltipVisible] = useState(true)
   const [tooltipOpacity, setTooltipOpacity] = useState(0.8)
@@ -92,6 +92,8 @@ export default function CardCreate() {
   }, [isDisabled])
 
   const handleCreateTask = async () => {
+    setIsLoading(true)
+    setLoadingMessage('Создаём задачу...')
     try {
       await createTask(
         token,
@@ -103,6 +105,9 @@ export default function CardCreate() {
       navigate('/')
     } catch (error) {
       console.error('Ошибка при добавлении задачи на сервер:', error)
+    } finally {
+      setIsLoading(false)
+      setLoadingMessage('Загрузка данных...')
     }
   }
 
@@ -187,9 +192,9 @@ export default function CardCreate() {
                   {!selectDate ? (
                     'Выберите срок исполнения.'
                   ) : (
-                    <p>
+                    <>
                       Cрок исполнения: <span>{formattedDate(selectDate)}</span>
-                    </p>
+                    </>
                   )}
                 </FormDateControl>
               </CalendarAndDateContainer>

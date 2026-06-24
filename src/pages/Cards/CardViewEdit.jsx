@@ -41,7 +41,7 @@ import { useTasksContext } from '../../context/TasksContext'
 import { getTaskById } from '../../services/tasks/getTaskById'
 
 export default function CardViewEdit() {
-  const { $isDark, token } = useAuthContext()
+  const { $isDark, token, setIsLoading, setLoadingMessage } = useAuthContext()
   const { editTask } = useTasksContext()
   const navigate = useNavigate()
   const location = useLocation()
@@ -84,6 +84,8 @@ export default function CardViewEdit() {
 
   useEffect(() => {
     const fetchTaskData = async () => {
+      setIsLoading(true)
+      setLoadingMessage('Загружаем задачу...')
       try {
         const response = await getTaskById(token, id)
         if (response) {
@@ -98,6 +100,9 @@ export default function CardViewEdit() {
         }
       } catch (error) {
         console.error('Ошибка загрузки задачи:', error)
+      } finally {
+        setIsLoading(false)
+        setLoadingMessage('Загрузка данных...')
       }
     }
 
@@ -114,9 +119,10 @@ export default function CardViewEdit() {
       fetchTaskData()
       hasFetchedData.current = true
     }
-  }, [id, location.state, token])
-
+  }, [id, location.state, token, setIsLoading, setLoadingMessage])
   const handleEditTask = async () => {
+    setIsLoading(true)
+    setLoadingMessage('Сохраняем изменения...')
     try {
       await editTask(
         token,
@@ -130,6 +136,9 @@ export default function CardViewEdit() {
       navigate('/')
     } catch (error) {
       console.error('Ошибка редактирования задачи:', error)
+    } finally {
+      setIsLoading(false)
+      setLoadingMessage('Загрузка данных...')
     }
   }
 
