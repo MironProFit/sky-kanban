@@ -59,9 +59,14 @@ export const TasksProvider = ({ children }) => {
 
   const removeTask = useCallback(
     async (token, id) => {
-      const response = await removeTaskApi(id, token)
-      await fetchTasks(token)
-      return response
+      try {
+        const response = await removeTaskApi(id, token)
+        await fetchTasks(token)
+        return response
+      } catch (error) {
+        console.error('Ошибка удаления задачи:', error)
+        throw error
+      }
     },
     [fetchTasks],
   )

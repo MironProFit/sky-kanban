@@ -8,7 +8,13 @@ import {
 } from './Column.styles'
 import { useDrop } from 'react-dnd'
 
-export default function Column({ title, $isDark, cardsData, onCardDrop, isLoading }) {
+export default function Column({
+  title,
+  $isDark,
+  cardsData,
+  onCardDrop,
+  isLoading,
+}) {
   const [, drop] = useDrop(
     () => ({
       accept: 'CARD',
@@ -41,11 +47,11 @@ export default function Column({ title, $isDark, cardsData, onCardDrop, isLoadin
         <TitleText>{title}</TitleText>
       </ColumnTitle>
       <CardsContainer $isDark={$isDark}>
-        {cardsData && cardsData.length > 0 ? (
-          cardsData.map((card) => (
-            <Card key={card._id} $isDark={$isDark} {...card} id={card._id} />
-          ))
-        ) : null}
+        {cardsData && cardsData.length > 0
+          ? cardsData.map((card) => (
+              <Card key={card._id} $isDark={$isDark} {...card} id={card._id} />
+            ))
+          : null}
       </CardsContainer>
     </MainColumn>
   )

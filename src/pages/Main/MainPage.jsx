@@ -1,5 +1,11 @@
 import { useEffect, useState, useRef } from 'react'
-import { MainContainer, MainBlock, MainContent } from './MainPage.styles'
+import {
+  MainContainer,
+  MainBlock,
+  MainContent,
+  NoTasksContainer,
+  NoTasksText,
+} from './MainPage.styles'
 import Column from '../../components/Layout/Column'
 import { Container } from '../../components/Styles/GlobalStyle'
 import { useAuthContext } from '../../context/AuthContext'
@@ -75,22 +81,31 @@ export default function MainPage() {
     }
   }
 
+  // Проверяем, есть ли задачи вообще
+  const hasTasks = tasks && tasks.length > 0
+
   return (
     <MainContainer $isMobile={isMobile} $isDark={$isDark}>
       <Container>
         <MainBlock $isDark={$isDark}>
-          <MainContent>
-            {Object.keys(columns).map((status) => (
-              <Column
-                $isDark={$isDark}
-                key={status}
-                title={status}
-                cardsData={columns[status]}
-                onCardDrop={handleCardDrop}
-                isLoading={isLoading}
-              />
-            ))}
-          </MainContent>
+          {!hasTasks && !isLoading ? (
+            <NoTasksContainer $isDark={$isDark}>
+              <NoTasksText $isDark={$isDark}>Нет задач</NoTasksText>
+            </NoTasksContainer>
+          ) : (
+            <MainContent>
+              {Object.keys(columns).map((status) => (
+                <Column
+                  $isDark={$isDark}
+                  key={status}
+                  title={status}
+                  cardsData={columns[status]}
+                  onCardDrop={handleCardDrop}
+                  isLoading={isLoading}
+                />
+              ))}
+            </MainContent>
+          )}
         </MainBlock>
       </Container>
     </MainContainer>

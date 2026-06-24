@@ -39,15 +39,23 @@ export default function ConfirmDelTask() {
     <PopExit style={{ display: 'block' }} id="popExit" $isDark={$isDark}>
       <PopExitContainer>
         <PopExitBlock $isDark={$isDark}>
-          <PopExitTitle
-            $isDark={$isDark}
-          >{`Вы действительно хотите удалить задачу ${taskTitle}?`}</PopExitTitle>
+          <PopExitTitle $isDark={$isDark}>
+            {`Вы действительно хотите удалить задачу ${taskTitle}?`}
+          </PopExitTitle>
           <form className="pop-exit__form" id="formExit" action="#">
             <PopExitFormGroup>
-              <PopExitButtonYes $isDark={$isDark} onClick={handleConfirmClick}>
+              <PopExitButtonYes
+                $isDark={$isDark}
+                type="button"
+                onClick={handleConfirmClick}
+              >
                 Да, удалить
               </PopExitButtonYes>
-              <PopExitButtonNo $isDark={$isDark} onClick={handleCancelClick}>
+              <PopExitButtonNo
+                $isDark={$isDark}
+                type="button"
+                onClick={handleCancelClick}
+              >
                 Нет, оставить
               </PopExitButtonNo>
             </PopExitFormGroup>
