@@ -7,6 +7,9 @@ export const AuthProvider = ({ children }) => {
   const [userName, setUserName] = useState(
     () => localStorage.getItem('userName') || '',
   )
+  const [userLogin, setUserLogin] = useState(
+    () => localStorage.getItem('userLogin') || '',
+  )
   const [isAuth, setIsAuth] = useState(
     () => localStorage.getItem('isAuth') === 'true',
   )
@@ -16,6 +19,7 @@ export const AuthProvider = ({ children }) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [loadingMessage, setLoadingMessage] = useState('Загрузка данных...')
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     localStorage.setItem('token', token)
@@ -26,10 +30,15 @@ export const AuthProvider = ({ children }) => {
   }, [userName])
 
   useEffect(() => {
+    localStorage.setItem('userLogin', userLogin)
+  }, [userLogin])
+
+  useEffect(() => {
     localStorage.setItem('isAuth', isAuth)
     if (!isAuth) {
       setToken('')
       setUserName('')
+      setUserLogin('')
     }
   }, [isAuth])
 
@@ -46,6 +55,8 @@ export const AuthProvider = ({ children }) => {
         setToken,
         userName,
         setUserName,
+        userLogin,
+        setUserLogin,
         isAuth,
         setIsAuth,
         isTheme,
@@ -58,6 +69,8 @@ export const AuthProvider = ({ children }) => {
         setIsLoading,
         loadingMessage,
         setLoadingMessage,
+        errorMessage,
+        setErrorMessage,
       }}
     >
       {children}

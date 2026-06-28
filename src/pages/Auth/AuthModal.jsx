@@ -19,14 +19,11 @@ import { TextContainer, Wrapper } from '../../components/Styles/GlobalStyle'
 
 import { loginUser } from '../../services/auth/login'
 import { useAuthContext } from '../../context/AuthContext'
-import { useTasksContext } from '../../context/TasksContext'
-
 import { registerUser } from '../../services/auth/register'
 
 function AuthModal() {
   const {
     isAuth,
-    setIsAuth,
     $isDark,
     setUserName,
     setToken,
@@ -35,8 +32,9 @@ function AuthModal() {
     setLoadingMessage,
     setIsLoading,
     setUserLogin,
+    setIsAuth,
   } = useAuthContext()
-  const { setUserData } = useTasksContext()
+
   const [isPage, setIsPage] = useState('login')
   const location = useLocation()
   const navigate = useNavigate()
@@ -72,17 +70,22 @@ function AuthModal() {
   }, [isAuth, navigate])
 
   const onLogin = async (data) => {
+    console.log('🔐 Попытка входа:', data)
     setLoadingMessage('Авторизация пользователя')
     setIsLoading(true)
     setErrorMessage('')
     try {
       const response = await loginUser(data.login, data.password)
+      console.log('✅ Ответ сервера:', response)
       const userData = response.data
       setUserName(userData.user.name)
       setUserLogin(userData.user.login)
       setToken(userData.user.token)
       setIsAuth(true)
+      console.log('✅ Успешный вход, isAuth:', true)
     } catch (error) {
+      console.error('❌ Ошибка входа:', error)
+      console.error('❌ Response:', error?.response)
       setIsLoading(false)
       const errMsg =
         error?.response?.data?.error ||
@@ -91,24 +94,28 @@ function AuthModal() {
         'Ошибка входа'
       setErrorMessage(errMsg)
       setLoadingMessage('Загрузка данных...')
-      console.error('Ошибка входа:', errMsg)
     } finally {
       setIsLoading(false)
     }
   }
 
   const onSignUp = async (data) => {
+    console.log('📝 Попытка регистрации:', data)
     setLoadingMessage('Регистрируем пользователя')
     setIsLoading(true)
     setErrorMessage('')
     try {
       const response = await registerUser(data)
+      console.log('✅ Ответ сервера:', response)
       const newUserData = response.data
       setUserName(newUserData.user.name)
       setToken(newUserData.user.token)
       setUserLogin(newUserData.user.login)
       setIsAuth(true)
+      console.log('✅ Успешная регистрация, isAuth:', true)
     } catch (error) {
+      console.error('❌ Ошибка регистрации:', error)
+      console.error('❌ Response:', error?.response)
       setIsLoading(false)
       const errMsg =
         error?.response?.data?.error ||
@@ -117,10 +124,13 @@ function AuthModal() {
         'Ошибка регистрации'
       setErrorMessage(errMsg)
       setLoadingMessage('Загрузка данных...')
-      console.error('Ошибка регистрации:', errMsg)
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleFormError = (errors) => {
+    console.log('⚠️ Ошибки валидации формы:', errors)
   }
 
   return (
@@ -134,7 +144,7 @@ function AuthModal() {
               </Title>
             </ModalTitle>
             {isPage === 'login' && (
-              <ModalForm onSubmit={handleSubmitLogin(onLogin)}>
+              <ModalForm onSubmit={handleSubmitLogin(onLogin, handleFormError)}>
                 <TextInput
                   $isDark={$isDark}
                   type="text"
@@ -185,7 +195,9 @@ function AuthModal() {
               </ModalForm>
             )}
             {isPage === 'register' && (
-              <ModalForm onSubmit={handleSubmitSignUp(onSignUp)}>
+              <ModalForm
+                onSubmit={handleSubmitSignUp(onSignUp, handleFormError)}
+              >
                 <TextInput
                   $isDark={$isDark}
                   type="text"
