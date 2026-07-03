@@ -22,7 +22,6 @@ import {
 import {
   PrimaryButton,
   SecondaryButton,
-  TextContainer,
 } from '../../components/Styles/GlobalStyle'
 import CalendarComponent from '../../components/Calendar/Calendar'
 import { CalendarAndDateContainer } from '../../components/Calendar/Calendar.styles'
@@ -45,43 +44,37 @@ export default function CardViewEdit() {
   const { editTask } = useTasksContext()
   const navigate = useNavigate()
   const location = useLocation()
-  const {
-    id: initialId,
-    topic: initialTopic,
-    title: initialTitle,
-    date: initialDate,
-    status: initialStatus,
-    description: initialDescription,
-  } = location.state || {}
-  const editMath = useMatch('/card/:id/edit')
-  const isEditMode = Boolean(editMath)
+  const editMatch = useMatch('/card/:id/edit')
+  const isEditMode = Boolean(editMatch)
   const { id } = useParams()
 
   const [taskState, setTaskState] = useState({
-    id: initialId || '',
-    topic: initialTopic || '',
-    title: initialTitle || '',
-    date: initialDate || '',
-    status: initialStatus || 'Без статуса',
-    description: initialDescription || '',
+    id: '',
+    topic: '',
+    title: '',
+    date: '',
+    status: 'Без статуса',
+    description: '',
   })
 
   const [editTaskState, setEditTaskState] = useState(taskState)
-  const selectDate = editTaskState.date
   const [isDisabled, setIsDisabled] = useState(false)
-
   const hasFetchedData = useRef(false)
 
+  // Синхронизируем editTaskState с taskState
   useEffect(() => {
     setEditTaskState(taskState)
   }, [taskState])
 
+  // Блокируем кнопку "Сохранить" если нет изменений
   useEffect(() => {
     setIsDisabled(
-      _.isEqual(taskState, editTaskState) || editTaskState.description === '',
+      _.isEqual(taskState, editTaskState) ||
+        editTaskState.description.trim() === '',
     )
   }, [taskState, editTaskState])
 
+  // Загрузка данных задачи
   useEffect(() => {
     const fetchTaskData = async () => {
       setIsLoading(true)
@@ -89,14 +82,15 @@ export default function CardViewEdit() {
       try {
         const response = await getTaskById(token, id)
         if (response) {
-          setTaskState({
+          const newTaskState = {
             id: response._id || '',
             title: response.title || '',
             topic: response.topic || '',
             date: response.date || '',
             description: response.description || '',
             status: response.status || 'Без статуса',
-          })
+          }
+          setTaskState(newTaskState)
         }
       } catch (error) {
         console.error('Ошибка загрузки задачи:', error)
@@ -106,7 +100,8 @@ export default function CardViewEdit() {
       }
     }
 
-    if (location.state) {
+    if (location.state && location.state.id) {
+      // Данные пришли через state (клик с главной)
       setTaskState({
         id: location.state.id || '',
         title: location.state.title || '',
@@ -115,11 +110,13 @@ export default function CardViewEdit() {
         description: location.state.description || '',
         status: location.state.status || 'Без статуса',
       })
-    } else if (!hasFetchedData.current) {
+    } else if (id && !hasFetchedData.current) {
+      // Перезагрузка страницы — загружаем с сервера
       fetchTaskData()
       hasFetchedData.current = true
     }
   }, [id, location.state, token, setIsLoading, setLoadingMessage])
+
   const handleEditTask = async () => {
     setIsLoading(true)
     setLoadingMessage('Сохраняем изменения...')
@@ -190,11 +187,12 @@ export default function CardViewEdit() {
     navigate(basePath, { replace: true })
   }
 
-  const handleDateChange = (dateString) => {
-    const dateFormated = new Date(dateString).toISOString()
+  const handleDateChange = (dateObject) => {
+    console.log('📅 Дата выбрана:', dateObject)
+    const dateFormatted = new Date(dateObject).toISOString()
     setEditTaskState((prev) => ({
       ...prev,
-      date: dateFormated,
+      date: dateFormatted,
     }))
   }
 
@@ -207,7 +205,7 @@ export default function CardViewEdit() {
           <PopBrowseContent>
             <TopicContainer>
               <PopBrowseTitle $isDark={$isDark}>
-                {taskState.title}
+                {taskState.title || 'Загрузка...'}
               </PopBrowseTitle>
               <Theme
                 style={{ height: '30px' }}
@@ -227,22 +225,20 @@ export default function CardViewEdit() {
                     </StatusText>
                   </StatusTheme>
                 ) : (
-                  <StatusThemes>
-                    {statusList.map((statusItem) => (
-                      <StatusButton
-                        key={statusItem.id}
+                  statusList.map((statusItem) => (
+                    <StatusButton
+                      key={statusItem.id}
+                      $active={statusItem.name === editTaskState.status}
+                      onClick={() => handleChange('status', statusItem.name)}
+                    >
+                      <StatusText
+                        $isDark={$isDark}
                         $active={statusItem.name === editTaskState.status}
-                        onClick={() => handleChange('status', statusItem.name)}
                       >
-                        <StatusText
-                          $isDark={$isDark}
-                          $active={statusItem.name === editTaskState.status}
-                        >
-                          {statusItem.name}
-                        </StatusText>
-                      </StatusButton>
-                    ))}
-                  </StatusThemes>
+                        {statusItem.name}
+                      </StatusText>
+                    </StatusButton>
+                  ))
                 )}
               </StatusThemes>
             </Status>
@@ -260,10 +256,10 @@ export default function CardViewEdit() {
                     value={
                       isEditMode
                         ? editTaskState.description || ''
-                        : taskState.description
+                        : taskState.description || ''
                     }
                     $isDark={$isDark}
-                    $selectedDate={selectDate}
+                    $selectedDate={editTaskState.date}
                     name="text"
                     id="textArea01"
                     readOnly={!isEditMode}

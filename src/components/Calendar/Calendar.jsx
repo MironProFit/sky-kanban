@@ -109,6 +109,11 @@ export default function CalendarComponent({
       (prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1),
     )
 
+  // Нормализуем selectDate для сравнения (убираем влияние часового пояса)
+  const selectedDateNormalized = selectDate
+    ? new Date(selectDate).setHours(0, 0, 0, 0)
+    : null
+
   return (
     <Calendar $isDark={$isDark}>
       <CalendarTitle>
@@ -132,31 +137,39 @@ export default function CalendarComponent({
             ))}
           </CalendarDaysNames>
           <CalendarCells>
-            {calendarMap.map((cell, i) => (
-              <CalendarCell
-                $isEditMode={canEdit}
-                onClick={
-                  canEdit && !cell.$past
-                    ? () => {
-                        handleDateChange(cell.date)
-                      }
-                    : undefined
-                }
-                $isDark={$isDark}
-                $selected={
-                  selectDate &&
-                  cell.date.getTime() === new Date(selectDate).getTime()
-                }
-                key={i}
-                $otherMonth={cell.$otherMonth}
-                $cellDay={cell.$cellDay}
-                $isToday={cell.$isToday}
-                $weekend={cell.$weekend}
-                $past={cell.$past}
-              >
-                {cell.num}
-              </CalendarCell>
-            ))}
+            {calendarMap.map((cell, i) => {
+              const cellDateNormalized = cell.date.setHours(0, 0, 0, 0)
+              const isSelected =
+                selectedDateNormalized !== null &&
+                cellDateNormalized === selectedDateNormalized
+
+              return (
+                <CalendarCell
+                  $isEditMode={canEdit}
+                  onClick={
+                    canEdit && !cell.$past
+                      ? () => {
+                          console.log(' Клик по дате:', cell.date)
+                          handleDateChange(cell.date)
+                        }
+                      : undefined
+                  }
+                  $isDark={$isDark}
+                  $selected={isSelected}
+                  key={i}
+                  $otherMonth={cell.$otherMonth}
+                  $cellDay={cell.$cellDay}
+                  $isToday={cell.$isToday}
+                  $weekend={cell.$weekend}
+                  $past={cell.$past}
+                  style={{
+                    cursor: canEdit && !cell.$past ? 'pointer' : 'default',
+                  }}
+                >
+                  {cell.num}
+                </CalendarCell>
+              )
+            })}
           </CalendarCells>
         </CalendarContent>
       </CalendarBlock>

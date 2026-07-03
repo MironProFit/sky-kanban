@@ -54,7 +54,8 @@ export default function Card({ id, topic, title, date, status, description }) {
   const handleMenuClick = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    navigate(`card/${id}/edit`, {
+    // Три точки открывают режим ПРОСМОТРА (не редактирования!)
+    navigate(`card/${id}`, {
       state: { id, topic, title, date, status, description },
     })
   }

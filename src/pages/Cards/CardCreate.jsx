@@ -43,53 +43,39 @@ export default function CardCreate() {
     title: '',
     description: '',
     date: '',
-    topic: '',
+    topic: topicsList[0]?.name || '',
   })
+
   const [isDisabled, setIsDisabled] = useState(true)
 
-  const [editTaskState, setEditTaskState] = useState(taskState)
-  const selectDate = editTaskState.date
-
   useEffect(() => {
-    if (activeButton !== null) {
-      const topicName = topicsList[activeButton].name
-      setTaskState((prev) => ({ ...prev, topic: topicName }))
-    }
+    const topicName = topicsList[activeButton]?.name || ''
+    setTaskState((prev) => ({ ...prev, topic: topicName }))
   }, [activeButton])
 
-  const validateTaskData = (taskData) => {
-    return (
-      taskData.title !== '' &&
-      taskData.description !== '' &&
-      taskData.date !== '' &&
-      taskData.topic !== ''
-    )
-  }
   useEffect(() => {
-    setIsDisabled(!validateTaskData(taskState))
+    const isValid =
+      taskState.title.trim() !== '' &&
+      taskState.description.trim() !== '' &&
+      taskState.date !== '' &&
+      taskState.topic !== ''
+    setIsDisabled(!isValid)
   }, [taskState])
-
-  const handleDateChange = (dateString) => {
-    const dateFormated = new Date(dateString).toISOString()
-    setEditTaskState((prev) => ({
-      ...prev,
-      date: dateFormated,
-    }))
-  }
-  useEffect(() => {
-    if (selectDate) {
-      setTaskState((prev) => ({
-        ...prev,
-        date: selectDate,
-      }))
-    }
-  }, [selectDate])
 
   useEffect(() => {
     if (!isDisabled) {
       setTooltipOpacity(0)
     }
   }, [isDisabled])
+
+  const handleDateChange = (dateObject) => {
+    console.log('📅 handleDateChange вызван с:', dateObject)
+    const dateFormatted = new Date(dateObject).toISOString()
+    setTaskState((prev) => ({
+      ...prev,
+      date: dateFormatted,
+    }))
+  }
 
   const handleCreateTask = async () => {
     setIsLoading(true)
@@ -119,13 +105,6 @@ export default function CardCreate() {
     navigate(-1)
   }
 
-  const getDescription = (value) => {
-    setTaskState((prev) => ({ ...prev, description: value }))
-  }
-  const getTaskName = (value) => {
-    setTaskState((prev) => ({ ...prev, title: value }))
-  }
-
   return (
     <PopBrowse style={{ display: 'block' }} id="popBrowse">
       <PopBrowseContainer>
@@ -143,14 +122,16 @@ export default function CardCreate() {
                   </label>
                   <FormArea
                     $maxHeight={'50px'}
-                    onChange={(e) => {
-                      getTaskName(e.target.value)
-                    }}
+                    onChange={(e) =>
+                      setTaskState((prev) => ({
+                        ...prev,
+                        title: e.target.value,
+                      }))
+                    }
+                    value={taskState.title}
                     $isDark={$isDark}
-                    $selectedDate={selectDate}
                     name="text"
                     id="formTitle"
-                    $isEditMode={true}
                     style={{ cursor: 'text' }}
                     placeholder="Введите название задачи..."
                     autoFocus
@@ -166,14 +147,16 @@ export default function CardCreate() {
                     Описание задачи
                   </label>
                   <FormArea
-                    onChange={(e) => {
-                      getDescription(e.target.value)
-                    }}
+                    onChange={(e) =>
+                      setTaskState((prev) => ({
+                        ...prev,
+                        description: e.target.value,
+                      }))
+                    }
+                    value={taskState.description}
                     $isDark={$isDark}
-                    $selectedDate={selectDate}
                     name="text"
                     id="textArea01"
-                    $isEditMode={true}
                     style={{ cursor: 'text' }}
                     placeholder="Введите описание задачи..."
                   />
@@ -185,15 +168,16 @@ export default function CardCreate() {
                 <CalendarComponent
                   canEdit={true}
                   handleDateChange={handleDateChange}
-                  selectDate={selectDate}
+                  selectDate={taskState.date}
                   $isDark={$isDark}
                 />
                 <FormDateControl>
-                  {!selectDate ? (
+                  {!taskState.date ? (
                     'Выберите срок исполнения.'
                   ) : (
                     <>
-                      Cрок исполнения: <span>{formattedDate(selectDate)}</span>
+                      Срок исполнения:{' '}
+                      <span>{formattedDate(taskState.date)}</span>
                     </>
                   )}
                 </FormDateControl>
@@ -204,24 +188,19 @@ export default function CardCreate() {
             </div>
             <ButtonGroup className="buttongroup">
               <Theme
-                $isDark={$isDark}
                 className={$isDark ? 'dark' : 'light'}
                 style={{ marginBottom: '20px', padding: 0 }}
               >
-                {topicsList.map((topic, i) => {
-                  return (
-                    <TopicButton
-                      onClick={() => {
-                        handleActive(i)
-                      }}
-                      key={topic.name}
-                      className={`${topic.color} ${i === activeButton ? 'active' : ''}`}
-                      $isDark={$isDark}
-                    >
-                      {topic.name}
-                    </TopicButton>
-                  )
-                })}
+                {topicsList.map((topic, i) => (
+                  <TopicButton
+                    onClick={() => handleActive(i)}
+                    key={topic.name}
+                    className={`${topic.color} ${i === activeButton ? 'active' : ''}`}
+                    $isDark={$isDark}
+                  >
+                    {topic.name}
+                  </TopicButton>
+                ))}
               </Theme>
             </ButtonGroup>
             <ButtonGroup>
