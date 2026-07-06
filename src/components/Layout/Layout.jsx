@@ -28,18 +28,22 @@ function Layout() {
         <Header />
         <Loading />
         <Routes>
-          <Route path="/" element={<MainWithModal />}>
-            <Route index element={null} />
-            <Route path="card">
-              <Route path="create" element={<CardCreate />} />
-              <Route path=":id" element={<CardViewEdit />} />
-              <Route path=":id/edit" element={<CardViewEdit />} />
-              <Route path=":id/delete" element={<ConfirmDelTask />} />
-            </Route>
-            <Route path="exit" element={<ConfirmExit />} />
-          </Route>
           <Route path="login" element={<AuthModal />} />
           <Route path="register" element={<AuthModal />} />
+
+          <Route element={<PrivateRoute />}>
+            <Route path="/" element={<MainWithModal />}>
+              <Route index element={null} />
+              <Route path="card">
+                <Route path="create" element={<CardCreate />} />
+                <Route path=":id" element={<CardViewEdit />} />
+                <Route path=":id/edit" element={<CardViewEdit />} />
+                <Route path=":id/delete" element={<ConfirmDelTask />} />
+              </Route>
+              <Route path="exit" element={<ConfirmExit />} />
+            </Route>
+          </Route>
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Wrapper>

@@ -55,3 +55,5 @@ export const CardWrapper = styled.div`
     }
     opacity: 0;
 `
+
+

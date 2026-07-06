@@ -1,19 +1,20 @@
-import { useState, useEffect } from 'react'
 import Card from '../Card/Card'
+import CardSkeleton from '../Card/CardSkeleton'
 import {
   CardsContainer,
-  CardWrapper,
   ColumnTitle,
   MainColumn,
   TitleText,
 } from './Column.styles'
-import CardStub from '../Card/CardStub'
 import { useDrop } from 'react-dnd'
 
-export default function Column({ title, $isDark, cardsData, onCardDrop }) {
-  const [visibleCards, setVisibleCards] = useState([])
-  const [isVisible, setIsVisible] = useState(false)
-
+export default function Column({
+  title,
+  $isDark,
+  cardsData,
+  onCardDrop,
+  isLoading,
+}) {
   const [, drop] = useDrop(
     () => ({
       accept: 'CARD',
@@ -23,21 +24,22 @@ export default function Column({ title, $isDark, cardsData, onCardDrop }) {
         }
       },
     }),
-    [cardsData],
+    [cardsData, onCardDrop, title],
   )
 
-  useEffect(() => {
-    if (cardsData && cardsData.length > 0) {
-      const uniqueCards = Array.from(
-        new Map(cardsData.map((card) => [card.id, card])).values(),
-      )
-      setVisibleCards(uniqueCards)
-      setIsVisible(true)
-    } else {
-      setVisibleCards([])
-      setIsVisible(false)
-    }
-  }, [cardsData])
+  // Показываем скелетон во время загрузки
+  if (isLoading) {
+    return (
+      <MainColumn ref={drop}>
+        <ColumnTitle>
+          <TitleText>{title}</TitleText>
+        </ColumnTitle>
+        <CardsContainer $isDark={$isDark}>
+          <CardSkeleton $isDark={$isDark} />
+        </CardsContainer>
+      </MainColumn>
+    )
+  }
 
   return (
     <MainColumn ref={drop}>
@@ -45,15 +47,11 @@ export default function Column({ title, $isDark, cardsData, onCardDrop }) {
         <TitleText>{title}</TitleText>
       </ColumnTitle>
       <CardsContainer $isDark={$isDark}>
-        {visibleCards.length > 0 ? (
-          visibleCards.map((card) => (
-            <CardWrapper key={card.id} className={isVisible ? 'visible' : ''}>
-              <Card $isDark={$isDark} {...card} />
-            </CardWrapper>
-          ))
-        ) : (
-          <CardStub />
-        )}
+        {cardsData && cardsData.length > 0
+          ? cardsData.map((card) => (
+              <Card key={card._id} $isDark={$isDark} {...card} id={card._id} />
+            ))
+          : null}
       </CardsContainer>
     </MainColumn>
   )

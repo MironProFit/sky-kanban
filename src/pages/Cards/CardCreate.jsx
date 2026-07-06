@@ -1,4 +1,4 @@
-import { useMatch, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { topicsList } from '../../data/data'
 import { useEffect, useState } from 'react'
 import {
@@ -16,7 +16,6 @@ import {
   FormDateTitle,
   TopicContainer,
 } from './CardViewEdit.styles'
-
 import {
   PrimaryButton,
   SecondaryButton,
@@ -31,19 +30,10 @@ import { Theme } from '../../components/Card/Card.styles'
 import { useAuthContext } from '../../context/AuthContext'
 import { useTasksContext } from '../../context/TasksContext'
 import formattedDate from '../../utils/dateFormat'
-import { createTask } from '../../services/tasks/createTask'
 
-export default function CardView() {
-  const {
-    $isDark,
-    token,
-    setLoadingMessage,
-    DEFAULT_MESSAGE_LOADING,
-    setIsLoading,
-    setErrorMessage,
-    setLoadingCard,
-  } = useAuthContext()
-  const { setUserData, isModal, setIsModal } = useTasksContext()
+export default function CardCreate() {
+  const { $isDark, token, setIsLoading, setLoadingMessage } = useAuthContext()
+  const { createTask } = useTasksContext()
   const [tooltipVisible] = useState(true)
   const [tooltipOpacity, setTooltipOpacity] = useState(0.8)
 
@@ -53,50 +43,24 @@ export default function CardView() {
     title: '',
     description: '',
     date: '',
-    topic: '',
+    topic: topicsList[0]?.name || '',
   })
+
   const [isDisabled, setIsDisabled] = useState(true)
 
-  const createMatch = useMatch('/card/create')
-  const isEditMode = Boolean(createMatch)
-
-  const [editTaskState, setEditTaskState] = useState(taskState)
-  const selectDate = editTaskState.date
-
   useEffect(() => {
-    if (activeButton !== null) {
-      const topicName = topicsList[activeButton].name
-      setTaskState((prev) => ({ ...prev, topic: topicName }))
-    }
+    const topicName = topicsList[activeButton]?.name || ''
+    setTaskState((prev) => ({ ...prev, topic: topicName }))
   }, [activeButton])
 
-  const validateTaskData = (taskData) => {
-    return (
-      taskData.title !== '' &&
-      taskData.description !== '' &&
-      taskData.date !== '' &&
-      taskData.topic !== ''
-    )
-  }
   useEffect(() => {
-    setIsDisabled(!validateTaskData(taskState))
+    const isValid =
+      taskState.title.trim() !== '' &&
+      taskState.description.trim() !== '' &&
+      taskState.date !== '' &&
+      taskState.topic !== ''
+    setIsDisabled(!isValid)
   }, [taskState])
-
-  const handleDateChange = (dateString) => {
-    const dateFormated = new Date(dateString).toISOString()
-    setEditTaskState((prev) => ({
-      ...prev,
-      date: dateFormated,
-    }))
-  }
-  useEffect(() => {
-    if (selectDate) {
-      setTaskState((prev) => ({
-        ...prev,
-        date: selectDate,
-      }))
-    }
-  }, [selectDate])
 
   useEffect(() => {
     if (!isDisabled) {
@@ -104,38 +68,32 @@ export default function CardView() {
     }
   }, [isDisabled])
 
-  const handleCreateTasc = async () => {
-    setErrorMessage('')
-    setLoadingMessage('Добавляем задачу')
-    setIsLoading(true)
-    setLoadingCard(true)
+  const handleDateChange = (dateObject) => {
+    console.log('📅 handleDateChange вызван с:', dateObject)
+    const dateFormatted = new Date(dateObject).toISOString()
+    setTaskState((prev) => ({
+      ...prev,
+      date: dateFormatted,
+    }))
+  }
 
+  const handleCreateTask = async () => {
+    setIsLoading(true)
+    setLoadingMessage('Создаём задачу...')
     try {
-      const response = await createTask(
+      await createTask(
         token,
         taskState.title,
         taskState.topic,
         taskState.description,
         taskState.date,
       )
-
-      setIsLoading(false)
-
-      handleClose()
-      setUserData(response)
-      setLoadingCard(false)
+      navigate('/')
     } catch (error) {
-      const errMsg =
-        error?.response?.data?.error ||
-        error?.response?.data?.message ||
-        error?.message ||
-        'Ошибка создания задачи'
-      setErrorMessage(errMsg)
       console.error('Ошибка при добавлении задачи на сервер:', error)
     } finally {
-      setLoadingMessage('Данные обновлены')
       setIsLoading(false)
-      setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+      setLoadingMessage('Загрузка данных...')
     }
   }
 
@@ -145,25 +103,15 @@ export default function CardView() {
 
   function handleClose() {
     navigate(-1)
-    setIsModal(false)
   }
 
-  const getDescription = (value) => {
-    setTaskState((prev) => ({ ...prev, description: value }))
-  }
-  const getTaskName = (value) => {
-    setTaskState((prev) => ({ ...prev, title: value }))
-  }
   return (
-    <PopBrowse $isModal={isModal} id="popBrowse">
+    <PopBrowse style={{ display: 'block' }} id="popBrowse">
       <PopBrowseContainer>
         <PopBrowseBlock $isDark={$isDark}>
           <PopBrowseContent>
             <TopicContainer>
-              <PopBrowseTitle $isDark={$isDark}>
-                {' '}
-                Создание задачи
-              </PopBrowseTitle>
+              <PopBrowseTitle $isDark={$isDark}>Создание задачи</PopBrowseTitle>
             </TopicContainer>
 
             <FormWrap $isDark={$isDark}>
@@ -172,17 +120,18 @@ export default function CardView() {
                   <label htmlFor="formTitle" className="subttl">
                     Название задачи
                   </label>
-
                   <FormArea
                     $maxHeight={'50px'}
-                    onChange={(e) => {
-                      getTaskName(e.target.value)
-                    }}
+                    onChange={(e) =>
+                      setTaskState((prev) => ({
+                        ...prev,
+                        title: e.target.value,
+                      }))
+                    }
+                    value={taskState.title}
                     $isDark={$isDark}
-                    $selectedDate={selectDate}
                     name="text"
                     id="formTitle"
-                    $isEditMode={isEditMode}
                     style={{ cursor: 'text' }}
                     placeholder="Введите название задачи..."
                     autoFocus
@@ -198,14 +147,16 @@ export default function CardView() {
                     Описание задачи
                   </label>
                   <FormArea
-                    onChange={(e) => {
-                      getDescription(e.target.value)
-                    }}
+                    onChange={(e) =>
+                      setTaskState((prev) => ({
+                        ...prev,
+                        description: e.target.value,
+                      }))
+                    }
+                    value={taskState.description}
                     $isDark={$isDark}
-                    $selectedDate={selectDate}
                     name="text"
                     id="textArea01"
-                    $isEditMode={isEditMode}
                     style={{ cursor: 'text' }}
                     placeholder="Введите описание задачи..."
                   />
@@ -215,18 +166,19 @@ export default function CardView() {
               <CalendarAndDateContainer>
                 <FormDateTitle>Даты</FormDateTitle>
                 <CalendarComponent
-  canEdit={true}
-  handleDateChange={handleDateChange}
-  selectDate={selectDate}
-  $isDark={$isDark}
-/>
+                  canEdit={true}
+                  handleDateChange={handleDateChange}
+                  selectDate={taskState.date}
+                  $isDark={$isDark}
+                />
                 <FormDateControl>
-                  {!selectDate ? (
+                  {!taskState.date ? (
                     'Выберите срок исполнения.'
                   ) : (
-                    <p>
-                      Cрок исполнения: <span>{formattedDate(selectDate)}</span>
-                    </p>
+                    <>
+                      Срок исполнения:{' '}
+                      <span>{formattedDate(taskState.date)}</span>
+                    </>
                   )}
                 </FormDateControl>
               </CalendarAndDateContainer>
@@ -236,25 +188,19 @@ export default function CardView() {
             </div>
             <ButtonGroup className="buttongroup">
               <Theme
-                $isDark={$isDark}
                 className={$isDark ? 'dark' : 'light'}
                 style={{ marginBottom: '20px', padding: 0 }}
               >
-                {topicsList.map((topic, i) => {
-                  return (
-                    <TopicButton
-                      onClick={() => {
-                        handleActive(i)
-                      }}
-                      key={topic.name}
-                      className={`${topic.color} ${i === activeButton ? 'active' : ''}`}
-                      $isDark={$isDark}
-                      $
-                    >
-                      {topic.name}
-                    </TopicButton>
-                  )
-                })}
+                {topicsList.map((topic, i) => (
+                  <TopicButton
+                    onClick={() => handleActive(i)}
+                    key={topic.name}
+                    className={`${topic.color} ${i === activeButton ? 'active' : ''}`}
+                    $isDark={$isDark}
+                  >
+                    {topic.name}
+                  </TopicButton>
+                ))}
               </Theme>
             </ButtonGroup>
             <ButtonGroup>
@@ -268,7 +214,7 @@ export default function CardView() {
               <TooltipWrapper>
                 <PrimaryButton
                   disabled={isDisabled}
-                  onClick={handleCreateTasc}
+                  onClick={handleCreateTask}
                   $mobileFixed
                   $width="auto"
                   $isDark={$isDark}

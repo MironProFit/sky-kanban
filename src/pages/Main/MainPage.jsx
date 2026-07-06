@@ -1,26 +1,21 @@
 import { useEffect, useState, useRef } from 'react'
-import { MainContainer, MainBlock, MainContent } from './MainPage.styles'
+import {
+  MainContainer,
+  MainBlock,
+  MainContent,
+  NoTasksContainer,
+  NoTasksText,
+} from './MainPage.styles'
 import Column from '../../components/Layout/Column'
 import { Container } from '../../components/Styles/GlobalStyle'
 import { useAuthContext } from '../../context/AuthContext'
 import { useTasksContext } from '../../context/TasksContext'
-import { editTask } from '../../services/tasks/editTask'
-import { fetchTasks } from '../../services/tasks/taskService'
 
 export default function MainPage() {
-  const {
-    isMobile,
-    $isDark,
-    token,
-    setErrorMessage,
-    setLoadingMessage,
-    setIsLoading,
-    DEFAULT_MESSAGE_LOADING,
-    setLoadingCard,
-    loadingCard,
-  } = useAuthContext()
-  const { isModal, userData, setUserData } = useTasksContext()
-  const [transformedTasks, setTransformedTasks] = useState([])
+  const { isMobile, $isDark, token, setIsLoading, setLoadingMessage } =
+    useAuthContext()
+  const { tasks, fetchTasks, editTask } = useTasksContext()
+  const [isLoadingLocal, setIsLoadingLocal] = useState(true)
   const [columns, setColumns] = useState({
     'Без статуса': [],
     'Нужно сделать': [],
@@ -36,134 +31,83 @@ export default function MainPage() {
 
   useEffect(() => {
     if (token) {
-      fetchTasks({
-        token,
-        setUserData,
-        setIsLoading,
-        setLoadingMessage,
-        setErrorMessage,
-        DEFAULT_MESSAGE_LOADING,
-        setLoadingCard,
+      setIsLoadingLocal(true)
+      fetchTasks(token).finally(() => {
+        setIsLoadingLocal(false)
       })
     }
-  }, [
-    token,
-    setUserData,
-    setIsLoading,
-    setLoadingMessage,
-    setErrorMessage,
-    DEFAULT_MESSAGE_LOADING,
-    setLoadingCard,
-  ])
+  }, [token, fetchTasks])
 
   useEffect(() => {
-    if (Array.isArray(userData)) {
-      const tasks = userData.map((task) => ({
-        id: task._id,
-        userId: task.userId,
-        title: task.title,
-        topic: task.topic,
-        date: task.date,
-        description: task.description,
-        status: task.status,
-      }))
-      setTransformedTasks(tasks)
-    } else {
-      setTransformedTasks([])
+    if (Array.isArray(tasks)) {
+      const updatedColumns = {
+        'Без статуса': tasks.filter((card) => card.status === 'Без статуса'),
+        'Нужно сделать': tasks.filter(
+          (card) => card.status === 'Нужно сделать',
+        ),
+        'В работе': tasks.filter((card) => card.status === 'В работе'),
+        Тестирование: tasks.filter((card) => card.status === 'Тестирование'),
+        Готово: tasks.filter((card) => card.status === 'Готово'),
+      }
+      setColumns(updatedColumns)
     }
-  }, [userData])
-
-  useEffect(() => {
-    const updatedColumns = {
-      'Без статуса': transformedTasks.filter(
-        (card) => card.status === 'Без статуса',
-      ),
-      'Нужно сделать': transformedTasks.filter(
-        (card) => card.status === 'Нужно сделать',
-      ),
-      'В работе': transformedTasks.filter((card) => card.status === 'В работе'),
-      Тестирование: transformedTasks.filter(
-        (card) => card.status === 'Тестирование',
-      ),
-      Готово: transformedTasks.filter((card) => card.status === 'Готово'),
-    }
-
-    setColumns(updatedColumns)
-  }, [transformedTasks])
+  }, [tasks])
 
   const handleCardDrop = async (cardId, targetStatus) => {
-    if (!loadingCard) {
-      setLoadingMessage('Обновляем задачи')
-      setIsLoading(true)
-      setLoadingCard(true)
+    const sourceStatus = Object.keys(columnsRef.current).find((status) =>
+      columnsRef.current[status].some((card) => card._id === cardId),
+    )
 
-      const sourceStatus = Object.keys(columnsRef.current).find((status) =>
-        columnsRef.current[status].some((card) => card.id === cardId),
+    if (sourceStatus) {
+      const movedCard = columnsRef.current[sourceStatus].find(
+        (card) => card._id === cardId,
       )
 
-      if (sourceStatus) {
-        const updatedSourceColumn = columnsRef.current[sourceStatus].filter(
-          (card) => card.id !== cardId,
+      setIsLoading(true)
+      setLoadingMessage('Перемещаем задачу...')
+      try {
+        await editTask(
+          token,
+          movedCard._id,
+          movedCard.title,
+          movedCard.topic,
+          targetStatus,
+          movedCard.description,
+          movedCard.date,
         )
-        const movedCard = columnsRef.current[sourceStatus].find(
-          (card) => card.id === cardId,
-        )
-
-        const updatedTargetColumn = [
-          ...columnsRef.current[targetStatus],
-          { ...movedCard, status: targetStatus },
-        ]
-
-        setColumns({
-          ...columnsRef.current,
-          [sourceStatus]: updatedSourceColumn,
-          [targetStatus]: updatedTargetColumn,
-        })
-
-        try {
-          const response = await editTask(
-            movedCard.id,
-            token,
-            movedCard.title,
-            movedCard.topic,
-            targetStatus,
-            movedCard.description,
-            movedCard.date,
-          )
-          await setUserData(response)
-        } catch (error) {
-          const errMsg =
-            error?.response?.data?.error ||
-            error?.response?.data?.message ||
-            error?.message ||
-            'Ошибка редактирования задачи'
-          setErrorMessage(errMsg)
-          console.error('Ошибка редактирования задачи:', error)
-        } finally {
-          setLoadingMessage('Данные обновлены')
-          setIsLoading(false)
-          setLoadingMessage(DEFAULT_MESSAGE_LOADING)
-          setLoadingCard(false)
-        }
+      } catch (error) {
+        console.error('Ошибка редактирования задачи:', error)
+      } finally {
+        setIsLoading(false)
+        setLoadingMessage('Загрузка данных...')
       }
     }
   }
 
+  const hasTasks = tasks && tasks.length > 0
+
   return (
-    <MainContainer $isModal={isModal} $isMobile={isMobile} $isDark={$isDark}>
+    <MainContainer $isMobile={isMobile} $isDark={$isDark}>
       <Container>
         <MainBlock $isDark={$isDark}>
-          <MainContent>
-            {Object.keys(columns).map((status) => (
-              <Column
-                $isDark={$isDark}
-                key={status}
-                title={status}
-                cardsData={columns[status]}
-                onCardDrop={handleCardDrop}
-              />
-            ))}
-          </MainContent>
+          {!hasTasks && !isLoadingLocal ? (
+            <NoTasksContainer $isDark={$isDark}>
+              <NoTasksText $isDark={$isDark}>Нет задач</NoTasksText>
+            </NoTasksContainer>
+          ) : (
+            <MainContent>
+              {Object.keys(columns).map((status) => (
+                <Column
+                  $isDark={$isDark}
+                  key={status}
+                  title={status}
+                  cardsData={columns[status]}
+                  onCardDrop={handleCardDrop}
+                  isLoading={isLoadingLocal}
+                />
+              ))}
+            </MainContent>
+          )}
         </MainBlock>
       </Container>
     </MainContainer>

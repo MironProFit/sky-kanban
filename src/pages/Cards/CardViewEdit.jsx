@@ -22,7 +22,6 @@ import {
 import {
   PrimaryButton,
   SecondaryButton,
-  TextContainer,
 } from '../../components/Styles/GlobalStyle'
 import CalendarComponent from '../../components/Calendar/Calendar'
 import { CalendarAndDateContainer } from '../../components/Calendar/Calendar.styles'
@@ -38,97 +37,71 @@ import {
 import formattedDate from '../../utils/dateFormat'
 import { useAuthContext } from '../../context/AuthContext'
 import { useTasksContext } from '../../context/TasksContext'
-import { editTask } from '../../services/tasks/editTask'
 import { getTaskById } from '../../services/tasks/getTaskById'
 
 export default function CardViewEdit() {
-  const {
-    $isDark,
-    toggleUserMenu,
-    isMobile,
-    isUserMenuOpen,
-    setErrorMessage,
-    setLoadingMessage,
-    setIsLoading,
-    token,
-    DEFAULT_MESSAGE_LOADING,
-  } = useAuthContext()
-  const { isModal, setIsModal, setUserData } = useTasksContext()
+  const { $isDark, token, setIsLoading, setLoadingMessage } = useAuthContext()
+  const { editTask } = useTasksContext()
   const navigate = useNavigate()
   const location = useLocation()
-  const {
-    id: initialId,
-    topic: initialTopic,
-    title: initialTitle,
-    date: initialDate,
-    status: initialStatus,
-    description: initialDescription,
-  } = location.state || {}
-  const editMath = useMatch('/card/:id/edit')
-  const isEditMode = Boolean(editMath)
+  const editMatch = useMatch('/card/:id/edit')
+  const isEditMode = Boolean(editMatch)
   const { id } = useParams()
 
   const [taskState, setTaskState] = useState({
-    id: initialId || '',
-    topic: initialTopic || '',
-    title: initialTitle || '',
-    date: initialDate || '',
-    status: initialStatus || 'Без статуса',
-    description: initialDescription || '',
+    id: '',
+    topic: '',
+    title: '',
+    date: '',
+    status: 'Без статуса',
+    description: '',
   })
 
   const [editTaskState, setEditTaskState] = useState(taskState)
-  const selectDate = editTaskState.date
-  const formattedTaskDate = formattedDate(editTaskState.date)
   const [isDisabled, setIsDisabled] = useState(false)
-
   const hasFetchedData = useRef(false)
 
+  // Синхронизируем editTaskState с taskState
   useEffect(() => {
     setEditTaskState(taskState)
   }, [taskState])
 
+  // Блокируем кнопку "Сохранить" если нет изменений
   useEffect(() => {
     setIsDisabled(
-      _.isEqual(taskState, editTaskState) || editTaskState.description === '',
+      _.isEqual(taskState, editTaskState) ||
+        editTaskState.description.trim() === '',
     )
   }, [taskState, editTaskState])
 
+  // Загрузка данных задачи
   useEffect(() => {
     const fetchTaskData = async () => {
-      setErrorMessage('')
-      setLoadingMessage('Загружаем задачу')
       setIsLoading(true)
+      setLoadingMessage('Загружаем задачу...')
       try {
         const response = await getTaskById(token, id)
         if (response) {
-          setTaskState({
+          const newTaskState = {
             id: response._id || '',
             title: response.title || '',
             topic: response.topic || '',
             date: response.date || '',
             description: response.description || '',
             status: response.status || 'Без статуса',
-          })
+          }
+          setTaskState(newTaskState)
         }
       } catch (error) {
-        const errMsg =
-          error?.response?.data?.error ||
-          error?.response?.data?.message ||
-          error?.message ||
-          'Ошибка загрузки задачи'
-        setErrorMessage(errMsg)
         console.error('Ошибка загрузки задачи:', error)
       } finally {
-        setLoadingMessage('Данные обновлены')
         setIsLoading(false)
-        setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+        setLoadingMessage('Загрузка данных...')
       }
     }
 
-    setIsModal(true)
-
-    if (location.state) {
+    if (location.state && location.state.id) {
+      // Данные пришли через state (клик с главной)
       setTaskState({
         id: location.state.id || '',
         title: location.state.title || '',
@@ -137,67 +110,56 @@ export default function CardViewEdit() {
         description: location.state.description || '',
         status: location.state.status || 'Без статуса',
       })
-    } else if (!hasFetchedData.current) {
+    } else if (id && !hasFetchedData.current) {
+      // Перезагрузка страницы — загружаем с сервера
       fetchTaskData()
       hasFetchedData.current = true
     }
-  }, [
-    id,
-    location.state,
-    DEFAULT_MESSAGE_LOADING,
-    setErrorMessage,
-    setIsLoading,
-    setIsModal,
-    setLoadingMessage,
-    token,
-  ])
+  }, [id, location.state, token, setIsLoading, setLoadingMessage])
 
   const handleEditTask = async () => {
-    setErrorMessage('')
-    setLoadingMessage('Редактируем задачу')
     setIsLoading(true)
-
+    setLoadingMessage('Сохраняем изменения...')
     try {
-      const response = await editTask(
-        editTaskState.id,
+      await editTask(
         token,
+        editTaskState.id,
         editTaskState.title,
         editTaskState.topic,
         editTaskState.status,
         editTaskState.description,
         editTaskState.date,
       )
-
-      await setUserData(response)
-
-      setIsLoading(false)
-      setIsModal(false)
       navigate('/')
-
-      setLoadingMessage('Обновляем задачи')
     } catch (error) {
-      const errMsg =
-        error?.response?.data?.error ||
-        error?.response?.data?.message ||
-        error?.message ||
-        'Ошибка редактирования задачи'
-      setErrorMessage(errMsg)
       console.error('Ошибка редактирования задачи:', error)
     } finally {
-      setLoadingMessage('Данные обновлены')
       setIsLoading(false)
-      setLoadingMessage(DEFAULT_MESSAGE_LOADING)
+      setLoadingMessage('Загрузка данных...')
     }
   }
 
   const handleEditToggle = () => {
+    const taskData = {
+      id: taskState.id,
+      title: taskState.title,
+      topic: taskState.topic,
+      date: taskState.date,
+      status: taskState.status,
+      description: taskState.description,
+    }
+
     if (!isEditMode) {
       navigate(`${location.pathname}/edit`, {
         replace: true,
+        state: taskData,
       })
     } else {
       const basePath = location.pathname.replace(/\/edit$/, '')
-      navigate(basePath, { replace: true })
+      navigate(basePath, {
+        replace: true,
+        state: taskData,
+      })
     }
   }
 
@@ -217,50 +179,40 @@ export default function CardViewEdit() {
 
   const handleClose = () => {
     navigate('/')
-    setIsModal(false)
   }
 
   const handleCancelChanges = () => {
     setEditTaskState(taskState)
-
     const basePath = location.pathname.replace(/\/edit$/, '')
-
     navigate(basePath, { replace: true })
   }
 
-  const handleDateChange = (dateString) => {
-    const dateFormated = new Date(dateString).toISOString()
+  const handleDateChange = (dateObject) => {
+    console.log('📅 Дата выбрана:', dateObject)
+    const dateFormatted = new Date(dateObject).toISOString()
     setEditTaskState((prev) => ({
       ...prev,
-      date: dateFormated,
+      date: dateFormatted,
     }))
   }
 
   const colorTopicClass = getColorClass(taskState.topic)
 
   return (
-    <PopBrowse style={{ display: isModal ? 'block' : 'none' }} id="popBrowse">
-      <PopBrowseContainer
-        onClick={() => {
-          isUserMenuOpen && toggleUserMenu()
-        }}
-      >
+    <PopBrowse style={{ display: 'block' }} id="popBrowse">
+      <PopBrowseContainer>
         <PopBrowseBlock $isEditMode={isEditMode} $isDark={$isDark}>
           <PopBrowseContent>
             <TopicContainer>
               <PopBrowseTitle $isDark={$isDark}>
-                {taskState.title}
+                {taskState.title || 'Загрузка...'}
               </PopBrowseTitle>
-              {!isMobile ? (
-                <Theme
-                  style={{ height: '30px' }}
-                  className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}
-                >
-                  <ThemeText>{taskState.topic}</ThemeText>
-                </Theme>
-              ) : (
-                ''
-              )}
+              <Theme
+                style={{ height: '30px' }}
+                className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}
+              >
+                <ThemeText>{taskState.topic}</ThemeText>
+              </Theme>
             </TopicContainer>
 
             <Status $isDark={$isDark}>
@@ -273,22 +225,20 @@ export default function CardViewEdit() {
                     </StatusText>
                   </StatusTheme>
                 ) : (
-                  <StatusThemes>
-                    {statusList.map((statusItem) => (
-                      <StatusButton
-                        key={statusItem.id}
+                  statusList.map((statusItem) => (
+                    <StatusButton
+                      key={statusItem.id}
+                      $active={statusItem.name === editTaskState.status}
+                      onClick={() => handleChange('status', statusItem.name)}
+                    >
+                      <StatusText
+                        $isDark={$isDark}
                         $active={statusItem.name === editTaskState.status}
-                        onClick={() => handleChange('status', statusItem.name)}
                       >
-                        <StatusText
-                          $isDark={$isDark}
-                          $active={statusItem.name === editTaskState.status}
-                        >
-                          {statusItem.name}
-                        </StatusText>
-                      </StatusButton>
-                    ))}
-                  </StatusThemes>
+                        {statusItem.name}
+                      </StatusText>
+                    </StatusButton>
+                  ))
                 )}
               </StatusThemes>
             </Status>
@@ -306,10 +256,10 @@ export default function CardViewEdit() {
                     value={
                       isEditMode
                         ? editTaskState.description || ''
-                        : taskState.description
+                        : taskState.description || ''
                     }
                     $isDark={$isDark}
-                    $selectedDate={selectDate}
+                    $selectedDate={editTaskState.date}
                     name="text"
                     id="textArea01"
                     readOnly={!isEditMode}
@@ -329,107 +279,65 @@ export default function CardViewEdit() {
                   $isDark={$isDark}
                 />
                 <FormDateControl>
-                  Срок исполнения: <span>{formattedTaskDate}</span>
+                  Срок исполнения:{' '}
+                  <span>{formattedDate(editTaskState.date)}</span>
                 </FormDateControl>
               </CalendarAndDateContainer>
             </FormWrap>
 
-            {isMobile ? (
-              <>
-                <TextContainer $secondaryColor>Категория</TextContainer>
-                <Theme
-                  style={{ height: '30px' }}
-                  className={`${$isDark ? 'dark' : 'light'} ${colorTopicClass}`}
-                >
-                  <ThemeText>{taskState.topic}</ThemeText>
-                </Theme>
-              </>
-            ) : (
-              ''
-            )}
-
             <ButtonGroup $fixed>
-              <>
-                {!isEditMode ? (
-                  <ButtonControlsWrap $fixed>
-                    <SecondaryButton
-                      $fixedBtn
-                      $isDark={$isDark}
-                      onClick={handleEditToggle}
-                    >
-                      Редактировать задачу
-                    </SecondaryButton>
-
-                    <SecondaryButton
-                      $fixedBtn
-                      $isDark={$isDark}
-                      onClick={handleDeleteTask}
-                    >
-                      Удалить задачу
-                    </SecondaryButton>
-                    {isMobile && (
-                      <PrimaryButton
-                        $fixedBtn
-                        $width="auto"
-                        $isDark={$isDark}
-                        onClick={handleClose}
-                      >
-                        Закрыть
-                      </PrimaryButton>
-                    )}
-                  </ButtonControlsWrap>
-                ) : (
-                  <ButtonControlsWrap
-                    $fixed
-                    style={{ bottom: '180px', display: 'flex' }}
+              {!isEditMode ? (
+                <ButtonControlsWrap $fixed>
+                  <SecondaryButton
+                    $fixedBtn
+                    $isDark={$isDark}
+                    onClick={handleEditToggle}
                   >
-                    <PrimaryButton
-                      disabled={isDisabled}
-                      onClick={handleEditTask}
-                      $width="auto"
-                      $fixedBtn
-                      $isDark={$isDark}
-                    >
-                      Сохранить
-                    </PrimaryButton>
-                    {isMobile && (
-                      <PrimaryButton
-                        $fixedBtn
-                        $width="auto"
-                        $isDark={$isDark}
-                        onClick={handleClose}
-                      >
-                        Закрыть
-                      </PrimaryButton>
-                    )}
-                    <SecondaryButton
-                      $fixedBtn
-                      $isDark={$isDark}
-                      onClick={handleCancelChanges}
-                    >
-                      Отменить
-                    </SecondaryButton>
-                    <SecondaryButton
-                      $fixedBtn
-                      $isDark={$isDark}
-                      onClick={handleDeleteTask}
-                    >
-                      Удалить задачу
-                    </SecondaryButton>
-                  </ButtonControlsWrap>
-                )}
-              </>
-
-              {!isMobile && (
-                <PrimaryButton
-                  $fixedBtn
-                  $width="auto"
-                  $isDark={$isDark}
-                  onClick={handleClose}
-                >
-                  Закрыть
-                </PrimaryButton>
+                    Редактировать задачу
+                  </SecondaryButton>
+                  <SecondaryButton
+                    $fixedBtn
+                    $isDark={$isDark}
+                    onClick={handleDeleteTask}
+                  >
+                    Удалить задачу
+                  </SecondaryButton>
+                </ButtonControlsWrap>
+              ) : (
+                <ButtonControlsWrap $fixed>
+                  <PrimaryButton
+                    disabled={isDisabled}
+                    onClick={handleEditTask}
+                    $width="auto"
+                    $fixedBtn
+                    $isDark={$isDark}
+                  >
+                    Сохранить
+                  </PrimaryButton>
+                  <SecondaryButton
+                    $fixedBtn
+                    $isDark={$isDark}
+                    onClick={handleCancelChanges}
+                  >
+                    Отменить
+                  </SecondaryButton>
+                  <SecondaryButton
+                    $fixedBtn
+                    $isDark={$isDark}
+                    onClick={handleDeleteTask}
+                  >
+                    Удалить задачу
+                  </SecondaryButton>
+                </ButtonControlsWrap>
               )}
+              <PrimaryButton
+                $fixedBtn
+                $width="auto"
+                $isDark={$isDark}
+                onClick={handleClose}
+              >
+                Закрыть
+              </PrimaryButton>
             </ButtonGroup>
           </PopBrowseContent>
         </PopBrowseBlock>

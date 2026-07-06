@@ -9,21 +9,17 @@ import {
 } from './Header.styles'
 import UserMenuModal from './UserMenuModal'
 import { useAuthContext } from '../../context/AuthContext'
-import { useTasksContext } from '../../context/TasksContext'
 
 export default function Header() {
   const {
     isAuth,
-    setIsAuth,
     isTheme,
     $isDark,
     isMobile,
     isUserMenuOpen,
     toggleUserMenu,
     userName,
-    errorMessage,
   } = useAuthContext()
-  const { handleModalOpen } = useTasksContext()
 
   const [isAuthPage, setIsAuthPage] = useState(false)
   const location = useLocation()
@@ -39,7 +35,6 @@ export default function Header() {
 
   const handleAuth = () => {
     navigate('/exit')
-    setIsAuth(true)
   }
 
   return (
@@ -56,9 +51,6 @@ export default function Header() {
                   ></img>
                 </Link>
               </HeaderLogo>
-              <div>
-                <p>{errorMessage}</p>
-              </div>
 
               {!isAuthPage && isAuth && (
                 <>
@@ -72,7 +64,6 @@ export default function Header() {
                         <PrimaryButton
                           style={{ whiteSpace: 'nowrap' }}
                           $mobileFixed={isMobile && location.pathname === '/'}
-                          onClick={handleModalOpen}
                           $isDark={$isDark}
                           id="btnMainNew"
                           type="button"
@@ -81,23 +72,23 @@ export default function Header() {
                         </PrimaryButton>
                       </Link>
                     )}
-                    <LinkButton
-                      style={{ whiteSpace: 'nowrap' }}
-                      $isDark={$isDark}
-                      $isOpen={isUserMenuOpen}
-                      onClick={toggleUserMenu}
-                    >
-                      {userName || 'Личный кабинет'}
-                    </LinkButton>
-                    {isUserMenuOpen && (
-                      <UserMenuModal
-                        toggleUserMenu={toggleUserMenu}
-                        isAuth={isAuth}
-                        handleAuth={handleAuth}
-                        isTheme={isTheme}
+                      <LinkButton
+                        style={{ whiteSpace: 'nowrap' }}
                         $isDark={$isDark}
-                      />
-                    )}
+                        $isOpen={isUserMenuOpen}
+                        onClick={toggleUserMenu}
+                      >
+                        {userName || 'Личный кабинет'}
+                      </LinkButton>
+                      {isUserMenuOpen && (
+                        <UserMenuModal
+                          toggleUserMenu={toggleUserMenu}
+                          isAuth={isAuth}
+                          handleAuth={handleAuth}
+                          isTheme={isTheme}
+                          $isDark={$isDark}
+                        />
+                      )}
                   </HeaderNav>
                 </>
               )}
